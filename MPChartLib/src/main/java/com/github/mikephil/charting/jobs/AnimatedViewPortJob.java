@@ -38,31 +38,7 @@ public abstract class AnimatedViewPortJob extends ViewPortJob implements ValueAn
         animator.start();
     }
 
-    public float getPhase() {
-        return phase;
-    }
-
-    public void setPhase(float phase) {
-        this.phase = phase;
-    }
-
-    public float getXOrigin() {
-        return xOrigin;
-    }
-
-    public float getYOrigin() {
-        return yOrigin;
-    }
-
     public abstract void recycleSelf();
-
-    protected void resetAnimator(){
-        animator.removeAllListeners();
-        animator.removeAllUpdateListeners();
-        animator.reverse();
-        animator.addUpdateListener(this);
-        animator.addListener(this);
-    }
 
     @Override
     public void onAnimationStart(Animator animation) {
