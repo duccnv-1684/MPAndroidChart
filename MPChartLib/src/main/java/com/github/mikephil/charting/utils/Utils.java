@@ -113,27 +113,6 @@ public abstract class Utils {
     }
 
     /**
-     * This method converts device specific pixels to density independent
-     * pixels. NEEDS UTILS TO BE INITIALIZED BEFORE USAGE.
-     *
-     * @param px A value in px (pixels) unit. Which we need to convert into db
-     * @return A float value to represent dp equivalent to px value
-     */
-    public static float convertPixelsToDp(float px) {
-
-        if (mMetrics == null) {
-
-            Log.e("MPChartLib-Utils",
-                    "Utils NOT INITIALIZED. You need to call Utils.init(...) at least once before" +
-                            " calling Utils.convertPixelsToDp(...). Otherwise conversion does not" +
-                            " take place.");
-            return px;
-        }
-
-        return px / mMetrics.density;
-    }
-
-    /**
      * calculates the approximate width of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
      *
@@ -236,20 +215,6 @@ public abstract class Utils {
     public static ValueFormatter getDefaultValueFormatter()
     {
         return mDefaultValueFormatter;
-    }
-
-    /**
-     * Formats the given number to the given number of decimals, and returns the
-     * number as a string, maximum 35 characters. If thousands are separated, the separating
-     * character is a dot (".").
-     *
-     * @param number
-     * @param digitCount
-     * @param separateThousands set this to true to separate thousands values
-     * @return
-     */
-    public static String formatNumber(float number, int digitCount, boolean separateThousands) {
-        return formatNumber(number, digitCount, separateThousands, '.');
     }
 
     /**
@@ -378,46 +343,7 @@ public abstract class Utils {
         return (int) Math.ceil(-Math.log10(i)) + 2;
     }
 
-    /**
-     * Converts the provided Integer List to an int array.
-     *
-     * @param integers
-     * @return
-     */
-    public static int[] convertIntegers(List<Integer> integers) {
-
-        int[] ret = new int[integers.size()];
-
-        copyIntegers(integers, ret);
-
-        return ret;
-    }
-
     public static void copyIntegers(List<Integer> from, int[] to){
-        int count = to.length < from.size() ? to.length : from.size();
-        for(int i = 0 ; i < count ; i++){
-            to[i] = from.get(i);
-        }
-    }
-
-    /**
-     * Converts the provided String List to a String array.
-     *
-     * @param strings
-     * @return
-     */
-    public static String[] convertStrings(List<String> strings) {
-
-        String[] ret = new String[strings.size()];
-
-        for (int i = 0; i < ret.length; i++) {
-            ret[i] = strings.get(i);
-        }
-
-        return ret;
-    }
-
-    public static void copyStrings(List<String> from, String[] to){
         int count = to.length < from.size() ? to.length : from.size();
         for(int i = 0 ; i < count ; i++){
             to[i] = from.get(i);
@@ -441,52 +367,9 @@ public abstract class Utils {
         }
     }
 
-    /**
-     * Returns a recyclable MPPointF instance.
-     * Calculates the position around a center point, depending on the distance
-     * from the center, and the angle of the position around the center.
-     *
-     * @param center
-     * @param dist
-     * @param angle  in degrees, converted to radians internally
-     * @return
-     */
-    public static MPPointF getPosition(MPPointF center, float dist, float angle) {
-
-        MPPointF p = MPPointF.getInstance(0,0);
-        getPosition(center, dist, angle, p);
-        return p;
-    }
-
     public static void getPosition(MPPointF center, float dist, float angle, MPPointF outputPoint){
         outputPoint.x = (float) (center.x + dist * Math.cos(Math.toRadians(angle)));
         outputPoint.y = (float) (center.y + dist * Math.sin(Math.toRadians(angle)));
-    }
-
-    public static void velocityTrackerPointerUpCleanUpIfNecessary(MotionEvent ev,
-                                                                  VelocityTracker tracker) {
-
-        // Check the dot product of current velocities.
-        // If the pointer that left was opposing another velocity vector, clear.
-        tracker.computeCurrentVelocity(1000, mMaximumFlingVelocity);
-        final int upIndex = ev.getActionIndex();
-        final int id1 = ev.getPointerId(upIndex);
-        final float x1 = tracker.getXVelocity(id1);
-        final float y1 = tracker.getYVelocity(id1);
-        for (int i = 0, count = ev.getPointerCount(); i < count; i++) {
-            if (i == upIndex)
-                continue;
-
-            final int id2 = ev.getPointerId(i);
-            final float x = x1 * tracker.getXVelocity(id2);
-            final float y = y1 * tracker.getYVelocity(id2);
-
-            final float dot = x + y;
-            if (dot < 0) {
-                tracker.clear();
-                break;
-            }
-        }
     }
 
     /**
@@ -501,14 +384,6 @@ public abstract class Utils {
             view.postInvalidateOnAnimation();
         else
             view.postInvalidateDelayed(10);
-    }
-
-    public static int getMinimumFlingVelocity() {
-        return mMinimumFlingVelocity;
-    }
-
-    public static int getMaximumFlingVelocity() {
-        return mMaximumFlingVelocity;
     }
 
     /**
@@ -690,49 +565,6 @@ public abstract class Utils {
         }
 
         paint.setTextAlign(originalTextAlign);
-    }
-
-    public static void drawMultilineText(Canvas c, String text,
-                                         float x, float y,
-                                         TextPaint paint,
-                                         FSize constrainedToSize,
-                                         MPPointF anchor, float angleDegrees) {
-
-        StaticLayout textLayout = new StaticLayout(
-                text, 0, text.length(),
-                paint,
-                (int) Math.max(Math.ceil(constrainedToSize.width), 1.f),
-                Layout.Alignment.ALIGN_NORMAL, 1.f, 0.f, false);
-
-
-        drawMultilineText(c, textLayout, x, y, paint, anchor, angleDegrees);
-    }
-
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by degrees.
-     *
-     * @param rectangleSize
-     * @param degrees
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByDegrees(FSize rectangleSize, float degrees) {
-        final float radians = degrees * FDEG2RAD;
-        return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
-                radians);
-    }
-
-    /**
-     * Returns a recyclable FSize instance.
-     * Represents size of a rotated rectangle by radians.
-     *
-     * @param rectangleSize
-     * @param radians
-     * @return A Recyclable FSize instance
-     */
-    public static FSize getSizeOfRotatedRectangleByRadians(FSize rectangleSize, float radians) {
-        return getSizeOfRotatedRectangleByRadians(rectangleSize.width, rectangleSize.height,
-                radians);
     }
 
     /**

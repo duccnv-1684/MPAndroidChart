@@ -72,35 +72,6 @@ public abstract class AxisRenderer extends Renderer {
     }
 
     /**
-     * Returns the Paint object used for drawing the axis (labels).
-     *
-     * @return
-     */
-    public Paint getPaintAxisLabels() {
-        return mAxisLabelPaint;
-    }
-
-    /**
-     * Returns the Paint object that is used for drawing the grid-lines of the
-     * axis.
-     *
-     * @return
-     */
-    public Paint getPaintGrid() {
-        return mGridPaint;
-    }
-
-    /**
-     * Returns the Paint object that is used for drawing the axis-line that goes
-     * alongside the axis.
-     *
-     * @return
-     */
-    public Paint getPaintAxisLine() {
-        return mAxisLinePaint;
-    }
-
-    /**
      * Returns the Transformer object used for transforming the axis values.
      *
      * @return

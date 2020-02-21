@@ -127,10 +127,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mColors;
     }
 
-    public List<Integer> getValueColors() {
-        return mValueColors;
-    }
-
     @Override
     public int getColor() {
         return mColors.get(0);
@@ -144,55 +140,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     /**
      * ###### ###### COLOR SETTING RELATED METHODS ##### ######
      */
-
-    /**
-     * Sets the colors that should be used fore this DataSet. Colors are reused
-     * as soon as the number of Entries the DataSet represents is higher than
-     * the size of the colors array. If you are using colors from the resources,
-     * make sure that the colors are already prepared (by calling
-     * getResources().getColor(...)) before adding them to the DataSet.
-     *
-     * @param colors
-     */
-    public void setColors(List<Integer> colors) {
-        this.mColors = colors;
-    }
-
-    /**
-     * Sets the colors that should be used fore this DataSet. Colors are reused
-     * as soon as the number of Entries the DataSet represents is higher than
-     * the size of the colors array. If you are using colors from the resources,
-     * make sure that the colors are already prepared (by calling
-     * getResources().getColor(...)) before adding them to the DataSet.
-     *
-     * @param colors
-     */
-    public void setColors(int... colors) {
-        this.mColors = ColorTemplate.createColors(colors);
-    }
-
-    /**
-     * Sets the colors that should be used fore this DataSet. Colors are reused
-     * as soon as the number of Entries the DataSet represents is higher than
-     * the size of the colors array. You can use
-     * "new int[] { R.color.red, R.color.green, ... }" to provide colors for
-     * this method. Internally, the colors are resolved using
-     * getResources().getColor(...)
-     *
-     * @param colors
-     */
-    public void setColors(int[] colors, Context c) {
-
-        if (mColors == null) {
-            mColors = new ArrayList<>();
-        }
-
-        mColors.clear();
-
-        for (int color : colors) {
-            mColors.add(c.getResources().getColor(color));
-        }
-    }
 
     /**
      * Adds a new color to the colors array of the DataSet.
@@ -224,19 +171,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      */
     public void setColor(int color, int alpha) {
         setColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
-    }
-
-    /**
-     * Sets colors with a specific alpha value.
-     *
-     * @param colors
-     * @param alpha
-     */
-    public void setColors(int[] colors, int alpha) {
-        resetColors();
-        for (int color : colors) {
-            addColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
-        }
     }
 
     /**
@@ -335,17 +269,9 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mValueTextSize;
     }
 
-    public void setForm(Legend.LegendForm form) {
-        mForm = form;
-    }
-
     @Override
     public Legend.LegendForm getForm() {
         return mForm;
-    }
-
-    public void setFormSize(float formSize) {
-        mFormSize = formSize;
     }
 
     @Override
@@ -353,17 +279,9 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
         return mFormSize;
     }
 
-    public void setFormLineWidth(float formLineWidth) {
-        mFormLineWidth = formLineWidth;
-    }
-
     @Override
     public float getFormLineWidth() {
         return mFormLineWidth;
-    }
-
-    public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-        mFormLineDashEffect = dashPathEffect;
     }
 
     @Override

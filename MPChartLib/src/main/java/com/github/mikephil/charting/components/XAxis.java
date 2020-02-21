@@ -89,25 +89,6 @@ public class XAxis extends AxisBase {
     }
 
     /**
-     * sets the angle for drawing the X axis labels (in degrees)
-     *
-     * @param angle the angle in degrees
-     */
-    public void setLabelRotationAngle(float angle) {
-        mLabelRotationAngle = angle;
-    }
-
-    /**
-     * if set to true, the chart will avoid that the first and last label entry
-     * in the chart "clip" off the edge of the chart or the screen
-     *
-     * @param enabled
-     */
-    public void setAvoidFirstLastClipping(boolean enabled) {
-        mAvoidFirstLastClipping = enabled;
-    }
-
-    /**
      * returns true if avoid-first-lastclipping is enabled, false if not
      *
      * @return

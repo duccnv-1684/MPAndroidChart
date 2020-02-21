@@ -6,7 +6,6 @@ import android.util.Log;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

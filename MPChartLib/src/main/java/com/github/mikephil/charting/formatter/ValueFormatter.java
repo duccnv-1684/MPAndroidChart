@@ -63,16 +63,6 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
     }
 
     /**
-     * Used to draw bar labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param barEntry bar being labeled
-     * @return formatted string label
-     */
-    public String getBarLabel(BarEntry barEntry) {
-        return getFormattedValue(barEntry.getY());
-    }
-
-    /**
      * Used to draw stacked bar labels, calls {@link #getFormattedValue(float)} by default.
      *
      * @param value        current value to be formatted
@@ -81,16 +71,6 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
      */
     public String getBarStackedLabel(float value, BarEntry stackedEntry) {
         return getFormattedValue(value);
-    }
-
-    /**
-     * Used to draw line and scatter labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param entry point being labeled, contains X value
-     * @return formatted string label
-     */
-    public String getPointLabel(Entry entry) {
-        return getFormattedValue(entry.getY());
     }
 
     /**
@@ -112,26 +92,6 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
      */
     public String getRadarLabel(RadarEntry radarEntry) {
         return getFormattedValue(radarEntry.getY());
-    }
-
-    /**
-     * Used to draw bubble size labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param bubbleEntry bubble being labeled, also contains X and Y values
-     * @return formatted string label
-     */
-    public String getBubbleLabel(BubbleEntry bubbleEntry) {
-        return getFormattedValue(bubbleEntry.getSize());
-    }
-
-    /**
-     * Used to draw high labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param candleEntry candlestick being labeled
-     * @return formatted string label
-     */
-    public String getCandleLabel(CandleEntry candleEntry) {
-        return getFormattedValue(candleEntry.getHigh());
     }
 
 }

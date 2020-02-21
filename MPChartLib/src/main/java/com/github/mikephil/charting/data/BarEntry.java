@@ -38,43 +38,10 @@ public class BarEntry extends Entry {
      *
      * @param x
      * @param y
-     */
-    public BarEntry(float x, float y) {
-        super(x, y);
-    }
-
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
      * @param data - Spot for additional data this Entry represents.
      */
     public BarEntry(float x, float y, Object data) {
         super(x, y, data);
-    }
-
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     * @param icon - icon image
-     */
-    public BarEntry(float x, float y, Drawable icon) {
-        super(x, y, icon);
-    }
-
-    /**
-     * Constructor for normal bars (not stacked).
-     *
-     * @param x
-     * @param y
-     * @param icon - icon image
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float y, Drawable icon, Object data) {
-        super(x, y, icon, data);
     }
 
     /**
@@ -180,24 +147,6 @@ public class BarEntry extends Entry {
     }
 
     /**
-     * Returns the ranges of the individual stack-entries. Will return null if this entry is not stacked.
-     *
-     * @return
-     */
-    public Range[] getRanges() {
-        return mRanges;
-    }
-
-    /**
-     * Returns true if this BarEntry is stacked (has a values array), false if not.
-     *
-     * @return
-     */
-    public boolean isStacked() {
-        return mYVals != null;
-    }
-
-    /**
      * Use `getSumBelow(stackIndex)` instead.
      */
     @Deprecated
@@ -219,15 +168,6 @@ public class BarEntry extends Entry {
         }
 
         return remainder;
-    }
-
-    /**
-     * Reuturns the sum of all positive values this entry (if stacked) contains.
-     *
-     * @return
-     */
-    public float getPositiveSum() {
-        return mPositiveSum;
     }
 
     /**

@@ -139,28 +139,10 @@ public class YAxis extends AxisBase {
     }
 
     /**
-     * Sets the minimum width that the axis should take (in dp).
-     *
-     * @param minWidth
-     */
-    public void setMinWidth(float minWidth) {
-        mMinWidth = minWidth;
-    }
-
-    /**
      * @return the maximum width that the axis can take (in dp).
      */
     public float getMaxWidth() {
         return mMaxWidth;
-    }
-
-    /**
-     * Sets the maximum width that the axis can take (in dp).
-     *
-     * @param maxWidth
-     */
-    public void setMaxWidth(float maxWidth) {
-        mMaxWidth = maxWidth;
     }
 
     /**
@@ -214,28 +196,6 @@ public class YAxis extends AxisBase {
     }
 
     /**
-     * set this to true to enable drawing the top y-label entry. Disabling this can be helpful
-     * when the top y-label and
-     * left x-label interfere with each other. default: true
-     *
-     * @param enabled
-     */
-    public void setDrawTopYLabelEntry(boolean enabled) {
-        mDrawTopYLabelEntry = enabled;
-    }
-
-    /**
-     * If this is set to true, the y-axis is inverted which means that low values are on top of
-     * the chart, high values
-     * on bottom.
-     *
-     * @param enabled
-     */
-    public void setInverted(boolean enabled) {
-        mInverted = enabled;
-    }
-
-    /**
      * If this returns true, the y-axis is inverted.
      *
      * @return
@@ -259,30 +219,12 @@ public class YAxis extends AxisBase {
     }
 
     /**
-     * Sets the top axis space in percent of the full range. Default 10f
-     *
-     * @param percent
-     */
-    public void setSpaceTop(float percent) {
-        mSpacePercentTop = percent;
-    }
-
-    /**
      * Returns the top axis space in percent of the full range. Default 10f
      *
      * @return
      */
     public float getSpaceTop() {
         return mSpacePercentTop;
-    }
-
-    /**
-     * Sets the bottom axis space in percent of the full range. Default 10f
-     *
-     * @param percent
-     */
-    public void setSpaceBottom(float percent) {
-        mSpacePercentBottom = percent;
     }
 
     /**
@@ -298,94 +240,12 @@ public class YAxis extends AxisBase {
         return mDrawZeroLine;
     }
 
-    /**
-     * Set this to true to draw the zero-line regardless of weather other
-     * grid-lines are enabled or not. Default: false
-     *
-     * @param mDrawZeroLine
-     */
-    public void setDrawZeroLine(boolean mDrawZeroLine) {
-        this.mDrawZeroLine = mDrawZeroLine;
-    }
-
     public int getZeroLineColor() {
         return mZeroLineColor;
     }
 
-    /**
-     * Sets the color of the zero line
-     *
-     * @param color
-     */
-    public void setZeroLineColor(int color) {
-        mZeroLineColor = color;
-    }
-
     public float getZeroLineWidth() {
         return mZeroLineWidth;
-    }
-
-    /**
-     * Sets the width of the zero line in dp
-     *
-     * @param width
-     */
-    public void setZeroLineWidth(float width) {
-        this.mZeroLineWidth = Utils.convertDpToPixel(width);
-    }
-
-    /**
-     * This is for normal (not horizontal) charts horizontal spacing.
-     *
-     * @param p
-     * @return
-     */
-    public float getRequiredWidthSpace(Paint p) {
-
-        p.setTextSize(mTextSize);
-
-        String label = getLongestLabel();
-        float width = (float) Utils.calcTextWidth(p, label) + getXOffset() * 2f;
-
-        float minWidth = getMinWidth();
-        float maxWidth = getMaxWidth();
-
-        if (minWidth > 0.f)
-            minWidth = Utils.convertDpToPixel(minWidth);
-
-        if (maxWidth > 0.f && maxWidth != Float.POSITIVE_INFINITY)
-            maxWidth = Utils.convertDpToPixel(maxWidth);
-
-        width = Math.max(minWidth, Math.min(width, maxWidth > 0.0 ? maxWidth : width));
-
-        return width;
-    }
-
-    /**
-     * This is for HorizontalBarChart vertical spacing.
-     *
-     * @param p
-     * @return
-     */
-    public float getRequiredHeightSpace(Paint p) {
-
-        p.setTextSize(mTextSize);
-
-        String label = getLongestLabel();
-        return (float) Utils.calcTextHeight(p, label) + getYOffset() * 2f;
-    }
-
-    /**
-     * Returns true if this axis needs horizontal offset, false if no offset is needed.
-     *
-     * @return
-     */
-    public boolean needsOffset() {
-        if (isEnabled() && isDrawLabelsEnabled() && getLabelPosition() == YAxisLabelPosition
-                .OUTSIDE_CHART)
-            return true;
-        else
-            return false;
     }
 
     /**

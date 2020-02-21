@@ -162,26 +162,10 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * The minumum number of labels on the axis
-     */
-    public void setAxisMinLabels(int labels) {
-        if (labels > 0)
-            mAxisMinLabels = labels;
-    }
-
-    /**
      * The maximum number of labels on the axis
      */
     public int getAxisMaxLabels() {
         return mAxisMaxLabels;
-    }
-
-    /**
-     * The maximum number of labels on the axis
-     */
-    public void setAxisMaxLabels(int labels) {
-        if (labels > 0)
-            mAxisMaxLabels = labels;
     }
 
     /**
@@ -195,30 +179,12 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Set this to true to enable drawing the grid lines for this axis.
-     *
-     * @param enabled
-     */
-    public void setDrawGridLines(boolean enabled) {
-        mDrawGridLines = enabled;
-    }
-
-    /**
      * Returns true if drawing grid lines is enabled for this axis.
      *
      * @return
      */
     public boolean isDrawGridLinesEnabled() {
         return mDrawGridLines;
-    }
-
-    /**
-     * Set this to true if the line alongside the axis should be drawn or not.
-     *
-     * @param enabled
-     */
-    public void setDrawAxisLine(boolean enabled) {
-        mDrawAxisLine = enabled;
     }
 
     /**
@@ -230,28 +196,8 @@ public abstract class AxisBase extends ComponentBase {
         return mDrawAxisLine;
     }
 
-    /**
-     * Centers the axis labels instead of drawing them at their original position.
-     * This is useful especially for grouped BarChart.
-     *
-     * @param enabled
-     */
-    public void setCenterAxisLabels(boolean enabled) {
-        mCenterAxisLabels = enabled;
-    }
-
     public boolean isCenterAxisLabelsEnabled() {
         return mCenterAxisLabels && mEntryCount > 0;
-    }
-
-    /**
-     * Sets the color of the grid lines for this axis (the horizontal lines
-     * coming from each label).
-     *
-     * @param color
-     */
-    public void setGridColor(int color) {
-        mGridColor = color;
     }
 
     /**
@@ -265,31 +211,12 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Sets the width of the border surrounding the chart in dp.
-     *
-     * @param width
-     */
-    public void setAxisLineWidth(float width) {
-        mAxisLineWidth = Utils.convertDpToPixel(width);
-    }
-
-    /**
      * Returns the width of the axis line (line alongside the axis).
      *
      * @return
      */
     public float getAxisLineWidth() {
         return mAxisLineWidth;
-    }
-
-    /**
-     * Sets the width of the grid lines that are drawn away from each axis
-     * label.
-     *
-     * @param width
-     */
-    public void setGridLineWidth(float width) {
-        mGridLineWidth = Utils.convertDpToPixel(width);
     }
 
     /**
@@ -300,15 +227,6 @@ public abstract class AxisBase extends ComponentBase {
      */
     public float getGridLineWidth() {
         return mGridLineWidth;
-    }
-
-    /**
-     * Sets the color of the border surrounding the chart.
-     *
-     * @param color
-     */
-    public void setAxisLineColor(int color) {
-        mAxisLineColor = color;
     }
 
     /**
@@ -399,63 +317,10 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Enabled/disable granularity control on axis value intervals. If enabled, the axis
-     * interval is not allowed to go below a certain granularity. Default: false
-     *
-     * @param enabled
-     */
-    public void setGranularityEnabled(boolean enabled) {
-        mGranularityEnabled = enabled;
-    }
-
-    /**
      * @return the minimum interval between axis values
      */
     public float getGranularity() {
         return mGranularity;
-    }
-
-    /**
-     * Set a minimum interval for the axis when zooming in. The axis is not allowed to go below
-     * that limit. This can be used to avoid label duplicating when zooming in.
-     *
-     * @param granularity
-     */
-    public void setGranularity(float granularity) {
-        mGranularity = granularity;
-        // set this to true if it was disabled, as it makes no sense to call this method with granularity disabled
-        mGranularityEnabled = true;
-    }
-
-    /**
-     * Adds a new LimitLine to this axis.
-     *
-     * @param l
-     */
-    public void addLimitLine(LimitLine l) {
-        mLimitLines.add(l);
-
-        if (mLimitLines.size() > 6) {
-            Log.e("MPAndroiChart",
-                    "Warning! You have more than 6 LimitLines on your axis, do you really want " +
-                            "that?");
-        }
-    }
-
-    /**
-     * Removes the specified LimitLine from the axis.
-     *
-     * @param l
-     */
-    public void removeLimitLine(LimitLine l) {
-        mLimitLines.remove(l);
-    }
-
-    /**
-     * Removes all LimitLines from the axis.
-     */
-    public void removeAllLimitLines() {
-        mLimitLines.clear();
     }
 
     /**
@@ -467,30 +332,8 @@ public abstract class AxisBase extends ComponentBase {
         return mLimitLines;
     }
 
-    /**
-     * If this is set to true, the LimitLines are drawn behind the actual data,
-     * otherwise on top. Default: false
-     *
-     * @param enabled
-     */
-    public void setDrawLimitLinesBehindData(boolean enabled) {
-        mDrawLimitLineBehindData = enabled;
-    }
-
     public boolean isDrawLimitLinesBehindDataEnabled() {
         return mDrawLimitLineBehindData;
-    }
-
-    /**
-     * If this is set to false, the grid lines are draw on top of the actual data,
-     * otherwise behind. Default: true
-     *
-     * @param enabled
-     */
-    public void setDrawGridLinesBehindData(boolean enabled) { mDrawGridLinesBehindData = enabled; }
-
-    public boolean isDrawGridLinesBehindDataEnabled() {
-        return mDrawGridLinesBehindData;
     }
 
     /**
@@ -554,48 +397,6 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Enables the grid line to be drawn in dashed mode, e.g. like this
-     * "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-     * Keep in mind that hardware acceleration boosts performance.
-     *
-     * @param lineLength  the length of the line pieces
-     * @param spaceLength the length of space in between the pieces
-     * @param phase       offset, in degrees (normally, use 0)
-     */
-    public void enableGridDashedLine(float lineLength, float spaceLength, float phase) {
-        mGridDashPathEffect = new DashPathEffect(new float[]{
-                lineLength, spaceLength
-        }, phase);
-    }
-
-    /**
-     * Enables the grid line to be drawn in dashed mode, e.g. like this
-     * "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-     * Keep in mind that hardware acceleration boosts performance.
-     *
-     * @param effect the DashPathEffect
-     */
-    public void setGridDashedLine(DashPathEffect effect) {
-        mGridDashPathEffect = effect;
-    }
-
-    /**
-     * Disables the grid line to be drawn in dashed mode.
-     */
-    public void disableGridDashedLine() {
-        mGridDashPathEffect = null;
-    }
-
-    /**
-     * Returns true if the grid dashed-line effect is enabled, false if not.
-     *
-     * @return
-     */
-    public boolean isGridDashedLineEnabled() {
-        return mGridDashPathEffect == null ? false : true;
-    }
-
-    /**
      * returns the DashPathEffect that is set for grid line
      *
      * @return
@@ -604,48 +405,6 @@ public abstract class AxisBase extends ComponentBase {
         return mGridDashPathEffect;
     }
 
-
-    /**
-     * Enables the axis line to be drawn in dashed mode, e.g. like this
-     * "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-     * Keep in mind that hardware acceleration boosts performance.
-     *
-     * @param lineLength  the length of the line pieces
-     * @param spaceLength the length of space in between the pieces
-     * @param phase       offset, in degrees (normally, use 0)
-     */
-    public void enableAxisLineDashedLine(float lineLength, float spaceLength, float phase) {
-        mAxisLineDashPathEffect = new DashPathEffect(new float[]{
-                lineLength, spaceLength
-        }, phase);
-    }
-
-    /**
-     * Enables the axis line to be drawn in dashed mode, e.g. like this
-     * "- - - - - -". THIS ONLY WORKS IF HARDWARE-ACCELERATION IS TURNED OFF.
-     * Keep in mind that hardware acceleration boosts performance.
-     *
-     * @param effect the DashPathEffect
-     */
-    public void setAxisLineDashedLine(DashPathEffect effect) {
-        mAxisLineDashPathEffect = effect;
-    }
-
-    /**
-     * Disables the axis line to be drawn in dashed mode.
-     */
-    public void disableAxisLineDashedLine() {
-        mAxisLineDashPathEffect = null;
-    }
-
-    /**
-     * Returns true if the axis dashed-line effect is enabled, false if not.
-     *
-     * @return
-     */
-    public boolean isAxisLineDashedLineEnabled() {
-        return mAxisLineDashPathEffect == null ? false : true;
-    }
 
     /**
      * returns the DashPathEffect that is set for axis line
@@ -657,51 +416,12 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * ###### BELOW CODE RELATED TO CUSTOM AXIS VALUES ######
-     */
-
-    public float getAxisMaximum() {
-        return mAxisMaximum;
-    }
-
-    public float getAxisMinimum() {
-        return mAxisMinimum;
-    }
-
-    /**
-     * By calling this method, any custom maximum value that has been previously set is reseted,
-     * and the calculation is
-     * done automatically.
-     */
-    public void resetAxisMaximum() {
-        mCustomAxisMax = false;
-    }
-
-    /**
-     * Returns true if the axis max value has been customized (and is not calculated automatically)
-     *
-     * @return
-     */
-    public boolean isAxisMaxCustom() {
-        return mCustomAxisMax;
-    }
-
-    /**
      * By calling this method, any custom minimum value that has been previously set is reseted,
      * and the calculation is
      * done automatically.
      */
     public void resetAxisMinimum() {
         mCustomAxisMin = false;
-    }
-
-    /**
-     * Returns true if the axis min value has been customized (and is not calculated automatically)
-     *
-     * @return
-     */
-    public boolean isAxisMinCustom() {
-        return mCustomAxisMin;
     }
 
     /**
@@ -781,35 +501,4 @@ public abstract class AxisBase extends ComponentBase {
         this.mAxisRange = Math.abs(max - min);
     }
 
-    /**
-     * Gets extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
-     */
-    public float getSpaceMin()
-    {
-        return mSpaceMin;
-    }
-
-    /**
-     * Sets extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
-     */
-    public void setSpaceMin(float mSpaceMin)
-    {
-        this.mSpaceMin = mSpaceMin;
-    }
-
-    /**
-     * Gets extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
-     */
-    public float getSpaceMax()
-    {
-        return mSpaceMax;
-    }
-
-    /**
-     * Sets extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
-     */
-    public void setSpaceMax(float mSpaceMax)
-    {
-        this.mSpaceMax = mSpaceMax;
-    }
 }
