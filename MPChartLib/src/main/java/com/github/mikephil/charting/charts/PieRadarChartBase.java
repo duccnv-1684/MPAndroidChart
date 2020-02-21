@@ -1,23 +1,16 @@
 
 package com.github.mikephil.charting.charts;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.MotionEvent;
 
-import com.github.mikephil.charting.animation.Easing.EasingFunction;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.ChartData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.listener.PieRadarChartTouchListener;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 
@@ -28,26 +21,6 @@ import com.github.mikephil.charting.utils.Utils;
  */
 public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<? extends Entry>>>
         extends Chart<T> {
-
-    /**
-     * holds the normalized version of the current rotation angle of the chart
-     */
-    private float mRotationAngle = 270f;
-
-    /**
-     * holds the raw version of the current rotation angle of the chart
-     */
-    private float mRawRotationAngle = 270f;
-
-    /**
-     * flag that indicates if rotation is enabled or not
-     */
-    protected boolean mRotateEnabled = true;
-
-    /**
-     * Sets the minimum offset (padding) around the chart, defaults to 0.f
-     */
-    protected float mMinOffset = 0.f;
 
     public PieRadarChartBase(Context context) {
         super(context);
@@ -61,38 +34,11 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
         super(context, attrs, defStyle);
     }
 
-    @Override
-    protected void init() {
-        super.init();
 
-        mChartTouchListener = new PieRadarChartTouchListener(this);
-    }
-
-    @Override
-    protected void calcMinMax() {
+    void calcMinMax() {
         //mXAxis.mAxisRange = mData.getXVals().size() - 1;
     }
 
-    @Override
-    public int getMaxVisibleCount() {
-        return mData.getEntryCount();
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        // use the pie- and radarchart listener own listener
-        if (mTouchEnabled && mChartTouchListener != null)
-            return mChartTouchListener.onTouch(this, event);
-        else
-            return super.onTouchEvent(event);
-    }
-
-    @Override
-    public void computeScroll() {
-
-        if (mChartTouchListener instanceof PieRadarChartTouchListener)
-            ((PieRadarChartTouchListener) mChartTouchListener).computeScroll();
-    }
 
     @Override
     public void notifyDataSetChanged() {
@@ -108,7 +54,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
     }
 
     @Override
-    public void calculateOffsets() {
+    protected void calculateOffsets() {
 
         float legendLeft = 0f, legendRight = 0f, legendBottom = 0f, legendTop = 0f;
 
@@ -190,7 +136,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
                 break;
 
                 case HORIZONTAL:
-                    float yLegendOffset = 0.f;
+                    float yLegendOffset;
 
                     if (mLegend.getVerticalAlignment() == Legend.LegendVerticalAlignment.TOP ||
                             mLegend.getVerticalAlignment() == Legend.LegendVerticalAlignment.BOTTOM) {
@@ -221,6 +167,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
             legendBottom += getRequiredBaseOffset();
         }
 
+        float mMinOffset = 0.f;
         float minOffset = Utils.convertDpToPixel(mMinOffset);
 
         if (this instanceof RadarChart) {
@@ -257,7 +204,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      * @param y
      * @return
      */
-    public float getAngleForPoint(float x, float y) {
+    private float getAngleForPoint(float x, float y) {
 
         MPPointF c = getCenterOffsets();
 
@@ -292,14 +239,14 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      * @param angle  in degrees, converted to radians internally
      * @return
      */
-    public MPPointF getPosition(MPPointF center, float dist, float angle) {
+    private MPPointF getPosition(MPPointF center, float dist, float angle) {
 
         MPPointF p = MPPointF.getInstance(0, 0);
         getPosition(center, dist, angle, p);
         return p;
     }
 
-    public void getPosition(MPPointF center, float dist, float angle, MPPointF outputPoint) {
+    private void getPosition(MPPointF center, float dist, float angle, MPPointF outputPoint) {
         outputPoint.x = (float) (center.x + dist * Math.cos(Math.toRadians(angle)));
         outputPoint.y = (float) (center.y + dist * Math.sin(Math.toRadians(angle)));
     }
@@ -312,14 +259,14 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      * @param y
      * @return
      */
-    public float distanceToCenter(float x, float y) {
+    private float distanceToCenter(float x, float y) {
 
         MPPointF c = getCenterOffsets();
 
-        float dist = 0f;
+        float dist;
 
-        float xDist = 0f;
-        float yDist = 0f;
+        float xDist;
+        float yDist;
 
         if (x > c.x) {
             xDist = x - c.x;
@@ -342,54 +289,13 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
     }
 
     /**
-     * Returns the xIndex for the given angle around the center of the chart.
-     * Returns -1 if not found / outofbounds.
-     *
-     * @param angle
-     * @return
-     */
-    public abstract int getIndexForAngle(float angle);
-
-    /**
-     * Set an offset for the rotation of the RadarChart in degrees. Default 270f
-     * --> top (NORTH)
-     *
-     * @param angle
-     */
-    public void setRotationAngle(float angle) {
-        mRawRotationAngle = angle;
-        mRotationAngle = Utils.getNormalizedAngle(mRawRotationAngle);
-    }
-
-    /**
-     * gets the raw version of the current rotation angle of the pie chart the
-     * returned value could be any value, negative or positive, outside of the
-     * 360 degrees. this is used when working with rotation direction, mainly by
-     * gestures and animations.
-     *
-     * @return
-     */
-    public float getRawRotationAngle() {
-        return mRawRotationAngle;
-    }
-
-    /**
      * gets a normalized version of the current rotation angle of the pie chart,
      * which will always be between 0.0 < 360.0
      *
      * @return
      */
     public float getRotationAngle() {
-        return mRotationAngle;
-    }
-
-    /**
-     * Returns true if rotation of the chart by touch is enabled, false if not.
-     *
-     * @return
-     */
-    public boolean isRotationEnabled() {
-        return mRotateEnabled;
+        return 270f;
     }
 
     /**
@@ -397,7 +303,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      *
      * @return
      */
-    public float getDiameter() {
+    float getDiameter() {
         RectF content = mViewPortHandler.getContentRect();
         content.left += getExtraLeftOffset();
         content.top += getExtraTopOffset();
@@ -411,7 +317,7 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      *
      * @return
      */
-    public abstract float getRadius();
+    protected abstract float getRadius();
 
     /**
      * Returns the required offset for the chart legend.
@@ -427,22 +333,5 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      * @return
      */
     protected abstract float getRequiredBaseOffset();
-
-    @Override
-    public float getYChartMax() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public float getYChartMin() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    /**
-     * ################ ################ ################ ################
-     */
-    /** CODE BELOW THIS RELATED TO ANIMATION */
 
 }

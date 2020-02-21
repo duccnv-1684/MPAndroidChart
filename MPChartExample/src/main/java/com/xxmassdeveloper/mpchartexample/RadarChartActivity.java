@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.Legend;
-import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.RadarData;
@@ -17,7 +16,6 @@ import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
-import com.xxmassdeveloper.mpchartexample.custom.RadarMarkerView;
 
 import java.util.ArrayList;
 
@@ -25,8 +23,7 @@ public class RadarChartActivity extends AppCompatActivity {
 
     private RadarChart chart;
 
-    protected Typeface tfRegular;
-    protected Typeface tfLight;
+    private Typeface tfLight;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,25 +32,19 @@ public class RadarChartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_radarchart);
 
         setTitle("RadarChartActivity");
-        tfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
         tfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
 
         chart = findViewById(R.id.chart1);
-        chart.setBackgroundColor(Color.rgb(60, 65, 82));
+        chart.setBackgroundColor(Color.rgb(255, 255, 255));
 
         chart.getDescription().setEnabled(false);
 
         chart.setWebLineWidth(1f);
-        chart.setWebColor(Color.LTGRAY);
-        chart.setWebLineWidthInner(1f);
-        chart.setWebColorInner(Color.LTGRAY);
-        chart.setWebAlpha(100);
-
-        // create a custom MarkerView (extend MarkerView) and specify the layout
-        // to use for it
-        MarkerView mv = new RadarMarkerView(this, R.layout.radar_markerview);
-        mv.setChartView(chart); // For bounds control
-        chart.setMarker(mv); // Set the marker to the chart
+        chart.setWebColor(0x80000000);
+        chart.setWebLineWidthInner(0.5f);
+        chart.setWebLineWidth(0.5f);
+        chart.setWebColorInner(0x80000000);
+        chart.setWebAlpha(75);
 
         setData();
 
@@ -63,8 +54,9 @@ public class RadarChartActivity extends AppCompatActivity {
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setTypeface(tfLight);
-        xAxis.setTextSize(9f);
+        xAxis.setTextSize(15f);
         xAxis.setYOffset(0f);
+        xAxis.setTextColor(0x80000000);
         xAxis.setXOffset(0f);
         xAxis.setValueFormatter(new ValueFormatter() {
 
@@ -75,7 +67,7 @@ public class RadarChartActivity extends AppCompatActivity {
                 return mActivities[(int) value % mActivities.length];
             }
         });
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setTextColor(Color.RED);
 
         YAxis yAxis = chart.getYAxis();
         yAxis.setTypeface(tfLight);
@@ -86,14 +78,15 @@ public class RadarChartActivity extends AppCompatActivity {
         yAxis.setDrawLabels(true);
 
         Legend l = chart.getLegend();
-        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
-        l.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
         l.setTypeface(tfLight);
         l.setXEntrySpace(7f);
+        l.setTextSize(15f);
         l.setYEntrySpace(5f);
-        l.setTextColor(Color.WHITE);
+        l.setTextColor(Color.RED);
     }
 
     private void setData() {
@@ -108,30 +101,24 @@ public class RadarChartActivity extends AppCompatActivity {
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < cnt; i++) {
-            float val1 = (float) (Math.random() * mul) + min;
+            float val1 = 70;
             entries1.add(new RadarEntry(val1));
 
-            float val2 = (float) (Math.random() * mul) + min;
+            float val2 = 50;
             entries2.add(new RadarEntry(val2));
         }
 
         RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
-        set1.setColor(Color.rgb(103, 110, 129));
-        set1.setFillColor(Color.rgb(103, 110, 129));
+        set1.setColor(0xC1C2BE);
+        set1.setFillColor(0xC1C2BE);
         set1.setDrawFilled(true);
         set1.setFillAlpha(180);
-        set1.setLineWidth(2f);
-        set1.setDrawHighlightCircleEnabled(true);
-        set1.setDrawHighlightIndicators(false);
 
         RadarDataSet set2 = new RadarDataSet(entries2, "This Week");
-        set2.setColor(Color.rgb(121, 162, 175));
-        set2.setFillColor(Color.rgb(121, 162, 175));
+        set2.setColor(0xD38C8A);
+        set2.setFillColor(0xD38C8A);
         set2.setDrawFilled(true);
         set2.setFillAlpha(180);
-        set2.setLineWidth(2f);
-        set2.setDrawHighlightCircleEnabled(true);
-        set2.setDrawHighlightIndicators(false);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<>();
         sets.add(set1);

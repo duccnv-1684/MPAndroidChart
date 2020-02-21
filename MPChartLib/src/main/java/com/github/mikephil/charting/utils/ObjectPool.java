@@ -1,7 +1,5 @@
 package com.github.mikephil.charting.utils;
 
-import java.util.List;
-
 /**
  * An object pool for recycling of object instances extending Poolable.
  *
@@ -135,48 +133,18 @@ public class ObjectPool<T extends ObjectPool.Poolable> {
 
     }
 
-    /**
-     * Recycle a List of Poolables that this pool is capable of generating.
-     * The T instances passed must not already exist inside this or any other ObjectPool instance.
-     *
-     * @param objects A list of objects of type T to recycle
-     */
-    public synchronized void recycle(List<T> objects){
-        while(objects.size() + this.objectsPointer + 1 > this.desiredCapacity){
-            this.resizePool();
-        }
-        final int objectsListSize = objects.size();
-
-        // Not relying on recycle(T object) because this is more performant.
-        for(int i = 0 ; i < objectsListSize ; i++){
-            T object = objects.get(i);
-            if(object.currentOwnerId != Poolable.NO_OWNER){
-                if(object.currentOwnerId == this.poolId){
-                    throw new IllegalArgumentException("The object passed is already stored in this pool!");
-                }else {
-                    throw new IllegalArgumentException("The object to recycle already belongs to poolId " + object.currentOwnerId + ".  Object cannot belong to two different pool instances simultaneously!");
-                }
-            }
-            object.currentOwnerId = this.poolId;
-            this.objects[this.objectsPointer + 1 + i] = object;
-        }
-        this.objectsPointer += objectsListSize;
-    }
-
     private void resizePool() {
         final int oldCapacity = this.desiredCapacity;
         this.desiredCapacity *= 2;
         Object[] temp = new Object[this.desiredCapacity];
-        for(int i = 0 ; i < oldCapacity ; i++){
-            temp[i] = this.objects[i];
-        }
+        if (oldCapacity >= 0) System.arraycopy(this.objects, 0, temp, 0, oldCapacity);
         this.objects = temp;
     }
 
 
     public static abstract class Poolable{
 
-        public static int NO_OWNER = -1;
+        static final int NO_OWNER = -1;
         int currentOwnerId = NO_OWNER;
 
         protected abstract Poolable instantiate();

@@ -1,9 +1,5 @@
 package com.github.mikephil.charting.components;
 
-import android.graphics.Color;
-import android.graphics.DashPathEffect;
-import android.util.Log;
-
 import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
@@ -21,15 +17,7 @@ public abstract class AxisBase extends ComponentBase {
     /**
      * custom formatter that is used instead of the auto-formatter if set
      */
-    protected ValueFormatter mAxisValueFormatter;
-
-    private int mGridColor = Color.GRAY;
-
-    private float mGridLineWidth = 1f;
-
-    private int mAxisLineColor = Color.GRAY;
-
-    private float mAxisLineWidth = 1f;
+    private ValueFormatter mAxisValueFormatter;
 
     /**
      * the actual array of entries
@@ -57,79 +45,29 @@ public abstract class AxisBase extends ComponentBase {
     private int mLabelCount = 6;
 
     /**
-     * the minimum interval between axis values
-     */
-    protected float mGranularity = 1.0f;
-
-    /**
-     * When true, axis labels are controlled by the `granularity` property.
-     * When false, axis values could possibly be repeated.
-     * This could happen if two adjacent axis values are rounded to same value.
-     * If using granularity this could be avoided by having fewer axis values visible.
-     */
-    protected boolean mGranularityEnabled = false;
-
-    /**
      * if true, the set number of y-labels will be forced
      */
-    protected boolean mForceLabels = false;
-
-    /**
-     * flag indicating if the grid lines for this axis should be drawn
-     */
-    protected boolean mDrawGridLines = true;
-
-    /**
-     * flag that indicates if the line alongside the axis is drawn or not
-     */
-    protected boolean mDrawAxisLine = true;
+    private boolean mForceLabels = false;
 
     /**
      * flag that indicates of the labels of this axis should be drawn or not
      */
-    protected boolean mDrawLabels = true;
-
-    protected boolean mCenterAxisLabels = false;
-
-    /**
-     * the path effect of the axis line that makes dashed lines possible
-     */
-    private DashPathEffect mAxisLineDashPathEffect = null;
-
-    /**
-     * the path effect of the grid lines that makes dashed lines possible
-     */
-    private DashPathEffect mGridDashPathEffect = null;
+    private boolean mDrawLabels = true;
 
     /**
      * array of limit lines that can be set for the axis
      */
-    protected List<LimitLine> mLimitLines;
-
-    /**
-     * flag indicating the limit lines layer depth
-     */
-    protected boolean mDrawLimitLineBehindData = false;
-
-    /**
-     * Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
-     */
-    protected float mSpaceMin = 0.f;
-
-    /**
-     * Extra spacing for `axisMaximum` to be added to automatically calculated `axisMaximum`
-     */
-    protected float mSpaceMax = 0.f;
+    private final List<LimitLine> mLimitLines;
 
     /**
      * flag indicating that the axis-min value has been customized
      */
-    protected boolean mCustomAxisMin = false;
+    boolean mCustomAxisMin = false;
 
     /**
      * flag indicating that the axis-max value has been customized
      */
-    protected boolean mCustomAxisMax = false;
+    boolean mCustomAxisMax = false;
 
     /**
      * don't touch this direclty, use setter
@@ -146,91 +84,32 @@ public abstract class AxisBase extends ComponentBase {
      */
     public float mAxisRange = 0f;
 
-    private int mAxisMinLabels = 2;
-    private int mAxisMaxLabels = 25;
-
     /**
      * The minumum number of labels on the axis
      */
-    public int getAxisMinLabels() {
-        return mAxisMinLabels;
+    private int getAxisMinLabels() {
+        return 2;
     }
 
     /**
      * The maximum number of labels on the axis
      */
-    public int getAxisMaxLabels() {
-        return mAxisMaxLabels;
+    private int getAxisMaxLabels() {
+        return 25;
     }
 
     /**
      * default constructor
      */
-    public AxisBase() {
+    AxisBase() {
         this.mTextSize = Utils.convertDpToPixel(10f);
         this.mXOffset = Utils.convertDpToPixel(5f);
         this.mYOffset = Utils.convertDpToPixel(5f);
-        this.mLimitLines = new ArrayList<LimitLine>();
-    }
-
-    /**
-     * Returns true if drawing grid lines is enabled for this axis.
-     *
-     * @return
-     */
-    public boolean isDrawGridLinesEnabled() {
-        return mDrawGridLines;
-    }
-
-    /**
-     * Returns true if the line alongside the axis should be drawn.
-     *
-     * @return
-     */
-    public boolean isDrawAxisLineEnabled() {
-        return mDrawAxisLine;
+        this.mLimitLines = new ArrayList<>();
     }
 
     public boolean isCenterAxisLabelsEnabled() {
-        return mCenterAxisLabels && mEntryCount > 0;
-    }
-
-    /**
-     * Returns the color of the grid lines for this axis (the horizontal lines
-     * coming from each label).
-     *
-     * @return
-     */
-    public int getGridColor() {
-        return mGridColor;
-    }
-
-    /**
-     * Returns the width of the axis line (line alongside the axis).
-     *
-     * @return
-     */
-    public float getAxisLineWidth() {
-        return mAxisLineWidth;
-    }
-
-    /**
-     * Returns the width of the grid lines that are drawn away from each axis
-     * label.
-     *
-     * @return
-     */
-    public float getGridLineWidth() {
-        return mGridLineWidth;
-    }
-
-    /**
-     * Returns the color of the axis line (line alongside the axis).
-     *
-     * @return
-     */
-    public int getAxisLineColor() {
-        return mAxisLineColor;
+        return false;
     }
 
     /**
@@ -258,7 +137,7 @@ public abstract class AxisBase extends ComponentBase {
      *
      * @param count the number of y-axis labels that should be displayed
      */
-    public void setLabelCount(int count) {
+    private void setLabelCount(int count) {
 
         if (count > getAxisMaxLabels())
             count = getAxisMaxLabels();
@@ -308,14 +187,14 @@ public abstract class AxisBase extends ComponentBase {
      * @return true if granularity is enabled
      */
     public boolean isGranularityEnabled() {
-        return mGranularityEnabled;
+        return false;
     }
 
     /**
      * @return the minimum interval between axis values
      */
     public float getGranularity() {
-        return mGranularity;
+        return 1.0f;
     }
 
     /**
@@ -328,7 +207,7 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     public boolean isDrawLimitLinesBehindDataEnabled() {
-        return mDrawLimitLineBehindData;
+        return false;
     }
 
     /**
@@ -356,7 +235,7 @@ public abstract class AxisBase extends ComponentBase {
         if (index < 0 || index >= mEntries.length)
             return "";
         else
-            return getValueFormatter().getAxisLabel(mEntries[index], this);
+            return getValueFormatter().getAxisLabel(mEntries[index]);
     }
 
     /**
@@ -391,31 +270,13 @@ public abstract class AxisBase extends ComponentBase {
         return mAxisValueFormatter;
     }
 
-    /**
-     * returns the DashPathEffect that is set for grid line
-     *
-     * @return
-     */
-    public DashPathEffect getGridDashPathEffect() {
-        return mGridDashPathEffect;
-    }
-
-
-    /**
-     * returns the DashPathEffect that is set for axis line
-     *
-     * @return
-     */
-    public DashPathEffect getAxisLineDashPathEffect() {
-        return mAxisLineDashPathEffect;
-    }
 
     /**
      * By calling this method, any custom minimum value that has been previously set is reseted,
      * and the calculation is
      * done automatically.
      */
-    public void resetAxisMinimum() {
+    void resetAxisMinimum() {
         mCustomAxisMin = false;
     }
 
@@ -435,16 +296,6 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Use setAxisMinimum(...) instead.
-     *
-     * @param min
-     */
-    @Deprecated
-    public void setAxisMinValue(float min) {
-        setAxisMinimum(min);
-    }
-
-    /**
      * Set a custom maximum value for this axis. If set, this value will not be calculated
      * automatically depending on
      * the provided data. Use resetAxisMaxValue() to undo this.
@@ -458,16 +309,6 @@ public abstract class AxisBase extends ComponentBase {
     }
 
     /**
-     * Use setAxisMaximum(...) instead.
-     *
-     * @param max
-     */
-    @Deprecated
-    public void setAxisMaxValue(float max) {
-        setAxisMaximum(max);
-    }
-
-    /**
      * Calculates the minimum / maximum  and range values of the axis with the given
      * minimum and maximum values from the chart data.
      *
@@ -477,7 +318,9 @@ public abstract class AxisBase extends ComponentBase {
     public void calculate(float dataMin, float dataMax) {
 
         // if custom, use value as is, else use data value
+        float mSpaceMin = 0.f;
         float min = mCustomAxisMin ? mAxisMinimum : (dataMin - mSpaceMin);
+        float mSpaceMax = 0.f;
         float max = mCustomAxisMax ? mAxisMaximum : (dataMax + mSpaceMax);
 
         // temporary range (before calculations)

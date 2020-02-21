@@ -1,7 +1,6 @@
 
 package com.github.mikephil.charting.renderer;
 
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
@@ -20,48 +19,38 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 public abstract class AxisRenderer extends Renderer {
 
     /** base axis this axis renderer works with */
-    protected AxisBase mAxis;
+    final AxisBase mAxis;
 
     /** transformer to transform values to screen pixels and return */
-    protected Transformer mTrans;
-
-    /**
-     * paint object for the grid lines
-     */
-    protected Paint mGridPaint;
+    final Transformer mTrans;
 
     /**
      * paint for the x-label values
      */
-    protected Paint mAxisLabelPaint;
-
-    /**
-     * paint for the line surrounding the chart
-     */
-    protected Paint mAxisLinePaint;
+    Paint mAxisLabelPaint;
 
     /**
      * paint used for the limit lines
      */
-    protected Paint mLimitLinePaint;
+    Paint mLimitLinePaint;
 
-    public AxisRenderer(ViewPortHandler viewPortHandler, Transformer trans, AxisBase axis) {
+    AxisRenderer(ViewPortHandler viewPortHandler, AxisBase axis) {
         super(viewPortHandler);
 
-        this.mTrans = trans;
+        this.mTrans = null;
         this.mAxis = axis;
 
         if(mViewPortHandler != null) {
 
             mAxisLabelPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-            mGridPaint = new Paint();
+            Paint mGridPaint = new Paint();
             mGridPaint.setColor(Color.GRAY);
             mGridPaint.setStrokeWidth(1f);
             mGridPaint.setStyle(Style.STROKE);
             mGridPaint.setAlpha(90);
 
-            mAxisLinePaint = new Paint();
+            Paint mAxisLinePaint = new Paint();
             mAxisLinePaint.setColor(Color.BLACK);
             mAxisLinePaint.setStrokeWidth(1f);
             mAxisLinePaint.setStyle(Style.STROKE);
@@ -108,13 +97,10 @@ public abstract class AxisRenderer extends Renderer {
      *
      * @return
      */
-    protected void computeAxisValues(float min, float max) {
-
-        float yMin = min;
-        float yMax = max;
+    void computeAxisValues(float min, float max) {
 
         int labelCount = mAxis.getLabelCount();
-        double range = Math.abs(yMax - yMin);
+        double range = Math.abs(max - min);
 
         if (labelCount == 0 || range <= 0 || Double.isInfinite(range)) {
             mAxis.mEntries = new float[]{};
@@ -169,12 +155,12 @@ public abstract class AxisRenderer extends Renderer {
             // no forced count
         } else {
 
-            double first = interval == 0.0 ? 0.0 : Math.ceil(yMin / interval) * interval;
+            double first = interval == 0.0 ? 0.0 : Math.ceil(min / interval) * interval;
             if(mAxis.isCenterAxisLabelsEnabled()) {
                 first -= interval;
             }
 
-            double last = interval == 0.0 ? 0.0 : Utils.nextUp(Math.floor(yMax / interval) * interval);
+            double last = interval == 0.0 ? 0.0 : Utils.nextUp(Math.floor(max / interval) * interval);
 
             double f;
             int i;
@@ -225,17 +211,4 @@ public abstract class AxisRenderer extends Renderer {
         }
     }
 
-    /**
-     * Draws the axis labels to the screen.
-     *
-     * @param c
-     */
-    public abstract void renderAxisLabels(Canvas c);
-
-    /**
-     * Draws the LimitLines associated with this axis to the screen.
-     *
-     * @param c
-     */
-    public abstract void renderLimitLines(Canvas c);
 }

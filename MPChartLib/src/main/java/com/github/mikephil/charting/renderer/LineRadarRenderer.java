@@ -12,9 +12,9 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Philipp Jahoda on 25/01/16.
  */
-public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
+abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 
-    public LineRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
+    LineRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
     }
 
@@ -25,7 +25,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
      * @param filledPath
      * @param drawable
      */
-    protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
+    void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
 
         if (clipPathSupported()) {
 
@@ -54,7 +54,7 @@ public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
      * @param fillColor
      * @param fillAlpha
      */
-    protected void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
+    void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
 
         int color = (fillAlpha << 24) | (fillColor & 0xffffff);
 

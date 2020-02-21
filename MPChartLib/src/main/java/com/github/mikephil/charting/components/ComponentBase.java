@@ -16,35 +16,35 @@ public abstract class ComponentBase {
     /**
      * flag that indicates if this axis / legend is enabled or not
      */
-    protected boolean mEnabled = true;
+    private boolean mEnabled = true;
 
     /**
      * the offset in pixels this component has on the x-axis
      */
-    protected float mXOffset = 5f;
+    float mXOffset = 5f;
 
     /**
      * the offset in pixels this component has on the Y-axis
      */
-    protected float mYOffset = 5f;
+    float mYOffset = 5f;
 
     /**
      * the typeface used for the labels
      */
-    protected Typeface mTypeface = null;
+    private Typeface mTypeface = null;
 
     /**
      * the text size of the labels
      */
-    protected float mTextSize = Utils.convertDpToPixel(10f);
+    float mTextSize = Utils.convertDpToPixel(10f);
 
     /**
      * the text color to use for the labels
      */
-    protected int mTextColor = Color.BLACK;
+    private int mTextColor = Color.BLACK;
 
 
-    public ComponentBase() {
+    ComponentBase() {
 
     }
 

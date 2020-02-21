@@ -8,14 +8,14 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  * 
  * @author Philipp Jahoda
  */
-public abstract class Renderer {
+abstract class Renderer {
 
     /**
      * the component that handles the drawing area of the chart and it's offsets
      */
-    protected ViewPortHandler mViewPortHandler;
+    final ViewPortHandler mViewPortHandler;
 
-    public Renderer(ViewPortHandler viewPortHandler) {
+    Renderer(ViewPortHandler viewPortHandler) {
         this.mViewPortHandler = viewPortHandler;
     }
 }

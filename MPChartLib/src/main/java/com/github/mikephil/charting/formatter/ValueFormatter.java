@@ -1,45 +1,11 @@
 package com.github.mikephil.charting.formatter;
 
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.BubbleEntry;
-import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.data.RadarEntry;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 /**
  * Class to format all values before they are drawn as labels.
  */
-public abstract class ValueFormatter implements IAxisValueFormatter, IValueFormatter{
-
-    /**
-     * <b>DO NOT USE</b>, only for backwards compatibility and will be removed in future versions.
-     *
-     * @param value the value to be formatted
-     * @param axis  the axis the value belongs to
-     * @return formatted string label
-     */
-    @Override
-    @Deprecated
-    public String getFormattedValue(float value, AxisBase axis) {
-        return getFormattedValue(value);
-    }
-
-    /**
-     * <b>DO NOT USE</b>, only for backwards compatibility and will be removed in future versions.
-     * @param value           the value to be formatted
-     * @param entry           the entry the value belongs to - in e.g. BarChart, this is of class BarEntry
-     * @param dataSetIndex    the index of the DataSet the entry in focus belongs to
-     * @param viewPortHandler provides information about the current chart state (scale, translation, ...)
-     * @return formatted string label
-     */
-    @Override
-    @Deprecated
-    public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-        return getFormattedValue(value);
-    }
+public abstract class ValueFormatter {
 
     /**
      * Called when drawing any label, used to change numbers into formatted strings.
@@ -47,7 +13,7 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
      * @param value float to be formatted
      * @return formatted string label
      */
-    public String getFormattedValue(float value) {
+    protected String getFormattedValue(float value) {
         return String.valueOf(value);
     }
 
@@ -55,21 +21,9 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
      * Used to draw axis labels, calls {@link #getFormattedValue(float)} by default.
      *
      * @param value float to be formatted
-     * @param axis  axis being labeled
      * @return formatted string label
      */
-    public String getAxisLabel(float value, AxisBase axis) {
-        return getFormattedValue(value);
-    }
-
-    /**
-     * Used to draw stacked bar labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param value        current value to be formatted
-     * @param stackedEntry stacked entry being labeled, contains all Y values
-     * @return formatted string label
-     */
-    public String getBarStackedLabel(float value, BarEntry stackedEntry) {
+    public String getAxisLabel(float value) {
         return getFormattedValue(value);
     }
 
@@ -77,10 +31,9 @@ public abstract class ValueFormatter implements IAxisValueFormatter, IValueForma
      * Used to draw pie value labels, calls {@link #getFormattedValue(float)} by default.
      *
      * @param value    float to be formatted, may have been converted to percentage
-     * @param pieEntry slice being labeled, contains original, non-percentage Y value
      * @return formatted string label
      */
-    public String getPieLabel(float value, PieEntry pieEntry) {
+    public String getPieLabel(float value) {
         return getFormattedValue(value);
     }
 

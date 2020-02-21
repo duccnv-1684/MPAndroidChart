@@ -11,17 +11,13 @@ import android.graphics.Typeface;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ICandleDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class LegendRenderer extends Renderer {
@@ -29,17 +25,17 @@ public class LegendRenderer extends Renderer {
     /**
      * paint for the legend labels
      */
-    protected Paint mLegendLabelPaint;
+    private final Paint mLegendLabelPaint;
 
     /**
      * paint used for the legend forms
      */
-    protected Paint mLegendFormPaint;
+    private final Paint mLegendFormPaint;
 
     /**
      * the legend object this renderer renders
      */
-    protected Legend mLegend;
+    private final Legend mLegend;
 
     public LegendRenderer(ViewPortHandler viewPortHandler, Legend legend) {
         super(viewPortHandler);
@@ -64,7 +60,7 @@ public class LegendRenderer extends Renderer {
     }
 
 
-    protected List<LegendEntry> computedEntries = new ArrayList<>(16);
+    private final List<LegendEntry> computedEntries = new ArrayList<>(16);
 
     /**
      * Prepares the legend and calculates all needed forms, labels and colors.
@@ -73,7 +69,7 @@ public class LegendRenderer extends Renderer {
      */
     public void computeLegend(ChartData<?> data) {
 
-        if (!mLegend.isLegendCustom()) {
+        if (mLegend.isLegendCustom()) {
 
             computedEntries.clear();
 
@@ -87,97 +83,7 @@ public class LegendRenderer extends Renderer {
                 int entryCount = dataSet.getEntryCount();
 
                 // if we have a barchart with stacked bars
-                if (dataSet instanceof IBarDataSet && ((IBarDataSet) dataSet).isStacked()) {
-
-                    IBarDataSet bds = (IBarDataSet) dataSet;
-                    String[] sLabels = bds.getStackLabels();
-
-                    int minEntries = Math.min(clrs.size(), bds.getStackSize());
-
-                    for (int j = 0; j < minEntries; j++) {
-                        String label;
-                        if (sLabels.length > 0) {
-                            int labelIndex = j % minEntries;
-                            label = labelIndex < sLabels.length ? sLabels[labelIndex] : null;
-                        } else {
-                            label = null;
-                        }
-
-                        computedEntries.add(new LegendEntry(
-                                label,
-                                dataSet.getForm(),
-                                dataSet.getFormSize(),
-                                dataSet.getFormLineWidth(),
-                                dataSet.getFormLineDashEffect(),
-                                clrs.get(j)
-                        ));
-                    }
-
-                    if (bds.getLabel() != null) {
-                        // add the legend description label
-                        computedEntries.add(new LegendEntry(
-                                dataSet.getLabel(),
-                                Legend.LegendForm.NONE,
-                                Float.NaN,
-                                Float.NaN,
-                                null,
-                                ColorTemplate.COLOR_NONE
-                        ));
-                    }
-
-                } else if (dataSet instanceof IPieDataSet) {
-
-                    IPieDataSet pds = (IPieDataSet) dataSet;
-
-                    for (int j = 0; j < clrs.size() && j < entryCount; j++) {
-
-                        computedEntries.add(new LegendEntry(
-                                pds.getEntryForIndex(j).getLabel(),
-                                dataSet.getForm(),
-                                dataSet.getFormSize(),
-                                dataSet.getFormLineWidth(),
-                                dataSet.getFormLineDashEffect(),
-                                clrs.get(j)
-                        ));
-                    }
-
-                    if (pds.getLabel() != null) {
-                        // add the legend description label
-                        computedEntries.add(new LegendEntry(
-                                dataSet.getLabel(),
-                                Legend.LegendForm.NONE,
-                                Float.NaN,
-                                Float.NaN,
-                                null,
-                                ColorTemplate.COLOR_NONE
-                        ));
-                    }
-
-                } else if (dataSet instanceof ICandleDataSet && ((ICandleDataSet) dataSet).getDecreasingColor() !=
-                        ColorTemplate.COLOR_NONE) {
-
-                    int decreasingColor = ((ICandleDataSet) dataSet).getDecreasingColor();
-                    int increasingColor = ((ICandleDataSet) dataSet).getIncreasingColor();
-
-                    computedEntries.add(new LegendEntry(
-                            null,
-                            dataSet.getForm(),
-                            dataSet.getFormSize(),
-                            dataSet.getFormLineWidth(),
-                            dataSet.getFormLineDashEffect(),
-                            decreasingColor
-                    ));
-
-                    computedEntries.add(new LegendEntry(
-                            dataSet.getLabel(),
-                            dataSet.getForm(),
-                            dataSet.getFormSize(),
-                            dataSet.getFormLineWidth(),
-                            dataSet.getFormLineDashEffect(),
-                            increasingColor
-                    ));
-
-                } else { // all others
+                // all others
 
                     for (int j = 0; j < clrs.size() && j < entryCount; j++) {
 
@@ -199,11 +105,7 @@ public class LegendRenderer extends Renderer {
                                 clrs.get(j)
                         ));
                     }
-                }
-            }
 
-            if (mLegend.getExtraEntries() != null) {
-                Collections.addAll(computedEntries, mLegend.getExtraEntries());
             }
 
             mLegend.setEntries(computedEntries);
@@ -221,7 +123,7 @@ public class LegendRenderer extends Renderer {
         mLegend.calculateDimensions(mLegendLabelPaint, mViewPortHandler);
     }
 
-    protected Paint.FontMetrics legendFontMetrics = new Paint.FontMetrics();
+    private final Paint.FontMetrics legendFontMetrics = new Paint.FontMetrics();
 
     public void renderLegend(Canvas c) {
 
@@ -413,9 +315,8 @@ public class LegendRenderer extends Renderer {
                         break;
                 }
 
-                for (int i = 0; i < entries.length; i++) {
+                for (LegendEntry e : entries) {
 
-                    LegendEntry e = entries[i];
                     boolean drawingForm = e.form != Legend.LegendForm.NONE;
                     float formSize = Float.isNaN(e.formSize) ? defaultFormSize : Utils.convertDpToPixel(e.formSize);
 
@@ -466,7 +367,7 @@ public class LegendRenderer extends Renderer {
         }
     }
 
-    private Path mLineFormPath = new Path();
+    private final Path mLineFormPath = new Path();
 
     /**
      * Draws the Legend-form at the given position with the color at the given
@@ -478,7 +379,7 @@ public class LegendRenderer extends Renderer {
      * @param entry  the entry to render
      * @param legend the legend context
      */
-    protected void drawForm(
+    private void drawForm(
             Canvas c,
             float x, float y,
             LegendEntry entry,
@@ -555,7 +456,7 @@ public class LegendRenderer extends Renderer {
      * @param y
      * @param label the label to draw
      */
-    protected void drawLabel(Canvas c, float x, float y, String label) {
+    private void drawLabel(Canvas c, float x, float y, String label) {
         c.drawText(label, x, y, mLegendLabelPaint);
     }
 }

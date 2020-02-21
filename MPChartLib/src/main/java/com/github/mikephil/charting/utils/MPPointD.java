@@ -1,8 +1,6 @@
 
 package com.github.mikephil.charting.utils;
 
-import java.util.List;
-
 /**
  * Point encapsulating two double values.
  *
@@ -10,10 +8,10 @@ import java.util.List;
  */
 public class MPPointD extends ObjectPool.Poolable {
 
-    private static ObjectPool<MPPointD> pool;
+    private static final ObjectPool<MPPointD> pool;
 
     static {
-        pool = ObjectPool.create(64, new MPPointD(0,0));
+        pool = ObjectPool.create(64, new MPPointD());
         pool.setReplenishPercentage(0.5f);
     }
 
@@ -32,12 +30,12 @@ public class MPPointD extends ObjectPool.Poolable {
     public double y;
 
     protected ObjectPool.Poolable instantiate(){
-        return new MPPointD(0,0);
+        return new MPPointD();
     }
 
-    private MPPointD(double x, double y) {
-        this.x = x;
-        this.y = y;
+    private MPPointD() {
+        this.x = 0;
+        this.y = 0;
     }
 
     /**

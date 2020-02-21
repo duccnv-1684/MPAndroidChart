@@ -3,7 +3,6 @@ package com.github.mikephil.charting.components;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 
-import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -73,18 +72,6 @@ public class Legend extends ComponentBase {
      */
     private LegendEntry[] mEntries = new LegendEntry[]{};
 
-    /**
-     * Entries that will be appended to the end of the auto calculated entries after calculating the legend.
-     * (if the legend has already been calculated, you will need to call notifyDataSetChanged() to let the changes take effect)
-     */
-    private LegendEntry[] mExtraEntries;
-
-    /**
-     * Are the legend labels/colors a custom value or auto calculated? If false,
-     * then it's auto, if true, then custom. default false (automatic legend)
-     */
-    private boolean mIsLegendCustom = false;
-
     private LegendHorizontalAlignment mHorizontalAlignment = LegendHorizontalAlignment.LEFT;
     private LegendVerticalAlignment mVerticalAlignment = LegendVerticalAlignment.BOTTOM;
     private LegendOrientation mOrientation = LegendOrientation.HORIZONTAL;
@@ -93,27 +80,17 @@ public class Legend extends ComponentBase {
     /**
      * the text direction for the legend
      */
-    private LegendDirection mDirection = LegendDirection.LEFT_TO_RIGHT;
+    private final LegendDirection mDirection = LegendDirection.LEFT_TO_RIGHT;
 
     /**
      * the shape/form the legend colors are drawn in
      */
-    private LegendForm mShape = LegendForm.SQUARE;
+    private final LegendForm mShape = LegendForm.SQUARE;
 
     /**
      * the size of the legend forms/shapes
      */
-    private float mFormSize = 8f;
-
-    /**
-     * the size of the legend forms/shapes
-     */
-    private float mFormLineWidth = 3f;
-
-    /**
-     * Line dash path effect used for shapes that consist of lines.
-     */
-    private DashPathEffect mFormLineDashEffect = null;
+    private final float mFormSize = 8f;
 
     /**
      * the space between the legend entries on a horizontal axis, default 6f
@@ -130,17 +107,12 @@ public class Legend extends ComponentBase {
      * private float mYEntrySpace = 2f; /** the space between the form and the
      * actual label/text
      */
-    private float mFormToTextSpace = 5f;
+    private final float mFormToTextSpace = 5f;
 
     /**
      * the space that should be left between stacked forms
      */
-    private float mStackSpace = 3f;
-
-    /**
-     * the maximum relative size out of the whole chart view in percent
-     */
-    private float mMaxSizePercent = 0.95f;
+    private final float mStackSpace = 3f;
 
     /**
      * default constructor
@@ -158,43 +130,11 @@ public class Legend extends ComponentBase {
      * @param entries
      */
     public void setEntries(List<LegendEntry> entries) {
-        mEntries = entries.toArray(new LegendEntry[entries.size()]);
+        mEntries = entries.toArray(new LegendEntry[0]);
     }
 
     public LegendEntry[] getEntries() {
         return mEntries;
-    }
-
-    /**
-     * returns the maximum length in pixels across all legend labels + formsize
-     * + formtotextspace
-     *
-     * @param p the paint object used for rendering the text
-     * @return
-     */
-    public float getMaximumEntryWidth(Paint p) {
-
-        float max = 0f;
-        float maxFormSize = 0f;
-        float formToTextSpace = Utils.convertDpToPixel(mFormToTextSpace);
-
-        for (LegendEntry entry : mEntries) {
-            final float formSize = Utils.convertDpToPixel(
-                    Float.isNaN(entry.formSize)
-                    ? mFormSize : entry.formSize);
-            if (formSize > maxFormSize)
-                maxFormSize = formSize;
-
-            String label = entry.label;
-            if (label == null) continue;
-
-            float length = (float) Utils.calcTextWidth(p, label);
-
-            if (length > max)
-                max = length;
-        }
-
-        return max + maxFormSize + formToTextSpace;
     }
 
     /**
@@ -203,7 +143,7 @@ public class Legend extends ComponentBase {
      * @param p the paint object used for rendering the text
      * @return
      */
-    public float getMaximumEntryHeight(Paint p) {
+    private float getMaximumEntryHeight(Paint p) {
 
         float max = 0f;
 
@@ -220,45 +160,13 @@ public class Legend extends ComponentBase {
         return max;
     }
 
-    public LegendEntry[] getExtraEntries() {
-
-        return mExtraEntries;
-    }
-
-    /**
-     * Sets a custom legend's entries array.
-     * * A null label will start a group.
-     * This will disable the feature that automatically calculates the legend
-     *   entries from the datasets.
-     * Call resetCustom() to re-enable automatic calculation (and then
-     *   notifyDataSetChanged() is needed to auto-calculate the legend again)
-     */
-    public void setCustom(LegendEntry[] entries) {
-
-        mEntries = entries;
-        mIsLegendCustom = true;
-    }
-
-    /**
-     * Sets a custom legend's entries array.
-     * * A null label will start a group.
-     * This will disable the feature that automatically calculates the legend
-     *   entries from the datasets.
-     * Call resetCustom() to re-enable automatic calculation (and then
-     *   notifyDataSetChanged() is needed to auto-calculate the legend again)
-     */
-    public void setCustom(List<LegendEntry> entries) {
-
-        mEntries = entries.toArray(new LegendEntry[entries.size()]);
-        mIsLegendCustom = true;
-    }
 
     /**
      * @return true if a custom legend entries has been set default
      * false (automatic legend)
      */
     public boolean isLegendCustom() {
-        return mIsLegendCustom;
+        return true;
     }
 
     /**
@@ -366,14 +274,14 @@ public class Legend extends ComponentBase {
      * @return
      */
     public float getFormLineWidth() {
-        return mFormLineWidth;
+        return 3f;
     }
 
     /**
      * @return The line dash path effect used for shapes that consist of lines.
      */
     public DashPathEffect getFormLineDashEffect() {
-        return mFormLineDashEffect;
+        return null;
     }
 
     /**
@@ -445,22 +353,6 @@ public class Legend extends ComponentBase {
 
     public float mTextHeightMax = 0f;
 
-    public float mTextWidthMax = 0f;
-
-    /**
-     * flag that indicates if word wrapping is enabled
-     */
-    private boolean mWordWrapEnabled = false;
-
-    /**
-     * If this is set, then word wrapping the legend is enabled. This means the
-     * legend will not be cut off if too long.
-     *
-     * @return
-     */
-    public boolean isWordWrapEnabled() {
-        return mWordWrapEnabled;
-    }
 
     /**
      * The maximum relative size out of the whole chart view. / If the legend is
@@ -473,12 +365,15 @@ public class Legend extends ComponentBase {
      * @return
      */
     public float getMaxSizePercent() {
-        return mMaxSizePercent;
+        /**
+         * the maximum relative size out of the whole chart view in percent
+         */
+        return 0.95f;
     }
 
-    private List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);
-    private List<Boolean> mCalculatedLabelBreakPoints = new ArrayList<>(16);
-    private List<FSize> mCalculatedLineSizes = new ArrayList<>(16);
+    private final List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);
+    private final List<Boolean> mCalculatedLabelBreakPoints = new ArrayList<>(16);
+    private final List<FSize> mCalculatedLineSizes = new ArrayList<>(16);
 
     public List<FSize> getCalculatedLabelSizes() {
         return mCalculatedLabelSizes;
@@ -506,11 +401,9 @@ public class Legend extends ComponentBase {
         float formToTextSpace = Utils.convertDpToPixel(mFormToTextSpace);
         float xEntrySpace = Utils.convertDpToPixel(mXEntrySpace);
         float yEntrySpace = Utils.convertDpToPixel(mYEntrySpace);
-        boolean wordWrapEnabled = mWordWrapEnabled;
         LegendEntry[] entries = mEntries;
         int entryCount = entries.length;
 
-        mTextWidthMax = getMaximumEntryWidth(labelpaint);
         mTextHeightMax = getMaximumEntryHeight(labelpaint);
 
         switch (mOrientation) {
@@ -573,7 +466,6 @@ public class Legend extends ComponentBase {
 
                 float labelLineHeight = Utils.getLineHeight(labelpaint);
                 float labelLineSpacing = Utils.getLineSpacing(labelpaint) + yEntrySpace;
-                float contentWidth = viewPortHandler.contentWidth() * mMaxSizePercent;
 
                 // Start calculating layout
                 float maxLineWidth = 0.f;
@@ -626,26 +518,11 @@ public class Legend extends ComponentBase {
 
                         float requiredSpacing = currentLineWidth == 0.f ? 0.f : xEntrySpace;
 
-                        if (!wordWrapEnabled // No word wrapping, it must fit.
-                                // The line is empty, it must fit
-                                || currentLineWidth == 0.f
-                                // It simply fits
-                                || (contentWidth - currentLineWidth >=
-                                requiredSpacing + requiredWidth)) {
-                            // Expand current line
-                            currentLineWidth += requiredSpacing + requiredWidth;
-                        } else { // It doesn't fit, we need to wrap a line
-
-                            // Add current line size to array
-                            mCalculatedLineSizes.add(FSize.getInstance(currentLineWidth, labelLineHeight));
-                            maxLineWidth = Math.max(maxLineWidth, currentLineWidth);
-
-                            // Start a new line
-                            mCalculatedLabelBreakPoints.set(
-                                    stackedStartIndex > -1 ? stackedStartIndex
-                                            : i, true);
-                            currentLineWidth = requiredWidth;
-                        }
+                        // No word wrapping, it must fit.
+                        // The line is empty, it must fit
+                        // It simply fits
+                        // Expand current line
+                        currentLineWidth += requiredSpacing + requiredWidth;
 
                         if (i == entryCount - 1) {
                             // Add last line size to array

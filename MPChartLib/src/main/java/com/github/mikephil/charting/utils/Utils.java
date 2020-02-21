@@ -1,27 +1,16 @@
 package com.github.mikephil.charting.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.text.Layout;
-import android.text.StaticLayout;
-import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
-import android.view.VelocityTracker;
-import android.view.View;
-import android.view.ViewConfiguration;
 
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-
-import java.util.List;
 
 /**
  * Utilities class that has some helper methods. Needs to be initialized by
@@ -57,8 +46,6 @@ public abstract class Utils {
                     , "Utils.init(...) PROVIDED CONTEXT OBJECT IS NULL");
 
         } else {
-            ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
-
             Resources res = context.getResources();
             mMetrics = res.getDisplayMetrics();
         }
@@ -112,7 +99,7 @@ public abstract class Utils {
         return (int) paint.measureText(demoText);
     }
 
-    private static Rect mCalcTextHeightRect = new Rect();
+    private static final Rect mCalcTextHeightRect = new Rect();
     /**
      * calculates the approximate height of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
@@ -129,7 +116,7 @@ public abstract class Utils {
         return r.height();
     }
 
-    private static Paint.FontMetrics mFontMetrics = new Paint.FontMetrics();
+    private static final Paint.FontMetrics mFontMetrics = new Paint.FontMetrics();
 
     public static float getLineHeight(Paint paint) {
         return getLineHeight(paint, mFontMetrics);
@@ -165,7 +152,7 @@ public abstract class Utils {
         return result;
     }
 
-    private static Rect mCalcTextSizeRect = new Rect();
+    private static final Rect mCalcTextSizeRect = new Rect();
     /**
      * calculates the approximate size of a text, depending on a demo text
      * avoid repeated calls (e.g. inside drawing methods)
@@ -174,7 +161,7 @@ public abstract class Utils {
      * @param demoText
      * @param outputFSize An output variable, modified by the function.
      */
-    public static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
+    private static void calcTextSize(Paint paint, String demoText, FSize outputFSize) {
 
         Rect r = mCalcTextSizeRect;
         r.set(0,0,0,0);
@@ -185,7 +172,7 @@ public abstract class Utils {
     }
 
 
-    private static ValueFormatter mDefaultValueFormatter = generateDefaultValueFormatter();
+    private static final ValueFormatter mDefaultValueFormatter = generateDefaultValueFormatter();
 
     private static ValueFormatter generateDefaultValueFormatter() {
         return new DefaultValueFormatter(1);
@@ -255,31 +242,7 @@ public abstract class Utils {
         outputPoint.y = (float) (center.y + dist * Math.sin(Math.toRadians(angle)));
     }
 
-    /**
-     * Original method view.postInvalidateOnAnimation() only supportd in API >=
-     * 16, This is a replica of the code from ViewCompat.
-     *
-     * @param view
-     */
-    @SuppressLint("NewApi")
-    public static void postInvalidateOnAnimation(View view) {
-        if (Build.VERSION.SDK_INT >= 16)
-            view.postInvalidateOnAnimation();
-        else
-            view.postInvalidateDelayed(10);
-    }
-
-    /**
-     * returns an angle between 0.f < 360.f (not less than zero, less than 360)
-     */
-    public static float getNormalizedAngle(float angle) {
-        while (angle < 0.f)
-            angle += 360.f;
-
-        return angle % 360.f;
-    }
-
-    private static Rect mDrawableBoundsCache = new Rect();
+    private static final Rect mDrawableBoundsCache = new Rect();
 
     public static void drawImage(Canvas canvas,
                                  Drawable drawable,
@@ -287,8 +250,8 @@ public abstract class Utils {
                                  int width, int height) {
 
         MPPointF drawOffset = MPPointF.getInstance();
-        drawOffset.x = x - (width / 2);
-        drawOffset.y = y - (height / 2);
+        drawOffset.x = x - (width / 2f);
+        drawOffset.y = y - (height / 2f);
 
         drawable.copyBounds(mDrawableBoundsCache);
         drawable.setBounds(
@@ -304,8 +267,8 @@ public abstract class Utils {
         canvas.restoreToCount(saveId);
     }
 
-    private static Rect mDrawTextRectBuffer = new Rect();
-    private static Paint.FontMetrics mFontMetricsBuffer = new Paint.FontMetrics();
+    private static final Rect mDrawTextRectBuffer = new Rect();
+    private static final Paint.FontMetrics mFontMetricsBuffer = new Paint.FontMetrics();
 
     public static void drawXAxisValue(Canvas c, String text, float x, float y,
                                       Paint paint,
@@ -397,7 +360,7 @@ public abstract class Utils {
      * @param radians
      * @return A Recyclable FSize instance
      */
-    public static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
+    private static FSize getSizeOfRotatedRectangleByRadians(float rectangleWidth, float
             rectangleHeight, float radians) {
         return FSize.getInstance(
                 Math.abs(rectangleWidth * (float) Math.cos(radians)) + Math.abs(rectangleHeight *
@@ -407,6 +370,7 @@ public abstract class Utils {
         );
     }
 
+    @SuppressWarnings("SameReturnValue")
     public static int getSDKInt() {
         return android.os.Build.VERSION.SDK_INT;
     }

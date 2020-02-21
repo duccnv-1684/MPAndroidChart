@@ -6,9 +6,6 @@ import android.graphics.DashPathEffect;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 public class LegendEntry {
-    public LegendEntry() {
-
-    }
 
     /**
      *
@@ -38,7 +35,7 @@ public class LegendEntry {
      * The legend entry text.
      * A `null` label will start a group.
      */
-    public String label;
+    public final String label;
 
     /**
      * The form to draw for this entry.
@@ -47,32 +44,32 @@ public class LegendEntry {
      * `EMPTY` will avoid drawing a form, but keep its space.
      * `DEFAULT` will use the Legend's default.
      */
-    public Legend.LegendForm form = Legend.LegendForm.DEFAULT;
+    public final Legend.LegendForm form;
 
     /**
      * Form size will be considered except for when .None is used
      *
      * Set as NaN to use the legend's default
      */
-    public float formSize = Float.NaN;
+    public final float formSize;
 
     /**
      * Line width used for shapes that consist of lines.
      *
      * Set as NaN to use the legend's default
      */
-    public float formLineWidth = Float.NaN;
+    public final float formLineWidth;
 
     /**
      * Line dash path effect used for shapes that consist of lines.
      *
      * Set to null to use the legend's default
      */
-    public DashPathEffect formLineDashEffect = null;
+    public final DashPathEffect formLineDashEffect;
 
     /**
      * The color for drawing the form
      */
-    public int formColor = ColorTemplate.COLOR_NONE;
+    public final int formColor;
 
 }

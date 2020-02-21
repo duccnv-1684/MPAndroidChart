@@ -3,7 +3,6 @@ package com.github.mikephil.charting.data;
 import android.graphics.Typeface;
 
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 
 import java.util.ArrayList;
@@ -20,69 +19,42 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     /**
      * maximum y-value in the value array across all axes
      */
-    protected float mYMax = -Float.MAX_VALUE;
+    private float mYMax = -Float.MAX_VALUE;
 
     /**
      * the minimum y-value in the value array across all axes
      */
-    protected float mYMin = Float.MAX_VALUE;
+    private float mYMin = Float.MAX_VALUE;
 
     /**
      * maximum x-value in the value array
      */
-    protected float mXMax = -Float.MAX_VALUE;
+    private float mXMax = -Float.MAX_VALUE;
 
     /**
      * minimum x-value in the value array
      */
-    protected float mXMin = Float.MAX_VALUE;
+    private float mXMin = Float.MAX_VALUE;
 
 
-    protected float mLeftAxisMax = -Float.MAX_VALUE;
+    private float mLeftAxisMax = -Float.MAX_VALUE;
 
-    protected float mLeftAxisMin = Float.MAX_VALUE;
+    private float mLeftAxisMin = Float.MAX_VALUE;
 
-    protected float mRightAxisMax = -Float.MAX_VALUE;
+    private float mRightAxisMax = -Float.MAX_VALUE;
 
-    protected float mRightAxisMin = Float.MAX_VALUE;
+    private float mRightAxisMin = Float.MAX_VALUE;
 
     /**
      * array that holds all DataSets the ChartData object represents
      */
-    protected List<T> mDataSets;
+    final List<T> mDataSets;
 
     /**
      * Default constructor.
      */
-    public ChartData() {
-        mDataSets = new ArrayList<T>();
-    }
-
-    /**
-     * Constructor taking single or multiple DataSet objects.
-     *
-     * @param dataSets
-     */
-    public ChartData(T... dataSets) {
-        mDataSets = arrayToList(dataSets);
-        notifyDataChanged();
-    }
-
-    /**
-     * Created because Arrays.asList(...) does not support modification.
-     *
-     * @param array
-     * @return
-     */
-    private List<T> arrayToList(T[] array) {
-
-        List<T> list = new ArrayList<>();
-
-        for (T set : array) {
-            list.add(set);
-        }
-
-        return list;
+    ChartData() {
+        mDataSets = new ArrayList<>();
     }
 
     /**
@@ -90,7 +62,7 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      *
      * @param sets the dataset array
      */
-    public ChartData(List<T> sets) {
+    ChartData(List<T> sets) {
         this.mDataSets = sets;
         notifyDataChanged();
     }
@@ -100,14 +72,14 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      * changed. Calling this performs all necessary recalculations needed when
      * the contained data has changed.
      */
-    public void notifyDataChanged() {
+    private void notifyDataChanged() {
         calcMinMax();
     }
 
     /**
      * Calc minimum and maximum values (both x and y) over all DataSets.
      */
-    protected void calcMinMax() {
+    private void calcMinMax() {
 
         if (mDataSets == null)
             return;
@@ -165,8 +137,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         }
     }
 
-    /** ONLY GETTERS AND SETTERS BELOW THIS */
-
     /**
      * returns the number of LineDataSets this object contains
      *
@@ -195,16 +165,11 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      */
     public float getYMin(AxisDependency axis) {
         if (axis == AxisDependency.LEFT) {
-
-            if (mLeftAxisMin == Float.MAX_VALUE) {
-                return mRightAxisMin;
-            } else
-                return mLeftAxisMin;
+            if (mLeftAxisMin == Float.MAX_VALUE) return mRightAxisMin;
+            else return mLeftAxisMin;
         } else {
-            if (mRightAxisMin == Float.MAX_VALUE) {
-                return mLeftAxisMin;
-            } else
-                return mRightAxisMin;
+            if (mRightAxisMin == Float.MAX_VALUE) return mLeftAxisMin;
+            else return mRightAxisMin;
         }
     }
 
@@ -247,20 +212,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         return mDataSets;
     }
 
-    /**
-     * Get the Entry for a corresponding highlight object
-     *
-     * @param highlight
-     * @return the entry that is highlighted
-     */
-    public Entry getEntryForHighlight(Highlight highlight) {
-        if (highlight.getDataSetIndex() >= mDataSets.size())
-            return null;
-        else {
-            return mDataSets.get(highlight.getDataSetIndex()).getEntryForXValue(highlight.getX(), highlight.getY());
-        }
-    }
-
     public T getDataSetByIndex(int index) {
 
         if (mDataSets == null || index < 0 || index >= mDataSets.size())
@@ -274,7 +225,7 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      *
      * @param d
      */
-    protected void calcMinMax(T d) {
+    private void calcMinMax(T d) {
 
         if (mYMax < d.getYMax())
             mYMax = d.getYMax();
@@ -306,7 +257,7 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      *
      * @return
      */
-    protected T getFirstLeft(List<T> sets) {
+    private T getFirstLeft(List<T> sets) {
         for (T dataSet : sets) {
             if (dataSet.getAxisDependency() == AxisDependency.LEFT)
                 return dataSet;
@@ -320,7 +271,7 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
      *
      * @return
      */
-    public T getFirstRight(List<T> sets) {
+    private T getFirstRight(List<T> sets) {
         for (T dataSet : sets) {
             if (dataSet.getAxisDependency() == AxisDependency.RIGHT)
                 return dataSet;
@@ -374,17 +325,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         for (IDataSet set : mDataSets) {
             set.setDrawValues(enabled);
         }
-    }
-
-    /**
-     * Clears this data object from all DataSets and removes all Entries. Don't
-     * forget to invalidate the chart after this.
-     */
-    public void clearValues() {
-        if (mDataSets != null) {
-            mDataSets.clear();
-        }
-        notifyDataChanged();
     }
 
     /**

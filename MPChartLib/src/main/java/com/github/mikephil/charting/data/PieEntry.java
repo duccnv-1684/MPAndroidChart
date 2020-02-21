@@ -9,30 +9,6 @@ import android.util.Log;
 @SuppressLint("ParcelCreator")
 public class PieEntry extends Entry {
 
-    private String label;
-
-    public PieEntry(float value, String label, Object data) {
-        super(0f, value, data);
-        this.label = label;
-    }
-
-    /**
-     * This is the same as getY(). Returns the value of the PieEntry.
-     *
-     * @return
-     */
-    public float getValue() {
-        return getY();
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     @Deprecated
     @Override
     public void setX(float x) {
@@ -47,8 +23,4 @@ public class PieEntry extends Entry {
         return super.getX();
     }
 
-    public PieEntry copy() {
-        PieEntry e = new PieEntry(getY(), label, getData());
-        return e;
-    }
 }

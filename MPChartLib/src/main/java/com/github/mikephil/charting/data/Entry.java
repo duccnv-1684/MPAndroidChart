@@ -1,12 +1,11 @@
 
 package com.github.mikephil.charting.data;
 
-import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.ParcelFormatException;
 import android.os.Parcelable;
 
-import com.github.mikephil.charting.utils.Utils;
+import com.github.mikephil.charting.data.base.BaseEntry;
 
 /**
  * Class representing one entry in the chart. Might contain multiple values.
@@ -19,56 +18,18 @@ public class Entry extends BaseEntry implements Parcelable {
     /** the x value */
     private float x = 0f;
 
-    public Entry() {
+    Entry() {
 
     }
 
     /**
      * A Entry represents one single entry in the chart.
      *
-     * @param x the x value
      * @param y the y value (the actual value of the entry)
      */
-    public Entry(float x, float y) {
+    Entry(float y) {
         super(y);
-        this.x = x;
-    }
-
-    /**
-     * A Entry represents one single entry in the chart.
-     *
-     * @param x the x value
-     * @param y the y value (the actual value of the entry)
-     * @param data Spot for additional data this Entry represents.
-     */
-    public Entry(float x, float y, Object data) {
-        super(y, data);
-        this.x = x;
-    }
-
-    /**
-     * A Entry represents one single entry in the chart.
-     *
-     * @param x the x value
-     * @param y the y value (the actual value of the entry)
-     * @param icon icon image
-     */
-    public Entry(float x, float y, Drawable icon) {
-        super(y, icon);
-        this.x = x;
-    }
-
-    /**
-     * A Entry represents one single entry in the chart.
-     *
-     * @param x the x value
-     * @param y the y value (the actual value of the entry)
-     * @param icon icon image
-     * @param data Spot for additional data this Entry represents.
-     */
-    public Entry(float x, float y, Drawable icon, Object data) {
-        super(y, icon, data);
-        this.x = x;
+        this.x = (float) 0.0;
     }
 
     /**
@@ -85,43 +46,8 @@ public class Entry extends BaseEntry implements Parcelable {
      * 
      * @param x
      */
-    public void setX(float x) {
+    void setX(float x) {
         this.x = x;
-    }
-
-    /**
-     * returns an exact copy of the entry
-     * 
-     * @return
-     */
-    public Entry copy() {
-        Entry e = new Entry(x, getY(), getData());
-        return e;
-    }
-
-    /**
-     * Compares value, xIndex and data of the entries. Returns true if entries
-     * are equal in those points, false if not. Does not check by hash-code like
-     * it's done by the "equals" method.
-     * 
-     * @param e
-     * @return
-     */
-    public boolean equalTo(Entry e) {
-
-        if (e == null)
-            return false;
-
-        if (e.getData() != this.getData())
-            return false;
-
-        if (Math.abs(e.x - this.x) > Utils.FLOAT_EPSILON)
-            return false;
-
-        if (Math.abs(e.getY() - this.getY()) > Utils.FLOAT_EPSILON)
-            return false;
-
-        return true;
     }
 
     /**
@@ -153,7 +79,7 @@ public class Entry extends BaseEntry implements Parcelable {
         }
     }
 
-    protected Entry(Parcel in) {
+    private Entry(Parcel in) {
         this.x = in.readFloat();
         this.setY(in.readFloat());
         if (in.readInt() == 1) {

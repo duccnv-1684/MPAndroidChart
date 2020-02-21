@@ -1,4 +1,4 @@
-package com.github.mikephil.charting.data;
+package com.github.mikephil.charting.data.base;
 
 import android.graphics.drawable.Drawable;
 
@@ -13,31 +13,12 @@ public abstract class BaseEntry {
     /** optional spot for additional data this Entry represents */
     private Object mData = null;
 
-    /** optional icon image */
-    private Drawable mIcon = null;
-
-    public BaseEntry() {
+    protected BaseEntry() {
 
     }
 
-    public BaseEntry(float y) {
+    protected BaseEntry(float y) {
         this.y = y;
-    }
-
-    public BaseEntry(float y, Object data) {
-        this(y);
-        this.mData = data;
-    }
-
-    public BaseEntry(float y, Drawable icon) {
-        this(y);
-        this.mIcon = icon;
-    }
-
-    public BaseEntry(float y, Drawable icon, Object data) {
-        this(y);
-        this.mIcon = icon;
-        this.mData = data;
     }
 
     /**
@@ -55,7 +36,7 @@ public abstract class BaseEntry {
      * @return
      */
     public Drawable getIcon() {
-        return mIcon;
+        return null;
     }
 
     /**

@@ -10,15 +10,14 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 public class XAxisRendererRadarChart extends XAxisRenderer {
 
-    private RadarChart mChart;
+    private final RadarChart mChart;
 
     public XAxisRendererRadarChart(ViewPortHandler viewPortHandler, XAxis xAxis, RadarChart chart) {
-        super(viewPortHandler, xAxis, null);
+        super(viewPortHandler, xAxis);
 
         mChart = chart;
     }
 
-    @Override
     public void renderAxisLabels(Canvas c) {
 
         if (!mXAxis.isEnabled() || !mXAxis.isDrawLabelsEnabled())
@@ -41,7 +40,7 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         MPPointF pOut = MPPointF.getInstance(0,0);
         for (int i = 0; i < mChart.getData().getMaxEntryCountSet().getEntryCount(); i++) {
 
-            String label = mXAxis.getValueFormatter().getAxisLabel(i, mXAxis);
+            String label = mXAxis.getValueFormatter().getAxisLabel(i);
 
             float angle = (sliceangle * i + mChart.getRotationAngle()) % 360f;
 
@@ -57,13 +56,4 @@ public class XAxisRendererRadarChart extends XAxisRenderer {
         MPPointF.recycleInstance(drawLabelAnchor);
     }
 
-	/**
-	 * XAxis LimitLines on RadarChart not yet supported.
-	 *
-	 * @param c
-	 */
-	@Override
-	public void renderLimitLines(Canvas c) {
-		// this space intentionally left blank
-	}
 }

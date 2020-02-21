@@ -45,14 +45,4 @@ public interface ILineRadarDataSet<T extends Entry> extends ILineScatterCandleRa
      */
     boolean isDrawFilledEnabled();
 
-    /**
-     * Set to true if the DataSet should be drawn filled (surface), and not just
-     * as a line, disabling this will give great performance boost. Please note that this method
-     * uses the canvas.clipPath(...) method for drawing the filled area.
-     * For devices with API level < 18 (Android 4.3), hardware acceleration of the chart should
-     * be turned off. Default: false
-     *
-     * @param enabled
-     */
-    void setDrawFilled(boolean enabled);
 }

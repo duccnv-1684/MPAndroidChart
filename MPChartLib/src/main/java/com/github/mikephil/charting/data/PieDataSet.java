@@ -2,54 +2,17 @@
 package com.github.mikephil.charting.data;
 
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
-import com.github.mikephil.charting.utils.Utils;
-import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
-    /**
-     * the space in pixels between the chart-slices, default 0f
-     */
-    private float mSliceSpace = 0f;
-    private boolean mAutomaticallyDisableSliceSpacing;
-
-    /**
-     * indicates the selection distance of a pie slice
-     */
-    private float mShift = 18f;
-
-    private ValuePosition mXValuePosition = ValuePosition.INSIDE_SLICE;
-    private ValuePosition mYValuePosition = ValuePosition.INSIDE_SLICE;
-    private int mValueLineColor = 0xff000000;
-    private boolean mUseValueColorForLine = false;
-    private float mValueLineWidth = 1.0f;
-    private float mValueLinePart1OffsetPercentage = 75.f;
-    private float mValueLinePart1Length = 0.3f;
-    private float mValueLinePart2Length = 0.4f;
-    private boolean mValueLineVariableLength = true;
-    private Integer mHighlightColor = null;
+    private final ValuePosition mXValuePosition = ValuePosition.INSIDE_SLICE;
+    private final ValuePosition mYValuePosition = ValuePosition.INSIDE_SLICE;
 
     public PieDataSet(List<PieEntry> yVals, String label) {
         super(yVals, label);
 //        mShift = Utils.convertDpToPixel(12f);
-    }
-
-    @Override
-    public DataSet<PieEntry> copy() {
-        List<PieEntry> entries = new ArrayList<>();
-        for (int i = 0; i < mEntries.size(); i++) {
-            entries.add(mEntries.get(i).copy());
-        }
-        PieDataSet copied = new PieDataSet(entries, getLabel());
-        copy(copied);
-        return copied;
-    }
-
-    protected void copy(PieDataSet pieDataSet) {
-        super.copy(pieDataSet);
     }
 
     @Override
@@ -63,23 +26,13 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
     @Override
     public float getSliceSpace() {
-        return mSliceSpace;
+        return 0f;
     }
 
-    /**
-     * When enabled, slice spacing will be 0.0 when the smallest value is going to be
-     * smaller than the slice spacing itself.
-     *
-     * @return
-     */
-    @Override
-    public boolean isAutomaticallyDisableSliceSpacingEnabled() {
-        return mAutomaticallyDisableSliceSpacing;
-    }
 
     @Override
     public float getSelectionShift() {
-        return mShift;
+        return 18f;
     }
 
     @Override
@@ -93,50 +46,26 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
     }
 
     /**
-     * This method is deprecated.
-     * Use isUseValueColorForLineEnabled() instead.
-     */
-    @Deprecated
-    public boolean isUsingSliceColorAsValueLineColor() {
-        return isUseValueColorForLineEnabled();
-    }
-
-    /**
-     * This method is deprecated.
-     * Use setUseValueColorForLine(...) instead.
-     *
-     * @param enabled
-     */
-    @Deprecated
-    public void setUsingSliceColorAsValueLineColor(boolean enabled) {
-        setUseValueColorForLine(enabled);
-    }
-
-    /**
      * When valuePosition is OutsideSlice, indicates line color
      */
     @Override
     public int getValueLineColor() {
-        return mValueLineColor;
+        return 0xff000000;
     }
 
     @Override
     public boolean isUseValueColorForLineEnabled()
     {
-        return mUseValueColorForLine;
+        return false;
     }
 
-    public void setUseValueColorForLine(boolean enabled)
-    {
-        mUseValueColorForLine = enabled;
-    }
 
     /**
      * When valuePosition is OutsideSlice, indicates line width
      */
     @Override
     public float getValueLineWidth() {
-        return mValueLineWidth;
+        return 1.0f;
     }
 
     /**
@@ -144,7 +73,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
      */
     @Override
     public float getValueLinePart1OffsetPercentage() {
-        return mValueLinePart1OffsetPercentage;
+        return 75.f;
     }
 
     /**
@@ -152,7 +81,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
      */
     @Override
     public float getValueLinePart1Length() {
-        return mValueLinePart1Length;
+        return 0.3f;
     }
 
     /**
@@ -160,7 +89,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
      */
     @Override
     public float getValueLinePart2Length() {
-        return mValueLinePart2Length;
+        return 0.4f;
     }
 
     /**
@@ -168,15 +97,7 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
      */
     @Override
     public boolean isValueLineVariableLength() {
-        return mValueLineVariableLength;
-    }
-
-    /** Gets the color for the highlighted sector */
-    @Override
-    @Nullable
-    public Integer getHighlightColor()
-    {
-        return mHighlightColor;
+        return true;
     }
 
 

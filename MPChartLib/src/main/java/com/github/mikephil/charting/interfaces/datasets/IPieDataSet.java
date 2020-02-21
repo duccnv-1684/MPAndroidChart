@@ -1,7 +1,5 @@
 package com.github.mikephil.charting.interfaces.datasets;
 
-import androidx.annotation.Nullable;
-
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 
@@ -18,13 +16,6 @@ public interface IPieDataSet extends IDataSet<PieEntry> {
      */
     float getSliceSpace();
 
-    /**
-     * When enabled, slice spacing will be 0.0 when the smallest value is going to be
-     *   smaller than the slice spacing itself.
-     *
-     * @return
-     */
-    boolean isAutomaticallyDisableSliceSpacingEnabled();
 
     /**
      * Returns the distance a highlighted piechart slice is "shifted" away from
@@ -71,12 +62,6 @@ public interface IPieDataSet extends IDataSet<PieEntry> {
      * When valuePosition is OutsideSlice, this allows variable line length
      * */
     boolean isValueLineVariableLength();
-
-    /**
-     * Gets the color for the highlighted sector
-     * */
-    @Nullable
-    Integer getHighlightColor();
 
 }
 

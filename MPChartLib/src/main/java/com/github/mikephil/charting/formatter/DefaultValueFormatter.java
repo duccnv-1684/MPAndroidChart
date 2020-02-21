@@ -14,9 +14,7 @@ public class DefaultValueFormatter extends ValueFormatter
     /**
      * DecimalFormat for formatting
      */
-    protected DecimalFormat mFormat;
-
-    protected int mDecimalDigits;
+    private DecimalFormat mFormat;
 
     /**
      * Constructor that specifies to how many digits the value should be
@@ -35,9 +33,7 @@ public class DefaultValueFormatter extends ValueFormatter
      */
     public void setup(int digits) {
 
-        this.mDecimalDigits = digits;
-
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         for (int i = 0; i < digits; i++) {
             if (i == 0)
                 b.append(".");

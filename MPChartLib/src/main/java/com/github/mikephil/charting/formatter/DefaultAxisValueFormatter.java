@@ -11,12 +11,12 @@ public class DefaultAxisValueFormatter extends ValueFormatter
     /**
      * decimalformat for formatting
      */
-    protected DecimalFormat mFormat;
+    private final DecimalFormat mFormat;
 
     /**
      * the number of decimal digits this formatter uses
      */
-    protected int digits;
+    private final int digits;
 
     /**
      * Constructor that specifies to how many digits the value should be
@@ -27,7 +27,7 @@ public class DefaultAxisValueFormatter extends ValueFormatter
     public DefaultAxisValueFormatter(int digits) {
         this.digits = digits;
 
-        StringBuffer b = new StringBuffer();
+        StringBuilder b = new StringBuilder();
         for (int i = 0; i < digits; i++) {
             if (i == 0)
                 b.append(".");

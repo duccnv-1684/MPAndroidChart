@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.RadarData;
-import com.github.mikephil.charting.highlight.RadarHighlighter;
 import com.github.mikephil.charting.renderer.RadarChartRenderer;
 import com.github.mikephil.charting.renderer.XAxisRendererRadarChart;
 import com.github.mikephil.charting.renderer.YAxisRendererRadarChart;
@@ -50,22 +49,12 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     private int mWebAlpha = 150;
 
     /**
-     * flag indicating if the web lines should be drawn or not
-     */
-    private boolean mDrawWeb = true;
-
-    /**
-     * modulus that determines how many labels and web-lines are skipped before the next is drawn
-     */
-    private int mSkipWebLineCount = 0;
-
-    /**
      * the object reprsenting the y-axis labels
      */
     private YAxis mYAxis;
 
-    protected YAxisRendererRadarChart mYAxisRenderer;
-    protected XAxisRendererRadarChart mXAxisRenderer;
+    private YAxisRendererRadarChart mYAxisRenderer;
+    private XAxisRendererRadarChart mXAxisRenderer;
 
     public RadarChart(Context context) {
         super(context);
@@ -83,7 +72,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     protected void init() {
         super.init();
 
-        mYAxis = new YAxis(AxisDependency.LEFT);
+        mYAxis = new YAxis();
         mYAxis.setLabelXOffset(10f);
 
         mWebLineWidth = Utils.convertDpToPixel(1.5f);
@@ -93,11 +82,10 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         mYAxisRenderer = new YAxisRendererRadarChart(mViewPortHandler, mYAxis, this);
         mXAxisRenderer = new XAxisRendererRadarChart(mViewPortHandler, mXAxis, this);
 
-        mHighlighter = new RadarHighlighter(this);
     }
 
     @Override
-    protected void calcMinMax() {
+    void calcMinMax() {
         super.calcMinMax();
 
         mYAxis.calculate(mData.getYMin(AxisDependency.LEFT), mData.getYMax(AxisDependency.LEFT));
@@ -114,7 +102,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         mYAxisRenderer.computeAxis(mYAxis.mAxisMinimum, mYAxis.mAxisMaximum, mYAxis.isInverted());
         mXAxisRenderer.computeAxis(mXAxis.mAxisMinimum, mXAxis.mAxisMaximum, false);
 
-        if (mLegend != null && !mLegend.isLegendCustom())
+        if (mLegend != null && mLegend.isLegendCustom())
             mLegendRenderer.computeLegend(mData);
 
         calculateOffsets();
@@ -135,16 +123,12 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
         mXAxisRenderer.renderAxisLabels(canvas);
 
-        if (mDrawWeb)
-            mRenderer.drawExtras(canvas);
+        mRenderer.drawExtras(canvas);
 
         if (mYAxis.isEnabled() && mYAxis.isDrawLimitLinesBehindDataEnabled())
             mYAxisRenderer.renderLimitLines(canvas);
 
         mRenderer.drawData(canvas);
-
-        if (valuesToHighlight())
-            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
         if (mYAxis.isEnabled() && !mYAxis.isDrawLimitLinesBehindDataEnabled())
             mYAxisRenderer.renderLimitLines(canvas);
@@ -157,7 +141,6 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
         drawDescription(canvas);
 
-        drawMarkers(canvas);
     }
 
     /**
@@ -177,31 +160,6 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      */
     public float getSliceAngle() {
         return 360f / (float) mData.getMaxEntryCountSet().getEntryCount();
-    }
-
-    @Override
-    public int getIndexForAngle(float angle) {
-
-        // take the current angle of the chart into consideration
-        float a = Utils.getNormalizedAngle(angle - getRotationAngle());
-
-        float sliceangle = getSliceAngle();
-
-        int max = mData.getMaxEntryCountSet().getEntryCount();
-
-        int index = 0;
-
-        for (int i = 0; i < max; i++) {
-
-            float referenceAngle = sliceangle * (i + 1) - sliceangle / 2f;
-
-            if (referenceAngle > a) {
-                index = i;
-                break;
-            }
-        }
-
-        return index;
     }
 
     /**
@@ -295,7 +253,7 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
      * @return
      */
     public int getSkipWebLineCount() {
-        return mSkipWebLineCount;
+        return 0;
     }
 
     @Override
@@ -314,13 +272,6 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
     public float getRadius() {
         RectF content = mViewPortHandler.getContentRect();
         return Math.min(content.width() / 2f, content.height() / 2f);
-    }
-
-    /**
-     * Returns the maximum value this chart can display on it's y-axis.
-     */
-    public float getYChartMax() {
-        return mYAxis.mAxisMaximum;
     }
 
     /**

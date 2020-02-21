@@ -1,10 +1,5 @@
 package com.github.mikephil.charting.components;
 
-import android.graphics.Color;
-import android.graphics.Paint;
-
-import com.github.mikephil.charting.utils.Utils;
-
 /**
  * Class representing the y-axis labels settings and its entries. Only use the setter methods to
  * modify it. Do not
@@ -19,26 +14,6 @@ import com.github.mikephil.charting.utils.Utils;
 public class YAxis extends AxisBase {
 
     /**
-     * indicates if the bottom y-label entry is drawn or not
-     */
-    private boolean mDrawBottomYLabelEntry = true;
-
-    /**
-     * indicates if the top y-label entry is drawn or not
-     */
-    private boolean mDrawTopYLabelEntry = true;
-
-    /**
-     * flag that indicates if the axis is inverted or not
-     */
-    protected boolean mInverted = false;
-
-    /**
-     * flag that indicates if the zero-line should be drawn regardless of other grid lines
-     */
-    protected boolean mDrawZeroLine = false;
-
-    /**
      * flag indicating that auto scale min restriction should be used
      */
     private boolean mUseAutoScaleRestrictionMin = false;
@@ -49,46 +24,9 @@ public class YAxis extends AxisBase {
     private boolean mUseAutoScaleRestrictionMax = false;
 
     /**
-     * Color of the zero line
-     */
-    protected int mZeroLineColor = Color.GRAY;
-
-    /**
-     * Width of the zero line in pixels
-     */
-    protected float mZeroLineWidth = 1f;
-
-    /**
-     * axis space from the largest value to the top in percent of the total axis range
-     */
-    protected float mSpacePercentTop = 10f;
-
-    /**
-     * axis space from the smallest value to the bottom in percent of the total axis range
-     */
-    protected float mSpacePercentBottom = 10f;
-
-    /**
-     * the position of the y-labels relative to the chart
-     */
-    private YAxisLabelPosition mPosition = YAxisLabelPosition.OUTSIDE_CHART;
-
-    /**
      * the horizontal offset of the y-label
      */
     private float mXLabelOffset = 0.0f;
-
-    /**
-     * enum for the position of the y-labels relative to the chart
-     */
-    public enum YAxisLabelPosition {
-        OUTSIDE_CHART, INSIDE_CHART
-    }
-
-    /**
-     * the side this axis object represents
-     */
-    private AxisDependency mAxisDependency;
 
     /**
      * Enum that specifies the axis a DataSet should be plotted against, either LEFT or RIGHT.
@@ -101,36 +39,7 @@ public class YAxis extends AxisBase {
 
     public YAxis() {
         super();
-
-        // default left
-        this.mAxisDependency = AxisDependency.LEFT;
         this.mYOffset = 0f;
-    }
-
-    public YAxis(AxisDependency position) {
-        super();
-        this.mAxisDependency = position;
-        this.mYOffset = 0f;
-    }
-
-    public AxisDependency getAxisDependency() {
-        return mAxisDependency;
-    }
-
-    /**
-     * returns the position of the y-labels
-     */
-    public YAxisLabelPosition getLabelPosition() {
-        return mPosition;
-    }
-
-    /**
-     * sets the position of the y-labels
-     *
-     * @param pos
-     */
-    public void setPosition(YAxisLabelPosition pos) {
-        mPosition = pos;
     }
 
     /**
@@ -155,7 +64,7 @@ public class YAxis extends AxisBase {
      * @return
      */
     public boolean isDrawTopYLabelEntryEnabled() {
-        return mDrawTopYLabelEntry;
+        return true;
     }
 
     /**
@@ -164,7 +73,7 @@ public class YAxis extends AxisBase {
      * @return
      */
     public boolean isDrawBottomYLabelEntryEnabled() {
-        return mDrawBottomYLabelEntry;
+        return true;
     }
 
     /**
@@ -173,7 +82,7 @@ public class YAxis extends AxisBase {
      * @return
      */
     public boolean isInverted() {
-        return mInverted;
+        return false;
     }
 
     /**
@@ -195,8 +104,8 @@ public class YAxis extends AxisBase {
      *
      * @return
      */
-    public float getSpaceTop() {
-        return mSpacePercentTop;
+    private float getSpaceTop() {
+        return 10f;
     }
 
     /**
@@ -204,20 +113,8 @@ public class YAxis extends AxisBase {
      *
      * @return
      */
-    public float getSpaceBottom() {
-        return mSpacePercentBottom;
-    }
-
-    public boolean isDrawZeroLineEnabled() {
-        return mDrawZeroLine;
-    }
-
-    public int getZeroLineColor() {
-        return mZeroLineColor;
-    }
-
-    public float getZeroLineWidth() {
-        return mZeroLineWidth;
+    private float getSpaceBottom() {
+        return 10f;
     }
 
     /**

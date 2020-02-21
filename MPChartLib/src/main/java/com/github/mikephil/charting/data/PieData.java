@@ -3,7 +3,6 @@ package com.github.mikephil.charting.data;
 
 import android.util.Log;
 
-import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 
 import java.util.List;
@@ -17,17 +16,6 @@ import java.util.List;
  * @author Philipp Jahoda
  */
 public class PieData extends ChartData<IPieDataSet> {
-
-    /**
-     * Sets the PieDataSet this data object should represent.
-     *
-     * @param dataSet
-     */
-    public void setDataSet(IPieDataSet dataSet) {
-        mDataSets.clear();
-        mDataSets.add(dataSet);
-        notifyDataChanged();
-    }
 
     /**
      * Returns the DataSet this PieData object represents. A PieData object can
@@ -60,11 +48,6 @@ public class PieData extends ChartData<IPieDataSet> {
     @Override
     public IPieDataSet getDataSetByIndex(int index) {
         return index == 0 ? getDataSet() : null;
-    }
-
-    @Override
-    public Entry getEntryForHighlight(Highlight highlight) {
-        return getDataSet().getEntryForIndex((int) highlight.getX());
     }
 
     /**

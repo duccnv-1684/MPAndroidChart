@@ -7,8 +7,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
-import com.github.mikephil.charting.highlight.Highlight;
-import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -23,34 +21,31 @@ public abstract class DataRenderer extends Renderer {
     /**
      * the animator object used to perform animations on the chart data
      */
-    protected ChartAnimator mAnimator;
+    final ChartAnimator mAnimator;
 
     /**
      * main paint object used for rendering
      */
-    protected Paint mRenderPaint;
+    final Paint mRenderPaint;
 
     /**
      * paint used for highlighting values
      */
-    protected Paint mHighlightPaint;
-
-    protected Paint mDrawPaint;
+    Paint mHighlightPaint;
 
     /**
      * paint object for drawing values (text representing values of chart
      * entries)
      */
-    protected Paint mValuePaint;
+    final Paint mValuePaint;
 
-    public DataRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
+    DataRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(viewPortHandler);
         this.mAnimator = animator;
 
         mRenderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRenderPaint.setStyle(Style.FILL);
 
-        mDrawPaint = new Paint(Paint.DITHER_FLAG);
 
         mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mValuePaint.setColor(Color.rgb(63, 63, 63));
@@ -69,18 +64,11 @@ public abstract class DataRenderer extends Renderer {
      *
      * @param set
      */
-    protected void applyValueTextStyle(IDataSet set) {
+    void applyValueTextStyle(IDataSet set) {
 
         mValuePaint.setTypeface(set.getValueTypeface());
         mValuePaint.setTextSize(set.getValueTextSize());
     }
-
-    /**
-     * Initializes the buffers used for rendering with a new size. Since this
-     * method performs memory allocations, it should only be called if
-     * necessary.
-     */
-    public abstract void initBuffers();
 
     /**
      * Draws the actual data in form of lines, bars, ... depending on Renderer subclass.
@@ -97,28 +85,10 @@ public abstract class DataRenderer extends Renderer {
     public abstract void drawValues(Canvas c);
 
     /**
-     * Draws the value of the given entry by using the provided IValueFormatter.
-     *
-     * @param c         canvas
-     * @param valueText label to draw
-     * @param x         position
-     * @param y         position
-     * @param color
-     */
-    public abstract void drawValue(Canvas c, String valueText, float x, float y, int color);
-
-    /**
      * Draws any kind of additional information (e.g. line-circles).
      *
      * @param c
      */
     public abstract void drawExtras(Canvas c);
 
-    /**
-     * Draws all highlight indicators for the values that are currently highlighted.
-     *
-     * @param c
-     * @param indices the highlighted values
-     */
-    public abstract void drawHighlighted(Canvas c, Highlight[] indices);
 }

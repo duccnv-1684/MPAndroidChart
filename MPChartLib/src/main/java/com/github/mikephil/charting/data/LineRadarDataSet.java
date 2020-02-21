@@ -1,12 +1,10 @@
 
 package com.github.mikephil.charting.data;
 
-import android.annotation.TargetApi;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.interfaces.datasets.ILineRadarDataSet;
-import com.github.mikephil.charting.utils.Utils;
 
 import java.util.List;
 
@@ -26,7 +24,7 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     /**
      * the drawable to be used for filling the line surface
      */
-    protected Drawable mFillDrawable;
+    private Drawable mFillDrawable;
 
     /**
      * transparency used for filling line surface
@@ -34,17 +32,12 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     private int mFillAlpha = 85;
 
     /**
-     * the width of the drawn data lines
-     */
-    private float mLineWidth = 2.5f;
-
-    /**
      * if true, the data will also be drawn filled
      */
     private boolean mDrawFilled = false;
 
 
-    public LineRadarDataSet(List<T> yVals, String label) {
+    LineRadarDataSet(List<T> yVals, String label) {
         super(yVals, label);
     }
 
@@ -84,27 +77,11 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         mFillAlpha = alpha;
     }
 
-    /**
-     * set the line width of the chart (min = 0.2f, max = 10f); default 1f NOTE:
-     * thinner line == better performance, thicker line == worse performance
-     *
-     * @param width
-     */
-    public void setLineWidth(float width) {
-
-        if (width < 0.0f)
-            width = 0.0f;
-        if (width > 10.0f)
-            width = 10.0f;
-        mLineWidth = Utils.convertDpToPixel(width);
-    }
-
     @Override
     public float getLineWidth() {
-        return mLineWidth;
+        return 2.5f;
     }
 
-    @Override
     public void setDrawFilled(boolean filled) {
         mDrawFilled = filled;
     }
@@ -112,14 +89,5 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
     @Override
     public boolean isDrawFilledEnabled() {
         return mDrawFilled;
-    }
-
-    protected void copy(LineRadarDataSet lineRadarDataSet) {
-        super.copy(lineRadarDataSet);
-        lineRadarDataSet.mDrawFilled = mDrawFilled;
-        lineRadarDataSet.mFillAlpha = mFillAlpha;
-        lineRadarDataSet.mFillColor = mFillColor;
-        lineRadarDataSet.mFillDrawable = mFillDrawable;
-        lineRadarDataSet.mLineWidth = mLineWidth;
     }
 }
