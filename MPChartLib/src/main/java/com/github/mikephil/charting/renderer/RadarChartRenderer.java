@@ -278,18 +278,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
         MPPointF p1out = MPPointF.getInstance(0,0);
         MPPointF p2out = MPPointF.getInstance(0,0);
         for (int j = 0; j < labelCount; j++) {
-
-            for (int i = 0; i < mChart.getData().getEntryCount(); i++) {
-
                 float r = (mChart.getYAxis().mEntries[j] - mChart.getYChartMin()) * factor;
-
-                Utils.getPosition(center, r, sliceangle * i + rotationangle, p1out);
-                Utils.getPosition(center, r, sliceangle * (i + 1) + rotationangle, p2out);
-
-                c.drawLine(p1out.x, p1out.y, p2out.x, p2out.y, mWebPaint);
-
-
-            }
+            c.drawCircle(center.x, center.y, r, mWebPaint);
         }
         MPPointF.recycleInstance(p1out);
         MPPointF.recycleInstance(p2out);

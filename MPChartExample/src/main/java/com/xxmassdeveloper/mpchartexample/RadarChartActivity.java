@@ -23,6 +23,7 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.github.mikephil.charting.utils.ColorTemplate;
 import com.xxmassdeveloper.mpchartexample.custom.RadarMarkerView;
 import com.xxmassdeveloper.mpchartexample.notimportant.DemoBase;
 
@@ -60,7 +61,9 @@ public class RadarChartActivity extends DemoBase {
 
         setData();
 
-        chart.animateXY(1400, 1400, Easing.EaseInOutQuad);
+//        chart.animateXY(1400, 1400, Easing.EaseInOutQuad);
+
+
 
         XAxis xAxis = chart.getXAxis();
         xAxis.setTypeface(tfLight);
@@ -80,11 +83,11 @@ public class RadarChartActivity extends DemoBase {
 
         YAxis yAxis = chart.getYAxis();
         yAxis.setTypeface(tfLight);
-        yAxis.setLabelCount(5, false);
+        yAxis.setLabelCount(6, true);
         yAxis.setTextSize(9f);
         yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(80f);
-        yAxis.setDrawLabels(false);
+        yAxis.setAxisMaximum(100f);
+        yAxis.setDrawLabels(true);
 
         Legend l = chart.getLegend();
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
@@ -101,7 +104,7 @@ public class RadarChartActivity extends DemoBase {
 
         float mul = 80;
         float min = 20;
-        int cnt = 5;
+        int cnt = 8;
 
         ArrayList<RadarEntry> entries1 = new ArrayList<>();
         ArrayList<RadarEntry> entries2 = new ArrayList<>();

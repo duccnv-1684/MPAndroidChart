@@ -165,7 +165,7 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
 
         float xOffset = mYAxis.getLabelXOffset();
 
-        for (int j = from; j < to; j++) {
+        for (int j = from+1; j < to-1; j++) {
 
             float r = (mYAxis.mEntries[j] - mYAxis.mAxisMinimum) * factor;
 
