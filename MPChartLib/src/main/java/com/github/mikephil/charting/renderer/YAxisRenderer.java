@@ -88,24 +88,6 @@ public class YAxisRenderer extends AxisRenderer {
         drawYLabels(c, xPos, positions, yoffset);
     }
 
-    @Override
-    public void renderAxisLine(Canvas c) {
-
-        if (!mYAxis.isEnabled() || !mYAxis.isDrawAxisLineEnabled())
-            return;
-
-        mAxisLinePaint.setColor(mYAxis.getAxisLineColor());
-        mAxisLinePaint.setStrokeWidth(mYAxis.getAxisLineWidth());
-
-        if (mYAxis.getAxisDependency() == AxisDependency.LEFT) {
-            c.drawLine(mViewPortHandler.contentLeft(), mViewPortHandler.contentTop(), mViewPortHandler.contentLeft(),
-                    mViewPortHandler.contentBottom(), mAxisLinePaint);
-        } else {
-            c.drawLine(mViewPortHandler.contentRight(), mViewPortHandler.contentTop(), mViewPortHandler.contentRight(),
-                    mViewPortHandler.contentBottom(), mAxisLinePaint);
-        }
-    }
-
     /**
      * draws the y-labels on the specified x-position
      *
@@ -134,41 +116,6 @@ public class YAxisRenderer extends AxisRenderer {
     }
 
     protected Path mRenderGridLinesPath = new Path();
-    @Override
-    public void renderGridLines(Canvas c) {
-
-        if (!mYAxis.isEnabled())
-            return;
-
-        if (mYAxis.isDrawGridLinesEnabled()) {
-
-            int clipRestoreCount = c.save();
-            c.clipRect(getGridClippingRect());
-
-            float[] positions = getTransformedPositions();
-
-            mGridPaint.setColor(mYAxis.getGridColor());
-            mGridPaint.setStrokeWidth(mYAxis.getGridLineWidth());
-            mGridPaint.setPathEffect(mYAxis.getGridDashPathEffect());
-
-            Path gridLinePath = mRenderGridLinesPath;
-            gridLinePath.reset();
-
-            // draw the grid
-            for (int i = 0; i < positions.length; i += 2) {
-
-                // draw a path because lines don't support dashing on lower android versions
-                c.drawPath(linePath(gridLinePath, i, positions), mGridPaint);
-                gridLinePath.reset();
-            }
-
-            c.restoreToCount(clipRestoreCount);
-        }
-
-        if (mYAxis.isDrawZeroLineEnabled()) {
-            drawZeroLine(c);
-        }
-    }
 
     protected RectF mGridClippingRect = new RectF();
 

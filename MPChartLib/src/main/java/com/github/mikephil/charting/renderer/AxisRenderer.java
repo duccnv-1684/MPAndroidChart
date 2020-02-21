@@ -233,20 +233,6 @@ public abstract class AxisRenderer extends Renderer {
     public abstract void renderAxisLabels(Canvas c);
 
     /**
-     * Draws the grid lines belonging to the axis.
-     *
-     * @param c
-     */
-    public abstract void renderGridLines(Canvas c);
-
-    /**
-     * Draws the line that goes alongside the axis.
-     *
-     * @param c
-     */
-    public abstract void renderAxisLine(Canvas c);
-
-    /**
      * Draws the LimitLines associated with this axis to the screen.
      *
      * @param c

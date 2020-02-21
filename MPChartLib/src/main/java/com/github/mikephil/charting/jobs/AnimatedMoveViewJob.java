@@ -21,20 +21,6 @@ public class AnimatedMoveViewJob extends AnimatedViewPortJob {
         pool.setReplenishPercentage(0.5f);
     }
 
-    public static AnimatedMoveViewJob getInstance(ViewPortHandler viewPortHandler, float xValue, float yValue, Transformer trans, View v, float xOrigin, float yOrigin, long duration){
-        AnimatedMoveViewJob result = pool.get();
-        result.mViewPortHandler = viewPortHandler;
-        result.xValue = xValue;
-        result.yValue = yValue;
-        result.mTrans = trans;
-        result.view = v;
-        result.xOrigin = xOrigin;
-        result.yOrigin = yOrigin;
-        //result.resetAnimator();
-        result.animator.setDuration(duration);
-        return result;
-    }
-
     public static void recycleInstance(AnimatedMoveViewJob instance){
         pool.recycle(instance);
     }

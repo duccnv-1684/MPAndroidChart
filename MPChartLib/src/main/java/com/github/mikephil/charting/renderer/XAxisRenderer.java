@@ -144,33 +144,6 @@ public class XAxisRenderer extends AxisRenderer {
         MPPointF.recycleInstance(pointF);
     }
 
-    @Override
-    public void renderAxisLine(Canvas c) {
-
-        if (!mXAxis.isDrawAxisLineEnabled() || !mXAxis.isEnabled())
-            return;
-
-        mAxisLinePaint.setColor(mXAxis.getAxisLineColor());
-        mAxisLinePaint.setStrokeWidth(mXAxis.getAxisLineWidth());
-        mAxisLinePaint.setPathEffect(mXAxis.getAxisLineDashPathEffect());
-
-        if (mXAxis.getPosition() == XAxisPosition.TOP
-                || mXAxis.getPosition() == XAxisPosition.TOP_INSIDE
-                || mXAxis.getPosition() == XAxisPosition.BOTH_SIDED) {
-            c.drawLine(mViewPortHandler.contentLeft(),
-                    mViewPortHandler.contentTop(), mViewPortHandler.contentRight(),
-                    mViewPortHandler.contentTop(), mAxisLinePaint);
-        }
-
-        if (mXAxis.getPosition() == XAxisPosition.BOTTOM
-                || mXAxis.getPosition() == XAxisPosition.BOTTOM_INSIDE
-                || mXAxis.getPosition() == XAxisPosition.BOTH_SIDED) {
-            c.drawLine(mViewPortHandler.contentLeft(),
-                    mViewPortHandler.contentBottom(), mViewPortHandler.contentRight(),
-                    mViewPortHandler.contentBottom(), mAxisLinePaint);
-        }
-    }
-
     /**
      * draws the x-labels on the specified y-position
      *
@@ -231,39 +204,6 @@ public class XAxisRenderer extends AxisRenderer {
     }
     protected Path mRenderGridLinesPath = new Path();
     protected float[] mRenderGridLinesBuffer = new float[2];
-    @Override
-    public void renderGridLines(Canvas c) {
-
-        if (!mXAxis.isDrawGridLinesEnabled() || !mXAxis.isEnabled())
-            return;
-
-        int clipRestoreCount = c.save();
-        c.clipRect(getGridClippingRect());
-
-        if(mRenderGridLinesBuffer.length != mAxis.mEntryCount * 2){
-            mRenderGridLinesBuffer = new float[mXAxis.mEntryCount * 2];
-        }
-        float[] positions = mRenderGridLinesBuffer;
-
-        for (int i = 0; i < positions.length; i += 2) {
-            positions[i] = mXAxis.mEntries[i / 2];
-            positions[i + 1] = mXAxis.mEntries[i / 2];
-        }
-
-        mTrans.pointValuesToPixel(positions);
-
-        setupGridPaint();
-
-        Path gridLinePath = mRenderGridLinesPath;
-        gridLinePath.reset();
-
-        for (int i = 0; i < positions.length; i += 2) {
-
-            drawGridLine(c, positions[i], positions[i + 1], gridLinePath);
-        }
-
-        c.restoreToCount(clipRestoreCount);
-    }
 
     protected RectF mGridClippingRect = new RectF();
 
