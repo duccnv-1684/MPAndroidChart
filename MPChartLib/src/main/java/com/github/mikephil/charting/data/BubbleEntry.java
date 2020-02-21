@@ -35,17 +35,4 @@ public class BubbleEntry extends Entry {
         return c;
     }
 
-    /**
-     * Returns the size of this entry (the size of the bubble).
-     *
-     * @return
-     */
-    public float getSize() {
-        return mSize;
-    }
-
-    public void setSize(float size) {
-        this.mSize = size;
-    }
-
 }

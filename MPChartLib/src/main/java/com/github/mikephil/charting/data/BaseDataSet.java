@@ -153,16 +153,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
     }
 
     /**
-     * Sets a color with a specific alpha value.
-     *
-     * @param color
-     * @param alpha from 0-255
-     */
-    public void setColor(int color, int alpha) {
-        setColor(Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color)));
-    }
-
-    /**
      * Resets all colors of this DataSet and recreates the colors array.
      */
     public void resetColors() {

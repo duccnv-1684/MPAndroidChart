@@ -1,10 +1,8 @@
 package com.github.mikephil.charting.data;
 
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
-import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 
@@ -250,33 +248,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Retrieve the index of a DataSet with a specific label from the ChartData.
-     * Search can be case sensitive or not. IMPORTANT: This method does
-     * calculations at runtime, do not over-use in performance critical
-     * situations.
-     *
-     * @param dataSets   the DataSet array to search
-     * @param label
-     * @param ignorecase if true, the search is not case-sensitive
-     * @return
-     */
-    protected int getDataSetIndexByLabel(List<T> dataSets, String label,
-                                         boolean ignorecase) {
-
-        if (ignorecase) {
-            for (int i = 0; i < dataSets.size(); i++)
-                if (label.equalsIgnoreCase(dataSets.get(i).getLabel()))
-                    return i;
-        } else {
-            for (int i = 0; i < dataSets.size(); i++)
-                if (label.equals(dataSets.get(i).getLabel()))
-                    return i;
-        }
-
-        return -1;
-    }
-
-    /**
      * Get the Entry for a corresponding highlight object
      *
      * @param highlight
@@ -290,101 +261,12 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         }
     }
 
-    /**
-     * Returns the DataSet object with the given label. Search can be case
-     * sensitive or not. IMPORTANT: This method does calculations at runtime.
-     * Use with care in performance critical situations.
-     *
-     * @param label
-     * @param ignorecase
-     * @return
-     */
-    public T getDataSetByLabel(String label, boolean ignorecase) {
-
-        int index = getDataSetIndexByLabel(mDataSets, label, ignorecase);
-
-        if (index < 0 || index >= mDataSets.size())
-            return null;
-        else
-            return mDataSets.get(index);
-    }
-
     public T getDataSetByIndex(int index) {
 
         if (mDataSets == null || index < 0 || index >= mDataSets.size())
             return null;
 
         return mDataSets.get(index);
-    }
-
-    /**
-     * Removes the given DataSet from this data object. Also recalculates all
-     * minimum and maximum values. Returns true if a DataSet was removed, false
-     * if no DataSet could be removed.
-     *
-     * @param d
-     */
-    public boolean removeDataSet(T d) {
-
-        if (d == null)
-            return false;
-
-        boolean removed = mDataSets.remove(d);
-
-        // if a DataSet was removed
-        if (removed) {
-            notifyDataChanged();
-        }
-
-        return removed;
-    }
-
-    /**
-     * Removes the DataSet at the given index in the DataSet array from the data
-     * object. Also recalculates all minimum and maximum values. Returns true if
-     * a DataSet was removed, false if no DataSet could be removed.
-     *
-     * @param index
-     */
-    public boolean removeDataSet(int index) {
-
-        if (index >= mDataSets.size() || index < 0)
-            return false;
-
-        T set = mDataSets.get(index);
-        return removeDataSet(set);
-    }
-
-    /**
-     * Adjusts the current minimum and maximum values based on the provided Entry object.
-     *
-     * @param e
-     * @param axis
-     */
-    protected void calcMinMax(Entry e, AxisDependency axis) {
-
-        if (mYMax < e.getY())
-            mYMax = e.getY();
-        if (mYMin > e.getY())
-            mYMin = e.getY();
-
-        if (mXMax < e.getX())
-            mXMax = e.getX();
-        if (mXMin > e.getX())
-            mXMin = e.getX();
-
-        if (axis == AxisDependency.LEFT) {
-
-            if (mLeftAxisMax < e.getY())
-                mLeftAxisMax = e.getY();
-            if (mLeftAxisMin > e.getY())
-                mLeftAxisMin = e.getY();
-        } else {
-            if (mRightAxisMax < e.getY())
-                mRightAxisMax = e.getY();
-            if (mRightAxisMin > e.getY())
-                mRightAxisMin = e.getY();
-        }
     }
 
     /**
@@ -416,33 +298,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
             if (mRightAxisMin > d.getYMin())
                 mRightAxisMin = d.getYMin();
         }
-    }
-
-    /**
-     * Removes the given Entry object from the DataSet at the specified index.
-     *
-     * @param e
-     * @param dataSetIndex
-     */
-    public boolean removeEntry(Entry e, int dataSetIndex) {
-
-        // entry null, outofbounds
-        if (e == null || dataSetIndex >= mDataSets.size())
-            return false;
-
-        IDataSet set = mDataSets.get(dataSetIndex);
-
-        if (set != null) {
-            // remove the entry from the dataset
-            boolean removed = set.removeEntry(e);
-
-            if (removed) {
-                notifyDataChanged();
-            }
-
-            return removed;
-        } else
-            return false;
     }
 
     /**
@@ -530,23 +385,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
             mDataSets.clear();
         }
         notifyDataChanged();
-    }
-
-    /**
-     * Checks if this data object contains the specified DataSet. Returns true
-     * if so, false if not.
-     *
-     * @param dataSet
-     * @return
-     */
-    public boolean contains(T dataSet) {
-
-        for (T set : mDataSets) {
-            if (set.equals(dataSet))
-                return true;
-        }
-
-        return false;
     }
 
     /**

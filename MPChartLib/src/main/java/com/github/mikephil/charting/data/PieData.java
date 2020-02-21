@@ -63,12 +63,6 @@ public class PieData extends ChartData<IPieDataSet> {
     }
 
     @Override
-    public IPieDataSet getDataSetByLabel(String label, boolean ignorecase) {
-        return ignorecase ? label.equalsIgnoreCase(mDataSets.get(0).getLabel()) ? mDataSets.get(0)
-                : null : label.equals(mDataSets.get(0).getLabel()) ? mDataSets.get(0) : null;
-    }
-
-    @Override
     public Entry getEntryForHighlight(Highlight highlight) {
         return getDataSet().getEntryForIndex((int) highlight.getX());
     }

@@ -50,15 +50,6 @@ public abstract class BaseEntry {
     }
 
     /**
-     * Sets the icon drawable
-     *
-     * @param icon
-     */
-    public void setIcon(Drawable icon) {
-        this.mIcon = icon;
-    }
-
-    /**
      * Returns the icon of this Entry.
      *
      * @return
