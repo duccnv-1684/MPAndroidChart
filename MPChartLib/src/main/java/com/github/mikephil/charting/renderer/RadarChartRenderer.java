@@ -44,10 +44,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
         mHighlightCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
 
-    public Paint getWebPaint() {
-        return mWebPaint;
-    }
-
     @Override
     public void initBuffers() {
         // TODO Auto-generated method stub

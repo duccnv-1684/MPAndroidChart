@@ -24,27 +24,6 @@ public class Transformer {
 
     protected ViewPortHandler mViewPortHandler;
 
-    protected float[] valuePointsForGenerateTransformedValuesScatter = new float[1];
-
-    protected float[] valuePointsForGenerateTransformedValuesBubble = new float[1];
-
-    protected float[] valuePointsForGenerateTransformedValuesLine = new float[1];
-
-    protected float[] valuePointsForGenerateTransformedValuesCandle = new float[1];
-
-    /**
-     * transform a path with all the given matrices VERY IMPORTANT: keep order
-     * to value-touch-offset
-     *
-     * @param path
-     */
-    public void pathValueToPixel(Path path) {
-
-        path.transform(mMatrixValueToPx);
-        path.transform(mViewPortHandler.getMatrixTouch());
-        path.transform(mMatrixOffset);
-    }
-
     /**
      * Transform an array of points with all matrices. VERY IMPORTANT: Keep
      * matrix order "value-touch-offset" when transforming.
@@ -136,16 +115,5 @@ public class Transformer {
 
         return MPPointD.getInstance(xPx, yPx);
     }
-
-    private Matrix mMBuffer1 = new Matrix();
-
-    public Matrix getValueToPixelMatrix() {
-        mMBuffer1.set(mMatrixValueToPx);
-        mMBuffer1.postConcat(mViewPortHandler.mMatrixTouch);
-        mMBuffer1.postConcat(mMatrixOffset);
-        return mMBuffer1;
-    }
-
-    private Matrix mMBuffer2 = new Matrix();
 
 }

@@ -28,10 +28,6 @@ public class MPPointD extends ObjectPool.Poolable {
         pool.recycle(instance);
     }
 
-    public static void recycleInstances(List<MPPointD> instances){
-        pool.recycle(instances);
-    }
-
     public double x;
     public double y;
 

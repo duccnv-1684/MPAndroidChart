@@ -25,8 +25,6 @@ public class ChartAnimator {
     @SuppressWarnings("WeakerAccess")
     protected float mPhaseX = 1f;
 
-    public ChartAnimator() { }
-
     @RequiresApi(11)
     public ChartAnimator(AnimatorUpdateListener listener) {
         mListener = listener;
@@ -169,20 +167,6 @@ public class ChartAnimator {
     }
 
     /**
-     * Sets the Y axis phase of the animation.
-     *
-     * @param phase float value between 0 - 1
-     */
-    public void setPhaseY(float phase) {
-        if (phase > 1f) {
-            phase = 1f;
-        } else if (phase < 0f) {
-            phase = 0f;
-        }
-        mPhaseY = phase;
-    }
-
-    /**
      * Gets the X axis phase of the animation.
      *
      * @return float value of {@link #mPhaseX}
@@ -191,17 +175,4 @@ public class ChartAnimator {
         return mPhaseX;
     }
 
-    /**
-     * Sets the X axis phase of the animation.
-     *
-     * @param phase float value between 0 - 1
-     */
-    public void setPhaseX(float phase) {
-        if (phase > 1f) {
-            phase = 1f;
-        } else if (phase < 0f) {
-            phase = 0f;
-        }
-        mPhaseX = phase;
-    }
 }

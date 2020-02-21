@@ -37,13 +37,6 @@ public final class FSize extends ObjectPool.Poolable{
         pool.recycle(instance);
     }
 
-    public static void recycleInstances(List<FSize> instances){
-        pool.recycle(instances);
-    }
-
-    public FSize() {
-    }
-
     public FSize(final float width, final float height) {
         this.width = width;
         this.height = height;

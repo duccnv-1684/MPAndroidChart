@@ -1,7 +1,6 @@
 package com.github.mikephil.charting.data;
 
 import android.annotation.SuppressLint;
-import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.highlight.Range;
 
@@ -29,11 +28,6 @@ public class BarEntry extends Entry {
     private float mNegativeSum;
 
     /**
-     * the sum of all positive values this entry (if stacked) contains
-     */
-    private float mPositiveSum;
-
-    /**
      * Constructor for normal bars (not stacked).
      *
      * @param x
@@ -42,66 +36,6 @@ public class BarEntry extends Entry {
      */
     public BarEntry(float x, float y, Object data) {
         super(x, y, data);
-    }
-
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     */
-    public BarEntry(float x, float[] vals) {
-        super(x, calcSum(vals));
-
-        this.mYVals = vals;
-        calcPosNegSum();
-        calcRanges();
-    }
-
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float[] vals, Object data) {
-        super(x, calcSum(vals), data);
-
-        this.mYVals = vals;
-        calcPosNegSum();
-        calcRanges();
-    }
-
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param icon - icon image
-     */
-    public BarEntry(float x, float[] vals, Drawable icon) {
-        super(x, calcSum(vals), icon);
-
-        this.mYVals = vals;
-        calcPosNegSum();
-        calcRanges();
-    }
-
-    /**
-     * Constructor for stacked bar entries. One data object for whole stack
-     *
-     * @param x
-     * @param vals - the stack values, use at least 2
-     * @param icon - icon image
-     * @param data - Spot for additional data this Entry represents.
-     */
-    public BarEntry(float x, float[] vals, Drawable icon, Object data) {
-        super(x, calcSum(vals), icon, data);
-
-        this.mYVals = vals;
-        calcPosNegSum();
-        calcRanges();
     }
 
     /**
@@ -183,7 +117,6 @@ public class BarEntry extends Entry {
 
         if (mYVals == null) {
             mNegativeSum = 0;
-            mPositiveSum = 0;
             return;
         }
 
@@ -198,7 +131,6 @@ public class BarEntry extends Entry {
         }
 
         mNegativeSum = sumNeg;
-        mPositiveSum = sumPos;
     }
 
     /**

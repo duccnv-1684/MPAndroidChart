@@ -34,8 +34,6 @@ import java.util.List;
 public abstract class Utils {
 
     private static DisplayMetrics mMetrics;
-    private static int mMinimumFlingVelocity = 50;
-    private static int mMaximumFlingVelocity = 8000;
     public final static double DEG2RAD = (Math.PI / 180.0);
     public final static float FDEG2RAD = ((float) Math.PI / 180.f);
 
@@ -54,18 +52,12 @@ public abstract class Utils {
     public static void init(Context context) {
 
         if (context == null) {
-            // noinspection deprecation
-            mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
-            // noinspection deprecation
-            mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
 
             Log.e("MPChartLib-Utils"
                     , "Utils.init(...) PROVIDED CONTEXT OBJECT IS NULL");
 
         } else {
             ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
-            mMinimumFlingVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
-            mMaximumFlingVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
 
             Resources res = context.getResources();
             mMetrics = res.getDisplayMetrics();
@@ -83,10 +75,6 @@ public abstract class Utils {
 
         mMetrics = res.getDisplayMetrics();
 
-        // noinspection deprecation
-        mMinimumFlingVelocity = ViewConfiguration.getMinimumFlingVelocity();
-        // noinspection deprecation
-        mMaximumFlingVelocity = ViewConfiguration.getMaximumFlingVelocity();
     }
 
     /**
@@ -197,14 +185,6 @@ public abstract class Utils {
     }
 
 
-    /**
-     * Math.pow(...) is very expensive, so avoid calling it and create it
-     * yourself.
-     */
-    private static final int POW_10[] = {
-            1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000
-    };
-
     private static ValueFormatter mDefaultValueFormatter = generateDefaultValueFormatter();
 
     private static ValueFormatter generateDefaultValueFormatter() {
@@ -215,96 +195,6 @@ public abstract class Utils {
     public static ValueFormatter getDefaultValueFormatter()
     {
         return mDefaultValueFormatter;
-    }
-
-    /**
-     * Formats the given number to the given number of decimals, and returns the
-     * number as a string, maximum 35 characters.
-     *
-     * @param number
-     * @param digitCount
-     * @param separateThousands set this to true to separate thousands values
-     * @param separateChar      a caracter to be paced between the "thousands"
-     * @return
-     */
-    public static String formatNumber(float number, int digitCount, boolean separateThousands,
-                                      char separateChar) {
-
-        char[] out = new char[35];
-
-        boolean neg = false;
-        if (number == 0) {
-            return "0";
-        }
-
-        boolean zero = false;
-        if (number < 1 && number > -1) {
-            zero = true;
-        }
-
-        if (number < 0) {
-            neg = true;
-            number = -number;
-        }
-
-        if (digitCount > POW_10.length) {
-            digitCount = POW_10.length - 1;
-        }
-
-        number *= POW_10[digitCount];
-        long lval = Math.round(number);
-        int ind = out.length - 1;
-        int charCount = 0;
-        boolean decimalPointAdded = false;
-
-        while (lval != 0 || charCount < (digitCount + 1)) {
-            int digit = (int) (lval % 10);
-            lval = lval / 10;
-            out[ind--] = (char) (digit + '0');
-            charCount++;
-
-            // add decimal point
-            if (charCount == digitCount) {
-                out[ind--] = ',';
-                charCount++;
-                decimalPointAdded = true;
-
-                // add thousand separators
-            } else if (separateThousands && lval != 0 && charCount > digitCount) {
-
-                if (decimalPointAdded) {
-
-                    if ((charCount - digitCount) % 4 == 0) {
-                        out[ind--] = separateChar;
-                        charCount++;
-                    }
-
-                } else {
-
-                    if ((charCount - digitCount) % 4 == 3) {
-                        out[ind--] = separateChar;
-                        charCount++;
-                    }
-                }
-            }
-        }
-
-        // if number around zero (between 1 and -1)
-        if (zero) {
-            out[ind--] = '0';
-            charCount += 1;
-        }
-
-        // if the number is negative
-        if (neg) {
-            out[ind--] = '-';
-            charCount += 1;
-        }
-
-        int start = out.length - charCount;
-
-        // use this instead of "new String(...)" because of issue < Android 4.0
-        return String.valueOf(out, start, out.length - start);
     }
 
     /**
@@ -341,13 +231,6 @@ public abstract class Utils {
             return 0;
 
         return (int) Math.ceil(-Math.log10(i)) + 2;
-    }
-
-    public static void copyIntegers(List<Integer> from, int[] to){
-        int count = to.length < from.size() ? to.length : from.size();
-        for(int i = 0 ; i < count ; i++){
-            to[i] = from.get(i);
-        }
     }
 
     /**
@@ -485,83 +368,6 @@ public abstract class Utils {
             drawOffsetY += y;
 
             c.drawText(text, drawOffsetX, drawOffsetY, paint);
-        }
-
-        paint.setTextAlign(originalTextAlign);
-    }
-
-    public static void drawMultilineText(Canvas c, StaticLayout textLayout,
-                                         float x, float y,
-                                         TextPaint paint,
-                                         MPPointF anchor, float angleDegrees) {
-
-        float drawOffsetX = 0.f;
-        float drawOffsetY = 0.f;
-        float drawWidth;
-        float drawHeight;
-
-        final float lineHeight = paint.getFontMetrics(mFontMetricsBuffer);
-
-        drawWidth = textLayout.getWidth();
-        drawHeight = textLayout.getLineCount() * lineHeight;
-
-        // Android sometimes has pre-padding
-        drawOffsetX -= mDrawTextRectBuffer.left;
-
-        // Android does not snap the bounds to line boundaries,
-        //  and draws from bottom to top.
-        // And we want to normalize it.
-        drawOffsetY += drawHeight;
-
-        // To have a consistent point of reference, we always draw left-aligned
-        Paint.Align originalTextAlign = paint.getTextAlign();
-        paint.setTextAlign(Paint.Align.LEFT);
-
-        if (angleDegrees != 0.f) {
-
-            // Move the text drawing rect in a way that it always rotates around its center
-            drawOffsetX -= drawWidth * 0.5f;
-            drawOffsetY -= drawHeight * 0.5f;
-
-            float translateX = x;
-            float translateY = y;
-
-            // Move the "outer" rect relative to the anchor, assuming its centered
-            if (anchor.x != 0.5f || anchor.y != 0.5f) {
-                final FSize rotatedSize = getSizeOfRotatedRectangleByDegrees(
-                        drawWidth,
-                        drawHeight,
-                        angleDegrees);
-
-                translateX -= rotatedSize.width * (anchor.x - 0.5f);
-                translateY -= rotatedSize.height * (anchor.y - 0.5f);
-                FSize.recycleInstance(rotatedSize);
-            }
-
-            c.save();
-            c.translate(translateX, translateY);
-            c.rotate(angleDegrees);
-
-            c.translate(drawOffsetX, drawOffsetY);
-            textLayout.draw(c);
-
-            c.restore();
-        } else {
-            if (anchor.x != 0.f || anchor.y != 0.f) {
-
-                drawOffsetX -= drawWidth * anchor.x;
-                drawOffsetY -= drawHeight * anchor.y;
-            }
-
-            drawOffsetX += x;
-            drawOffsetY += y;
-
-            c.save();
-
-            c.translate(drawOffsetX, drawOffsetY);
-            textLayout.draw(c);
-
-            c.restore();
         }
 
         paint.setTextAlign(originalTextAlign);

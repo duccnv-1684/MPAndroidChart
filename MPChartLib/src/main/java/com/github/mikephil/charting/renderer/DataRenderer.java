@@ -63,40 +63,6 @@ public abstract class DataRenderer extends Renderer {
         mHighlightPaint.setColor(Color.rgb(255, 187, 115));
     }
 
-    protected boolean isDrawingValuesAllowed(ChartInterface chart) {
-        return chart.getData().getEntryCount() < chart.getMaxVisibleCount()
-                * mViewPortHandler.getScaleX();
-    }
-
-    /**
-     * Returns the Paint object this renderer uses for drawing the values
-     * (value-text).
-     *
-     * @return
-     */
-    public Paint getPaintValues() {
-        return mValuePaint;
-    }
-
-    /**
-     * Returns the Paint object this renderer uses for drawing highlight
-     * indicators.
-     *
-     * @return
-     */
-    public Paint getPaintHighlight() {
-        return mHighlightPaint;
-    }
-
-    /**
-     * Returns the Paint object used for rendering.
-     *
-     * @return
-     */
-    public Paint getPaintRender() {
-        return mRenderPaint;
-    }
-
     /**
      * Applies the required styling (provided by the DataSet) to the value-paint
      * object.

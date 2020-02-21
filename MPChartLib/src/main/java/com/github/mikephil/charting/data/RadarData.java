@@ -16,15 +16,7 @@ public class RadarData extends ChartData<IRadarDataSet> {
 
     private List<String> mLabels;
 
-    public RadarData() {
-        super();
-    }
-
     public RadarData(List<IRadarDataSet> dataSets) {
-        super(dataSets);
-    }
-
-    public RadarData(IRadarDataSet... dataSets) {
         super(dataSets);
     }
 

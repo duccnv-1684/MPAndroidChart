@@ -91,20 +91,6 @@ public class YAxis extends AxisBase {
     private AxisDependency mAxisDependency;
 
     /**
-     * the minimum width that the axis should take (in dp).
-     * <p/>
-     * default: 0.0
-     */
-    protected float mMinWidth = 0.f;
-
-    /**
-     * the maximum width that the axis can take (in dp).
-     * use Inifinity for disabling the maximum
-     * default: Float.POSITIVE_INFINITY (no maximum specified)
-     */
-    protected float mMaxWidth = Float.POSITIVE_INFINITY;
-
-    /**
      * Enum that specifies the axis a DataSet should be plotted against, either LEFT or RIGHT.
      *
      * @author Philipp Jahoda
@@ -129,20 +115,6 @@ public class YAxis extends AxisBase {
 
     public AxisDependency getAxisDependency() {
         return mAxisDependency;
-    }
-
-    /**
-     * @return the minimum width that the axis should take (in dp).
-     */
-    public float getMinWidth() {
-        return mMinWidth;
-    }
-
-    /**
-     * @return the maximum width that the axis can take (in dp).
-     */
-    public float getMaxWidth() {
-        return mMaxWidth;
     }
 
     /**

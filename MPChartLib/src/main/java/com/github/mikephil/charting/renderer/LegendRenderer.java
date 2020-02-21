@@ -63,15 +63,6 @@ public class LegendRenderer extends Renderer {
         return mLegendLabelPaint;
     }
 
-    /**
-     * Returns the Paint object used for drawing the Legend forms.
-     *
-     * @return
-     */
-    public Paint getFormPaint() {
-        return mLegendFormPaint;
-    }
-
 
     protected List<LegendEntry> computedEntries = new ArrayList<>(16);
 

@@ -72,15 +72,6 @@ public abstract class AxisRenderer extends Renderer {
     }
 
     /**
-     * Returns the Transformer object used for transforming the axis values.
-     *
-     * @return
-     */
-    public Transformer getTransformer() {
-        return mTrans;
-    }
-
-    /**
      * Computes the axis values.
      *
      * @param min - the minimum value in the data object for this axis

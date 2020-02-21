@@ -107,23 +107,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Calc minimum and maximum y-values over all DataSets.
-     * Tell DataSets to recalculate their min and max y-values, this is only needed for autoScaleMinMax.
-     *
-     * @param fromX the x-value to start the calculation from
-     * @param toX   the x-value to which the calculation should be performed
-     */
-    public void calcMinMaxY(float fromX, float toX) {
-
-        for (T set : mDataSets) {
-            set.calcMinMaxY(fromX, toX);
-        }
-
-        // apply the new data
-        calcMinMax();
-    }
-
-    /**
      * Calc minimum and maximum values (both x and y) over all DataSets.
      */
     protected void calcMinMax() {
@@ -258,24 +241,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Returns the minimum x-value this data object contains.
-     *
-     * @return
-     */
-    public float getXMin() {
-        return mXMin;
-    }
-
-    /**
-     * Returns the maximum x-value this data object contains.
-     *
-     * @return
-     */
-    public float getXMax() {
-        return mXMax;
-    }
-
-    /**
      * Returns all DataSet objects this ChartData object holds.
      *
      * @return
@@ -309,22 +274,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         }
 
         return -1;
-    }
-
-    /**
-     * Returns the labels of all DataSets as a string array.
-     *
-     * @return
-     */
-    public String[] getDataSetLabels() {
-
-        String[] types = new String[mDataSets.size()];
-
-        for (int i = 0; i < mDataSets.size(); i++) {
-            types[i] = mDataSets.get(i).getLabel();
-        }
-
-        return types;
     }
 
     /**
@@ -369,21 +318,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Adds a DataSet dynamically.
-     *
-     * @param d
-     */
-    public void addDataSet(T d) {
-
-        if (d == null)
-            return;
-
-        calcMinMax(d);
-
-        mDataSets.add(d);
-    }
-
-    /**
      * Removes the given DataSet from this data object. Also recalculates all
      * minimum and maximum values. Returns true if a DataSet was removed, false
      * if no DataSet could be removed.
@@ -419,29 +353,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
 
         T set = mDataSets.get(index);
         return removeDataSet(set);
-    }
-
-    /**
-     * Adds an Entry to the DataSet at the specified index.
-     * Entries are added to the end of the list.
-     *
-     * @param e
-     * @param dataSetIndex
-     */
-    public void addEntry(Entry e, int dataSetIndex) {
-
-        if (mDataSets.size() > dataSetIndex && dataSetIndex >= 0) {
-
-            IDataSet set = mDataSets.get(dataSetIndex);
-            // add the entry to the dataset
-            if (!set.addEntry(e))
-                return;
-
-            calcMinMax(e, set.getAxisDependency());
-
-        } else {
-            Log.e("addEntry", "Cannot add Entry because dataSetIndex too high or too low.");
-        }
     }
 
     /**
@@ -535,97 +446,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Removes the Entry object closest to the given DataSet at the
-     * specified index. Returns true if an Entry was removed, false if no Entry
-     * was found that meets the specified requirements.
-     *
-     * @param xValue
-     * @param dataSetIndex
-     * @return
-     */
-    public boolean removeEntry(float xValue, int dataSetIndex) {
-
-        if (dataSetIndex >= mDataSets.size())
-            return false;
-
-        IDataSet dataSet = mDataSets.get(dataSetIndex);
-        Entry e = dataSet.getEntryForXValue(xValue, Float.NaN);
-
-        if (e == null)
-            return false;
-
-        return removeEntry(e, dataSetIndex);
-    }
-
-    /**
-     * Returns the DataSet that contains the provided Entry, or null, if no
-     * DataSet contains this Entry.
-     *
-     * @param e
-     * @return
-     */
-    public T getDataSetForEntry(Entry e) {
-
-        if (e == null)
-            return null;
-
-        for (int i = 0; i < mDataSets.size(); i++) {
-
-            T set = mDataSets.get(i);
-
-            for (int j = 0; j < set.getEntryCount(); j++) {
-                if (e.equalTo(set.getEntryForXValue(e.getX(), e.getY())))
-                    return set;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns all colors used across all DataSet objects this object
-     * represents.
-     *
-     * @return
-     */
-    public int[] getColors() {
-
-        if (mDataSets == null)
-            return null;
-
-        int clrcnt = 0;
-
-        for (int i = 0; i < mDataSets.size(); i++) {
-            clrcnt += mDataSets.get(i).getColors().size();
-        }
-
-        int[] colors = new int[clrcnt];
-        int cnt = 0;
-
-        for (int i = 0; i < mDataSets.size(); i++) {
-
-            List<Integer> clrs = mDataSets.get(i).getColors();
-
-            for (Integer clr : clrs) {
-                colors[cnt] = clr;
-                cnt++;
-            }
-        }
-
-        return colors;
-    }
-
-    /**
-     * Returns the index of the provided DataSet in the DataSet array of this data object, or -1 if it does not exist.
-     *
-     * @param dataSet
-     * @return
-     */
-    public int getIndexOfDataSet(T dataSet) {
-        return mDataSets.indexOf(dataSet);
-    }
-
-    /**
      * Returns the first DataSet from the datasets-array that has it's dependency on the left axis.
      * Returns null if no DataSet with left dependency could be found.
      *
@@ -654,21 +474,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     }
 
     /**
-     * Sets a custom IValueFormatter for all DataSets this data object contains.
-     *
-     * @param f
-     */
-    public void setValueFormatter(ValueFormatter f) {
-        if (f == null)
-            return;
-        else {
-            for (IDataSet set : mDataSets) {
-                set.setValueFormatter(f);
-            }
-        }
-    }
-
-    /**
      * Sets the color of the value-text (color in which the value-labels are
      * drawn) for all DataSets this data object contains.
      *
@@ -677,18 +482,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     public void setValueTextColor(int color) {
         for (IDataSet set : mDataSets) {
             set.setValueTextColor(color);
-        }
-    }
-
-    /**
-     * Sets the same list of value-colors for all DataSets this
-     * data object contains.
-     *
-     * @param colors
-     */
-    public void setValueTextColors(List<Integer> colors) {
-        for (IDataSet set : mDataSets) {
-            set.setValueTextColors(colors);
         }
     }
 
@@ -726,31 +519,6 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
         for (IDataSet set : mDataSets) {
             set.setDrawValues(enabled);
         }
-    }
-
-    /**
-     * Enables / disables highlighting values for all DataSets this data object
-     * contains. If set to true, this means that values can
-     * be highlighted programmatically or by touch gesture.
-     */
-    public void setHighlightEnabled(boolean enabled) {
-        for (IDataSet set : mDataSets) {
-            set.setHighlightEnabled(enabled);
-        }
-    }
-
-    /**
-     * Returns true if highlighting of all underlying values is enabled, false
-     * if not.
-     *
-     * @return
-     */
-    public boolean isHighlightEnabled() {
-        for (IDataSet set : mDataSets) {
-            if (!set.isHighlightEnabled())
-                return false;
-        }
-        return true;
     }
 
     /**

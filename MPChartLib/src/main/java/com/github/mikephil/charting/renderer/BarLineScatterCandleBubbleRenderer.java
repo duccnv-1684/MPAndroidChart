@@ -13,11 +13,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  */
 public abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
-    /**
-     * buffer for storing the current minimum and maximum visible x
-     */
-    protected XBounds mXBounds = new XBounds();
-
     public BarLineScatterCandleBubbleRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
     }

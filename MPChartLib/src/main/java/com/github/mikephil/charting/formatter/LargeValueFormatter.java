@@ -26,42 +26,9 @@ public class LargeValueFormatter extends ValueFormatter
         mFormat = new DecimalFormat("###E00");
     }
 
-    /**
-     * Creates a formatter that appends a specified text to the result string
-     *
-     * @param appendix a text that will be appended
-     */
-    public LargeValueFormatter(String appendix) {
-        this();
-        mText = appendix;
-    }
-
     @Override
     public String getFormattedValue(float value) {
         return makePretty(value) + mText;
-    }
-
-    /**
-     * Set an appendix text to be added at the end of the formatted value.
-     *
-     * @param appendix
-     */
-    public void setAppendix(String appendix) {
-        this.mText = appendix;
-    }
-
-    /**
-     * Set custom suffix to be appended after the values.
-     * Default suffix: ["", "k", "m", "b", "t"]
-     *
-     * @param suffix new suffix
-     */
-    public void setSuffix(String[] suffix) {
-        this.mSuffix = suffix;
-    }
-
-    public void setMaxLength(int maxLength) {
-        this.mMaxLength = maxLength;
     }
 
     /**
@@ -85,7 +52,4 @@ public class LargeValueFormatter extends ValueFormatter
         return r;
     }
 
-    public int getDecimalDigits() {
-        return 0;
-    }
 }

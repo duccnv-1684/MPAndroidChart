@@ -60,11 +60,6 @@ public class MarkerView extends RelativeLayout implements IMarker {
         }
     }
 
-    public void setOffset(float offsetX, float offsetY) {
-        mOffset.x = offsetX;
-        mOffset.y = offsetY;
-    }
-
     @Override
     public MPPointF getOffset() {
         return mOffset;

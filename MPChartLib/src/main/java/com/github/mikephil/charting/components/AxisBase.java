@@ -112,11 +112,6 @@ public abstract class AxisBase extends ComponentBase {
     protected boolean mDrawLimitLineBehindData = false;
 
     /**
-     * flag indicating the grid lines layer depth
-     */
-    protected boolean mDrawGridLinesBehindData = true;
-
-    /**
      * Extra spacing for `axisMinimum` to be added to automatically calculated `axisMinimum`
      */
     protected float mSpaceMin = 0.f;

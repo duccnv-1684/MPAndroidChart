@@ -46,10 +46,6 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
         return mHighlightCircleFillColor;
     }
 
-    public void setHighlightCircleFillColor(int color) {
-        mHighlightCircleFillColor = color;
-    }
-
     /// Returns the stroke color for highlight circle.
     /// If Utils.COLOR_NONE, the color of the dataset is taken.
     @Override
@@ -57,19 +53,9 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
         return mHighlightCircleStrokeColor;
     }
 
-    /// Sets the stroke color for highlight circle.
-    /// Set to Utils.COLOR_NONE in order to use the color of the dataset;
-    public void setHighlightCircleStrokeColor(int color) {
-        mHighlightCircleStrokeColor = color;
-    }
-
     @Override
     public int getHighlightCircleStrokeAlpha() {
         return mHighlightCircleStrokeAlpha;
-    }
-
-    public void setHighlightCircleStrokeAlpha(int alpha) {
-        mHighlightCircleStrokeAlpha = alpha;
     }
 
     @Override
@@ -77,26 +63,14 @@ public class RadarDataSet extends LineRadarDataSet<RadarEntry> implements IRadar
         return mHighlightCircleInnerRadius;
     }
 
-    public void setHighlightCircleInnerRadius(float radius) {
-        mHighlightCircleInnerRadius = radius;
-    }
-
     @Override
     public float getHighlightCircleOuterRadius() {
         return mHighlightCircleOuterRadius;
     }
 
-    public void setHighlightCircleOuterRadius(float radius) {
-        mHighlightCircleOuterRadius = radius;
-    }
-
     @Override
     public float getHighlightCircleStrokeWidth() {
         return mHighlightCircleStrokeWidth;
-    }
-
-    public void setHighlightCircleStrokeWidth(float strokeWidth) {
-        mHighlightCircleStrokeWidth = strokeWidth;
     }
 
     @Override

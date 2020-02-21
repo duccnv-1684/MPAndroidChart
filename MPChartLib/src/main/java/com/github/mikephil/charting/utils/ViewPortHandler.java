@@ -152,10 +152,6 @@ public class ViewPortHandler {
         return mContentRect.width();
     }
 
-    public float contentHeight() {
-        return mContentRect.height();
-    }
-
     public RectF getContentRect() {
         return mContentRect;
     }
@@ -184,79 +180,6 @@ public class ViewPortHandler {
     /**
      * ################ ################ ################ ################
      */
-    /** CODE BELOW THIS RELATED TO SCALING AND GESTURES */
-
-    public void zoomIn(float x, float y, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        outputMatrix.postScale(1.4f, 1.4f, x, y);
-    }
-
-    public void zoomOut(float x, float y, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        outputMatrix.postScale(0.7f, 0.7f, x, y);
-    }
-
-    public void zoom(float scaleX, float scaleY, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        outputMatrix.postScale(scaleX, scaleY);
-    }
-
-    public void zoom(float scaleX, float scaleY, float x, float y, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        outputMatrix.postScale(scaleX, scaleY, x, y);
-    }
-
-    public void setZoom(float scaleX, float scaleY, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        outputMatrix.setScale(scaleX, scaleY);
-    }
-
-    protected float[] valsBufferForFitScreen = new float[9];
-
-    /**
-     * Resets all zooming and dragging and makes the chart fit exactly it's
-     * bounds.  Output Matrix is available for those who wish to cache the object.
-     */
-    public void fitScreen(Matrix outputMatrix) {
-        mMinScaleX = 1f;
-        mMinScaleY = 1f;
-
-        outputMatrix.set(mMatrixTouch);
-
-        float[] vals = valsBufferForFitScreen;
-        for (int i = 0; i < 9; i++) {
-            vals[i] = 0;
-        }
-
-        outputMatrix.getValues(vals);
-
-        // reset all translations and scaling
-        vals[Matrix.MTRANS_X] = 0f;
-        vals[Matrix.MTRANS_Y] = 0f;
-        vals[Matrix.MSCALE_X] = 1f;
-        vals[Matrix.MSCALE_Y] = 1f;
-
-        outputMatrix.setValues(vals);
-    }
-
-    /**
-     * Post-translates to the specified points.  Output matrix allows for caching objects.
-     *
-     * @param transformedPts
-     * @return
-     */
-    public void translate(final float[] transformedPts, Matrix outputMatrix) {
-        outputMatrix.reset();
-        outputMatrix.set(mMatrixTouch);
-        final float x = transformedPts[0] - offsetLeft();
-        final float y = transformedPts[1] - offsetTop();
-        outputMatrix.postTranslate(-x, -y);
-    }
 
     protected Matrix mCenterViewPortMatrixBuffer = new Matrix();
 
@@ -397,13 +320,6 @@ public class ViewPortHandler {
     public boolean isInBoundsBottom(float y) {
         y = (float) ((int) (y * 100.f)) / 100.f;
         return mContentRect.bottom >= y;
-    }
-
-    /**
-     * returns the current x-scale factor
-     */
-    public float getScaleX() {
-        return mScaleX;
     }
 
     /**

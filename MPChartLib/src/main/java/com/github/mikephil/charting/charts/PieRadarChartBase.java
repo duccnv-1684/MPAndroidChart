@@ -384,36 +384,12 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
     }
 
     /**
-     * Set this to true to enable the rotation / spinning of the chart by touch.
-     * Set it to false to disable it. Default: true
-     *
-     * @param enabled
-     */
-    public void setRotationEnabled(boolean enabled) {
-        mRotateEnabled = enabled;
-    }
-
-    /**
      * Returns true if rotation of the chart by touch is enabled, false if not.
      *
      * @return
      */
     public boolean isRotationEnabled() {
         return mRotateEnabled;
-    }
-
-    /**
-     * Gets the minimum offset (padding) around the chart, defaults to 0.f
-     */
-    public float getMinOffset() {
-        return mMinOffset;
-    }
-
-    /**
-     * Sets the minimum offset (padding) around the chart, defaults to 0.f
-     */
-    public void setMinOffset(float minOffset) {
-        mMinOffset = minOffset;
     }
 
     /**
@@ -469,30 +445,4 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      */
     /** CODE BELOW THIS RELATED TO ANIMATION */
 
-    /**
-     * Applys a spin animation to the Chart.
-     *
-     * @param durationmillis
-     * @param fromangle
-     * @param toangle
-     */
-    @SuppressLint("NewApi")
-    public void spin(int durationmillis, float fromangle, float toangle, EasingFunction easing) {
-
-        setRotationAngle(fromangle);
-
-        ObjectAnimator spinAnimator = ObjectAnimator.ofFloat(this, "rotationAngle", fromangle,
-                toangle);
-        spinAnimator.setDuration(durationmillis);
-        spinAnimator.setInterpolator(easing);
-
-        spinAnimator.addUpdateListener(new AnimatorUpdateListener() {
-
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                postInvalidate();
-            }
-        });
-        spinAnimator.start();
-    }
 }

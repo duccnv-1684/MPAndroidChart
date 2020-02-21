@@ -56,12 +56,4 @@ public class DefaultValueFormatter extends ValueFormatter
         return mFormat.format(value);
     }
 
-    /**
-     * Returns the number of decimal digits this formatter uses.
-     *
-     * @return
-     */
-    public int getDecimalDigits() {
-        return mDecimalDigits;
-    }
 }

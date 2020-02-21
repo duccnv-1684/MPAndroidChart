@@ -61,35 +61,9 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         calcMinMaxY(e);
     }
 
-    /**
-     * Sets the space that is left out between the piechart-slices in dp.
-     * Default: 0 --> no space, maximum 20f
-     *
-     * @param spaceDp
-     */
-    public void setSliceSpace(float spaceDp) {
-
-        if (spaceDp > 20)
-            spaceDp = 20f;
-        if (spaceDp < 0)
-            spaceDp = 0f;
-
-        mSliceSpace = Utils.convertDpToPixel(spaceDp);
-    }
-
     @Override
     public float getSliceSpace() {
         return mSliceSpace;
-    }
-
-    /**
-     * When enabled, slice spacing will be 0.0 when the smallest value is going to be
-     * smaller than the slice spacing itself.
-     *
-     * @param autoDisable
-     */
-    public void setAutomaticallyDisableSliceSpacing(boolean autoDisable) {
-        mAutomaticallyDisableSliceSpacing = autoDisable;
     }
 
     /**
@@ -103,16 +77,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mAutomaticallyDisableSliceSpacing;
     }
 
-    /**
-     * sets the distance the highlighted piechart-slice of this DataSet is
-     * "shifted" away from the center of the chart, default 12f
-     *
-     * @param shift
-     */
-    public void setSelectionShift(float shift) {
-        mShift = Utils.convertDpToPixel(shift);
-    }
-
     @Override
     public float getSelectionShift() {
         return mShift;
@@ -123,17 +87,9 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mXValuePosition;
     }
 
-    public void setXValuePosition(ValuePosition xValuePosition) {
-        this.mXValuePosition = xValuePosition;
-    }
-
     @Override
     public ValuePosition getYValuePosition() {
         return mYValuePosition;
-    }
-
-    public void setYValuePosition(ValuePosition yValuePosition) {
-        this.mYValuePosition = yValuePosition;
     }
 
     /**
@@ -164,10 +120,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mValueLineColor;
     }
 
-    public void setValueLineColor(int valueLineColor) {
-        this.mValueLineColor = valueLineColor;
-    }
-
     @Override
     public boolean isUseValueColorForLineEnabled()
     {
@@ -187,20 +139,12 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mValueLineWidth;
     }
 
-    public void setValueLineWidth(float valueLineWidth) {
-        this.mValueLineWidth = valueLineWidth;
-    }
-
     /**
      * When valuePosition is OutsideSlice, indicates offset as percentage out of the slice size
      */
     @Override
     public float getValueLinePart1OffsetPercentage() {
         return mValueLinePart1OffsetPercentage;
-    }
-
-    public void setValueLinePart1OffsetPercentage(float valueLinePart1OffsetPercentage) {
-        this.mValueLinePart1OffsetPercentage = valueLinePart1OffsetPercentage;
     }
 
     /**
@@ -211,20 +155,12 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mValueLinePart1Length;
     }
 
-    public void setValueLinePart1Length(float valueLinePart1Length) {
-        this.mValueLinePart1Length = valueLinePart1Length;
-    }
-
     /**
      * When valuePosition is OutsideSlice, indicates length of second half of the line
      */
     @Override
     public float getValueLinePart2Length() {
         return mValueLinePart2Length;
-    }
-
-    public void setValueLinePart2Length(float valueLinePart2Length) {
-        this.mValueLinePart2Length = valueLinePart2Length;
     }
 
     /**
@@ -235,22 +171,12 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
         return mValueLineVariableLength;
     }
 
-    public void setValueLineVariableLength(boolean valueLineVariableLength) {
-        this.mValueLineVariableLength = valueLineVariableLength;
-    }
-
     /** Gets the color for the highlighted sector */
     @Override
     @Nullable
     public Integer getHighlightColor()
     {
         return mHighlightColor;
-    }
-
-    /** Sets the color for the highlighted sector (null for using entry color) */
-    public void setHighlightColor(@Nullable Integer color)
-    {
-        this.mHighlightColor = color;
     }
 
 

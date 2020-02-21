@@ -69,16 +69,6 @@ public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandl
         return mFillDrawable;
     }
 
-    /**
-     * Sets the drawable to be used to fill the area below the line.
-     *
-     * @param drawable
-     */
-    @TargetApi(18)
-    public void setFillDrawable(Drawable drawable) {
-        this.mFillDrawable = drawable;
-    }
-
     @Override
     public int getFillAlpha() {
         return mFillAlpha;

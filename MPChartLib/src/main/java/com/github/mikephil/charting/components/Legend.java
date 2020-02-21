@@ -153,21 +153,6 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * Constructor. Provide entries for the legend.
-     *
-     * @param entries
-     */
-    public Legend(LegendEntry[] entries) {
-        this();
-
-        if (entries == null) {
-            throw new IllegalArgumentException("entries array is NULL");
-        }
-
-        this.mEntries = entries;
-    }
-
-    /**
      * This method sets the automatically computed colors for the legend. Use setCustom(...) to set custom colors.
      *
      * @param entries
@@ -240,43 +225,6 @@ public class Legend extends ComponentBase {
         return mExtraEntries;
     }
 
-    public void setExtra(List<LegendEntry> entries) {
-        mExtraEntries = entries.toArray(new LegendEntry[entries.size()]);
-    }
-
-    public void setExtra(LegendEntry[] entries) {
-        if (entries == null)
-            entries = new LegendEntry[]{};
-        mExtraEntries = entries;
-    }
-
-    /**
-     * Entries that will be appended to the end of the auto calculated
-     *   entries after calculating the legend.
-     * (if the legend has already been calculated, you will need to call notifyDataSetChanged()
-     *   to let the changes take effect)
-     */
-    public void setExtra(int[] colors, String[] labels) {
-
-        List<LegendEntry> entries = new ArrayList<>();
-
-        for (int i = 0; i < Math.min(colors.length, labels.length); i++) {
-            final LegendEntry entry = new LegendEntry();
-            entry.formColor = colors[i];
-            entry.label = labels[i];
-
-            if (entry.formColor == ColorTemplate.COLOR_SKIP ||
-                    entry.formColor == 0)
-                entry.form = LegendForm.NONE;
-            else if (entry.formColor == ColorTemplate.COLOR_NONE)
-                entry.form = LegendForm.EMPTY;
-
-            entries.add(entry);
-        }
-
-        mExtraEntries = entries.toArray(new LegendEntry[entries.size()]);
-    }
-
     /**
      * Sets a custom legend's entries array.
      * * A null label will start a group.
@@ -303,15 +251,6 @@ public class Legend extends ComponentBase {
 
         mEntries = entries.toArray(new LegendEntry[entries.size()]);
         mIsLegendCustom = true;
-    }
-
-    /**
-     * Calling this will disable the custom legend entries (set by
-     * setCustom(...)). Instead, the entries will again be calculated
-     * automatically (after notifyDataSetChanged() is called).
-     */
-    public void resetCustom() {
-        mIsLegendCustom = false;
     }
 
     /**
@@ -404,39 +343,12 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * sets the text direction of the legend
-     *
-     * @param pos
-     */
-    public void setDirection(LegendDirection pos) {
-        mDirection = pos;
-    }
-
-    /**
      * returns the current form/shape that is set for the legend
      *
      * @return
      */
     public LegendForm getForm() {
         return mShape;
-    }
-
-    /**
-     * sets the form/shape of the legend forms
-     *
-     * @param shape
-     */
-    public void setForm(LegendForm shape) {
-        mShape = shape;
-    }
-
-    /**
-     * sets the size in dp of the legend forms, default 8f
-     *
-     * @param size
-     */
-    public void setFormSize(float size) {
-        mFormSize = size;
     }
 
     /**
@@ -449,30 +361,12 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * sets the line width in dp for forms that consist of lines, default 3f
-     *
-     * @param size
-     */
-    public void setFormLineWidth(float size) {
-        mFormLineWidth = size;
-    }
-
-    /**
      * returns the line width in dp for drawing forms that consist of lines
      *
      * @return
      */
     public float getFormLineWidth() {
         return mFormLineWidth;
-    }
-
-    /**
-     * Sets the line dash path effect used for shapes that consist of lines.
-     *
-     * @param dashPathEffect
-     */
-    public void setFormLineDashEffect(DashPathEffect dashPathEffect) {
-        mFormLineDashEffect = dashPathEffect;
     }
 
     /**
@@ -531,31 +425,12 @@ public class Legend extends ComponentBase {
     }
 
     /**
-     * sets the space between the form and the actual label/text, converts to dp
-     * internally
-     *
-     * @param space
-     */
-    public void setFormToTextSpace(float space) {
-        this.mFormToTextSpace = space;
-    }
-
-    /**
      * returns the space that is left out between stacked forms (with no label)
      *
      * @return
      */
     public float getStackSpace() {
         return mStackSpace;
-    }
-
-    /**
-     * sets the space that is left out between stacked forms (with no label)
-     *
-     * @param space
-     */
-    public void setStackSpace(float space) {
-        mStackSpace = space;
     }
 
     /**
@@ -576,19 +451,6 @@ public class Legend extends ComponentBase {
      * flag that indicates if word wrapping is enabled
      */
     private boolean mWordWrapEnabled = false;
-
-    /**
-     * Should the legend word wrap? / this is currently supported only for:
-     * BelowChartLeft, BelowChartRight, BelowChartCenter. / note that word
-     * wrapping a legend takes a toll on performance. / you may want to set
-     * maxSizePercent when word wrapping, to set the point where the text wraps.
-     * / default: false
-     *
-     * @param enabled
-     */
-    public void setWordWrapEnabled(boolean enabled) {
-        mWordWrapEnabled = enabled;
-    }
 
     /**
      * If this is set, then word wrapping the legend is enabled. This means the
@@ -612,18 +474,6 @@ public class Legend extends ComponentBase {
      */
     public float getMaxSizePercent() {
         return mMaxSizePercent;
-    }
-
-    /**
-     * The maximum relative size out of the whole chart view. / If
-     * the legend is to the right/left of the chart, then this affects the width
-     * of the legend. / If the legend is to the top/bottom of the chart, then
-     * this affects the height of the legend. / default: 0.95f (95%)
-     *
-     * @param maxSize
-     */
-    public void setMaxSizePercent(float maxSize) {
-        mMaxSizePercent = maxSize;
     }
 
     private List<FSize> mCalculatedLabelSizes = new ArrayList<>(16);

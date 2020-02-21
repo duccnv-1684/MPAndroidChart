@@ -28,11 +28,4 @@ public final class Range {
 			return false;
 	}
 
-	public boolean isLarger(float value) {
-		return value > to;
-	}
-
-	public boolean isSmaller(float value) {
-		return value < from;
-	}
 }

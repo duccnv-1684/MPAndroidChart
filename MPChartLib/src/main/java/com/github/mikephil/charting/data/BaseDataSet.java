@@ -142,17 +142,6 @@ public abstract class BaseDataSet<T extends Entry> implements IDataSet<T> {
      */
 
     /**
-     * Adds a new color to the colors array of the DataSet.
-     *
-     * @param color
-     */
-    public void addColor(int color) {
-        if (mColors == null)
-            mColors = new ArrayList<Integer>();
-        mColors.add(color);
-    }
-
-    /**
      * Sets the one and ONLY color that should be used for this DataSet.
      * Internally, this recreates the colors array and adds the specified color.
      *

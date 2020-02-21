@@ -18,14 +18,6 @@ import java.util.List;
  */
 public class PieData extends ChartData<IPieDataSet> {
 
-    public PieData() {
-        super();
-    }
-
-    public PieData(IPieDataSet dataSet) {
-        super(dataSet);
-    }
-
     /**
      * Sets the PieDataSet this data object should represent.
      *

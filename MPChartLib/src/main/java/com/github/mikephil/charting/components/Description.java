@@ -52,36 +52,12 @@ public class Description extends ComponentBase {
     }
 
     /**
-     * Sets a custom position for the description text in pixels on the screen.
-     *
-     * @param x - xcoordinate
-     * @param y - ycoordinate
-     */
-    public void setPosition(float x, float y) {
-        if (mPosition == null) {
-            mPosition = MPPointF.getInstance(x, y);
-        } else {
-            mPosition.x = x;
-            mPosition.y = y;
-        }
-    }
-
-    /**
      * Returns the customized position of the description, or null if none set.
      *
      * @return
      */
     public MPPointF getPosition() {
         return mPosition;
-    }
-
-    /**
-     * Sets the text alignment of the description text. Default RIGHT.
-     *
-     * @param align
-     */
-    public void setTextAlign(Paint.Align align) {
-        this.mTextAlign = align;
     }
 
     /**

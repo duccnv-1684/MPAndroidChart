@@ -142,39 +142,12 @@ public class Highlight {
     }
 
     /**
-     * the index of the data object - in case it refers to more than one
-     *
-     * @return
-     */
-    public int getDataIndex() {
-        return mDataIndex;
-    }
-
-    public void setDataIndex(int mDataIndex) {
-        this.mDataIndex = mDataIndex;
-    }
-
-    /**
      * returns the index of the DataSet the highlighted value is in
      *
      * @return
      */
     public int getDataSetIndex() {
         return mDataSetIndex;
-    }
-
-    /**
-     * Only needed if a stacked-barchart entry was highlighted. References the
-     * selected value within the stacked-entry.
-     *
-     * @return
-     */
-    public int getStackIndex() {
-        return mStackIndex;
-    }
-
-    public boolean isStacked() {
-        return mStackIndex >= 0;
     }
 
     /**
