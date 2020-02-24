@@ -37,8 +37,6 @@ public class RadarChartActivity extends AppCompatActivity {
         chart = findViewById(R.id.chart1);
         chart.setBackgroundColor(Color.rgb(255, 255, 255));
 
-        chart.getDescription().setEnabled(false);
-
         chart.setWebLineWidth(1f);
         chart.setWebColor(0x80000000);
         chart.setWebLineWidthInner(0.5f);

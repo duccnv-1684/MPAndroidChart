@@ -731,18 +731,4 @@ public class PieChartRenderer extends DataRenderer {
         }
     }
 
-    public void releaseBitmap() {
-        if (mBitmapCanvas != null) {
-            mBitmapCanvas.setBitmap(null);
-            mBitmapCanvas = null;
-        }
-        if (mDrawBitmap != null) {
-            Bitmap drawBitmap = mDrawBitmap.get();
-            if (drawBitmap != null) {
-                drawBitmap.recycle();
-            }
-            mDrawBitmap.clear();
-            mDrawBitmap = null;
-        }
-    }
 }

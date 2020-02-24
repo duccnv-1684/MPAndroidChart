@@ -3,8 +3,6 @@ package com.github.mikephil.charting.components;
 
 import android.graphics.DashPathEffect;
 
-import com.github.mikephil.charting.utils.ColorTemplate;
-
 public class LegendEntry {
 
     /**

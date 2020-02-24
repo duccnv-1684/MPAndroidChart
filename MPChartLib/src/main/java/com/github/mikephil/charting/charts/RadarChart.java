@@ -125,21 +125,13 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
 
         mRenderer.drawExtras(canvas);
 
-        if (mYAxis.isEnabled() && mYAxis.isDrawLimitLinesBehindDataEnabled())
-            mYAxisRenderer.renderLimitLines(canvas);
-
         mRenderer.drawData(canvas);
-
-        if (mYAxis.isEnabled() && !mYAxis.isDrawLimitLinesBehindDataEnabled())
-            mYAxisRenderer.renderLimitLines(canvas);
 
         mYAxisRenderer.renderAxisLabels(canvas);
 
         mRenderer.drawValues(canvas);
 
         mLegendRenderer.renderLegend(canvas);
-
-        drawDescription(canvas);
 
     }
 

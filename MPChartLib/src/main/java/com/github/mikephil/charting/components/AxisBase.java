@@ -4,9 +4,6 @@ import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Base-class of all axes (previously called labels).
  *
@@ -55,11 +52,6 @@ public abstract class AxisBase extends ComponentBase {
     private boolean mDrawLabels = true;
 
     /**
-     * array of limit lines that can be set for the axis
-     */
-    private final List<LimitLine> mLimitLines;
-
-    /**
      * flag indicating that the axis-min value has been customized
      */
     boolean mCustomAxisMin = false;
@@ -105,7 +97,6 @@ public abstract class AxisBase extends ComponentBase {
         this.mTextSize = Utils.convertDpToPixel(10f);
         this.mXOffset = Utils.convertDpToPixel(5f);
         this.mYOffset = Utils.convertDpToPixel(5f);
-        this.mLimitLines = new ArrayList<>();
     }
 
     public boolean isCenterAxisLabelsEnabled() {
@@ -195,19 +186,6 @@ public abstract class AxisBase extends ComponentBase {
      */
     public float getGranularity() {
         return 1.0f;
-    }
-
-    /**
-     * Returns the LimitLines of this axis.
-     *
-     * @return
-     */
-    public List<LimitLine> getLimitLines() {
-        return mLimitLines;
-    }
-
-    public boolean isDrawLimitLinesBehindDataEnabled() {
-        return false;
     }
 
     /**

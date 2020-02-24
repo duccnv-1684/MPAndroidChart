@@ -12,7 +12,6 @@ public class PieDataSet extends DataSet<PieEntry> implements IPieDataSet {
 
     public PieDataSet(List<PieEntry> yVals, String label) {
         super(yVals, label);
-//        mShift = Utils.convertDpToPixel(12f);
     }
 
     @Override

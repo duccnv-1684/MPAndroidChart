@@ -8,11 +8,9 @@ import android.graphics.Paint.Align;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
-import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.ChartData;
@@ -53,12 +51,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     private final DefaultValueFormatter mDefaultValueFormatter = new DefaultValueFormatter(0);
 
     /**
-     * paint object used for drawing the description text in the bottom right
-     * corner of the chart
-     */
-    private Paint mDescPaint;
-
-    /**
      * paint object for drawing the information text when there are no values in
      * the chart
      */
@@ -68,12 +60,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
      * the object representing the labels on the x-axis
      */
     XAxis mXAxis;
-
-    /**
-     * the object responsible for representing the description text
-     */
-    private Description mDescription;
-
     /**
      * the legend object containing all data associated with the legend
      */
@@ -134,14 +120,11 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         // initialize the utils
         Utils.init(getContext());
 
-        mDescription = new Description();
         mLegend = new Legend();
 
         mLegendRenderer = new LegendRenderer(mViewPortHandler, mLegend);
 
         mXAxis = new XAxis();
-
-        mDescPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         mInfoPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mInfoPaint.setColor(Color.rgb(247, 189, 51)); // orange
@@ -296,29 +279,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         }
     }
 
-    /**
-     * Draws the description text in the bottom right corner of the chart (per default)
-     */
-    void drawDescription(Canvas c) {
-
-        // check if description should be drawn
-        if (mDescription != null && mDescription.isEnabled()) {
-
-
-            mDescPaint.setTypeface(mDescription.getTypeface());
-            mDescPaint.setTextSize(mDescription.getTextSize());
-            mDescPaint.setColor(mDescription.getTextColor());
-            mDescPaint.setTextAlign(mDescription.getTextAlign());
-
-            float x, y;
-
-                x = getWidth() - mViewPortHandler.offsetRight() - mDescription.getXOffset();
-                y = getHeight() - mViewPortHandler.offsetBottom() - mDescription.getYOffset();
-
-            c.drawText(mDescription.getText(), x, y, mDescPaint);
-        }
-    }
-
 
     /**
      * Returns the object representing all x-labels, this method can be used to
@@ -380,15 +340,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         return 0.f;
     }
 
-    /**
-     * Returns the Description object of the chart that is responsible for holding all information related
-     * to the description text that is displayed in the bottom right corner of the chart (by default).
-     *
-     * @return
-     */
-    public Description getDescription() {
-        return mDescription;
-    }
 
     /**
      * Returns the Legend object of the chart. This method can be used to get an

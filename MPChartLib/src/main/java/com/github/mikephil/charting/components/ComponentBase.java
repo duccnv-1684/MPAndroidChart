@@ -151,16 +151,6 @@ public abstract class ComponentBase {
         return mTextColor;
     }
 
-    /**
-     * Set this to true if this component should be enabled (should be drawn),
-     * false if not. If disabled, nothing of this component will be drawn.
-     * Default: true
-     *
-     * @param enabled
-     */
-    public void setEnabled(boolean enabled) {
-        mEnabled = enabled;
-    }
 
     /**
      * Returns true if this comonent is enabled (should be drawn), false if not.

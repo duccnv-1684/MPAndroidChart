@@ -1,16 +1,12 @@
 package com.github.mikephil.charting.renderer;
 
 import android.graphics.Canvas;
-import android.graphics.Path;
 
 import com.github.mikephil.charting.charts.RadarChart;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
-
-import java.util.List;
 
 public class YAxisRendererRadarChart extends YAxisRenderer {
 
@@ -169,56 +165,6 @@ public class YAxisRendererRadarChart extends YAxisRenderer {
             String label = mYAxis.getFormattedLabel(j);
 
             c.drawText(label, pOut.x + xOffset, pOut.y, mAxisLabelPaint);
-        }
-        MPPointF.recycleInstance(center);
-        MPPointF.recycleInstance(pOut);
-    }
-
-    private final Path mRenderLimitLinesPathBuffer = new Path();
-    public void renderLimitLines(Canvas c) {
-
-        List<LimitLine> limitLines = mYAxis.getLimitLines();
-
-        if (limitLines == null)
-            return;
-
-        float sliceangle = mChart.getSliceAngle();
-
-        // calculate the factor that is needed for transforming the value to
-        // pixels
-        float factor = mChart.getFactor();
-
-        MPPointF center = mChart.getCenterOffsets();
-        MPPointF pOut = MPPointF.getInstance(0,0);
-        for (int i = 0; i < limitLines.size(); i++) {
-
-            LimitLine l = limitLines.get(i);
-
-            if (!l.isEnabled())
-                continue;
-
-            mLimitLinePaint.setColor(l.getLineColor());
-            mLimitLinePaint.setPathEffect(l.getDashPathEffect());
-            mLimitLinePaint.setStrokeWidth(l.getLineWidth());
-
-            float r = (l.getLimit() - mChart.getYChartMin()) * factor;
-
-            Path limitPath = mRenderLimitLinesPathBuffer;
-            limitPath.reset();
-
-
-            for (int j = 0; j < mChart.getData().getMaxEntryCountSet().getEntryCount(); j++) {
-
-                Utils.getPosition(center, r, sliceangle * j + mChart.getRotationAngle(), pOut);
-
-                if (j == 0)
-                    limitPath.moveTo(pOut.x, pOut.y);
-                else
-                    limitPath.lineTo(pOut.x, pOut.y);
-            }
-            limitPath.close();
-
-            c.drawPath(limitPath, mLimitLinePaint);
         }
         MPPointF.recycleInstance(center);
         MPPointF.recycleInstance(pOut);

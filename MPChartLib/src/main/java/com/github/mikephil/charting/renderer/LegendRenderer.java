@@ -120,7 +120,7 @@ public class LegendRenderer extends Renderer {
         mLegendLabelPaint.setColor(mLegend.getTextColor());
 
         // calculate all dimensions of the mLegend
-        mLegend.calculateDimensions(mLegendLabelPaint, mViewPortHandler);
+        mLegend.calculateDimensions(mLegendLabelPaint);
     }
 
     private final Paint.FontMetrics legendFontMetrics = new Paint.FontMetrics();

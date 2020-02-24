@@ -5,7 +5,6 @@ import android.graphics.Paint;
 
 import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.Utils;
-import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -394,7 +393,7 @@ public class Legend extends ComponentBase {
      *
      * @param labelpaint
      */
-    public void calculateDimensions(Paint labelpaint, ViewPortHandler viewPortHandler) {
+    public void calculateDimensions(Paint labelpaint) {
 
         float defaultFormSize = Utils.convertDpToPixel(mFormSize);
         float stackSpace = Utils.convertDpToPixel(mStackSpace);

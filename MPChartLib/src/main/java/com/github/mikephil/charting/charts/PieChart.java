@@ -78,8 +78,6 @@ public class PieChart extends PieRadarChartBase<PieData> {
 
         mLegendRenderer.renderLegend(canvas);
 
-        drawDescription(canvas);
-
     }
 
     @Override
