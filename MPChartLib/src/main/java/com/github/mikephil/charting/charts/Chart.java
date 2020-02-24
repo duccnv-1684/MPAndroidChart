@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.ViewGroup;
 
-import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.ChartData;
@@ -81,7 +80,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
     /**
      * object responsible for animations
      */
-    ChartAnimator mAnimator;
 
     /**
      * default constructor for initialization in code
@@ -115,7 +113,6 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
         setWillNotDraw(false);
         // setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-        mAnimator = new ChartAnimator();
 
         // initialize the utils
         Utils.init(getContext());

@@ -81,6 +81,7 @@ public class YAxis extends AxisBase {
      *
      * @return
      */
+    @SuppressWarnings("SameReturnValue")
     public boolean isInverted() {
         return false;
     }

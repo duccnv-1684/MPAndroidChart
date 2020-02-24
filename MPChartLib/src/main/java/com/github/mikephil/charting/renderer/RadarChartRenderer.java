@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 
-import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarEntry;
@@ -25,9 +24,9 @@ public class RadarChartRenderer extends LineRadarRenderer {
      */
     private final Paint mWebPaint;
 
-    public RadarChartRenderer(RadarChart chart, ChartAnimator animator,
+    public RadarChartRenderer(RadarChart chart,
                               ViewPortHandler viewPortHandler) {
-        super(animator, viewPortHandler);
+        super(viewPortHandler);
         mChart = chart;
 
         mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -65,8 +64,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
      */
     private void drawDataSet(Canvas c, IRadarDataSet dataSet, int mostEntries) {
 
-        float phaseX = mAnimator.getPhaseX();
-        float phaseY = mAnimator.getPhaseY();
 
         float sliceangle = mChart.getSliceAngle();
 
@@ -89,8 +86,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
             Utils.getPosition(
                     center,
-                    (e.getY() - mChart.getYChartMin()) * factor * phaseY,
-                    sliceangle * j * phaseX + mChart.getRotationAngle(), pOut);
+                    (e.getY() - mChart.getYChartMin()) * factor,
+                    sliceangle * j + mChart.getRotationAngle(), pOut);
 
             if (Float.isNaN(pOut.x))
                 continue;
@@ -135,8 +132,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
     @Override
     public void drawValues(Canvas c) {
 
-        float phaseX = mAnimator.getPhaseX();
-        float phaseY = mAnimator.getPhaseY();
 
         float sliceangle = mChart.getSliceAngle();
 
@@ -172,8 +167,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
                  Utils.getPosition(
                          center,
-                         (entry.getY() - mChart.getYChartMin()) * factor * phaseY,
-                         sliceangle * j * phaseX + mChart.getRotationAngle(),
+                         (entry.getY() - mChart.getYChartMin()) * factor,
+                         sliceangle * j + mChart.getRotationAngle(),
                          pOut);
 
                 if (dataSet.isDrawValuesEnabled()) {
@@ -186,8 +181,8 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
                     Utils.getPosition(
                             center,
-                            (entry.getY()) * factor * phaseY + iconsOffset.y,
-                            sliceangle * j * phaseX + mChart.getRotationAngle(),
+                            (entry.getY()) * factor + iconsOffset.y,
+                            sliceangle * j + mChart.getRotationAngle(),
                             pIcon);
 
                     //noinspection SuspiciousNameCombination

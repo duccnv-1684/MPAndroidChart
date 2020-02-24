@@ -81,7 +81,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
      *
      * @param e
      */
-    void calcMinMax(T e) {
+    private void calcMinMax(T e) {
 
         if (e == null)
             return;
@@ -100,7 +100,7 @@ public abstract class DataSet<T extends Entry> extends BaseDataSet<T> {
             mXMax = e.getX();
     }
 
-    void calcMinMaxY(T e) {
+    private void calcMinMaxY(T e) {
 
         if (e.getY() < mYMin)
             mYMin = e.getY();

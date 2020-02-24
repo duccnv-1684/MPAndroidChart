@@ -78,16 +78,13 @@ public class RadarChart extends PieRadarChartBase<RadarData> {
         mWebLineWidth = Utils.convertDpToPixel(1.5f);
         mInnerWebLineWidth = Utils.convertDpToPixel(0.75f);
 
-        mRenderer = new RadarChartRenderer(this, mAnimator, mViewPortHandler);
+        mRenderer = new RadarChartRenderer(this, mViewPortHandler);
         mYAxisRenderer = new YAxisRendererRadarChart(mViewPortHandler, mYAxis, this);
         mXAxisRenderer = new XAxisRendererRadarChart(mViewPortHandler, mXAxis, this);
 
     }
 
-    @Override
     void calcMinMax() {
-        super.calcMinMax();
-
         mYAxis.calculate(mData.getYMin(AxisDependency.LEFT), mData.getYMax(AxisDependency.LEFT));
         mXAxis.calculate(0, mData.getMaxEntryCountSet().getEntryCount());
     }

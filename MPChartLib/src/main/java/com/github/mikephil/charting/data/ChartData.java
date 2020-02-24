@@ -48,7 +48,7 @@ public abstract class ChartData<T extends IDataSet<? extends Entry>> {
     /**
      * array that holds all DataSets the ChartData object represents
      */
-    final List<T> mDataSets;
+    private final List<T> mDataSets;
 
     /**
      * Default constructor.

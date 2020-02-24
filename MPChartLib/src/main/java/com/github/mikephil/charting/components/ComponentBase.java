@@ -16,7 +16,7 @@ public abstract class ComponentBase {
     /**
      * flag that indicates if this axis / legend is enabled or not
      */
-    private boolean mEnabled = true;
+    private final boolean mEnabled = true;
 
     /**
      * the offset in pixels this component has on the x-axis

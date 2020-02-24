@@ -5,7 +5,6 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 
-import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -14,8 +13,8 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  */
 abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 
-    LineRadarRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
-        super(animator, viewPortHandler);
+    LineRadarRenderer(ViewPortHandler viewPortHandler) {
+        super(viewPortHandler);
     }
 
     /**

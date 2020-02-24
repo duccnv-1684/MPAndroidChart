@@ -1,6 +1,5 @@
 package com.github.mikephil.charting.renderer;
 
-import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
@@ -9,8 +8,8 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
  */
 abstract class BarLineScatterCandleBubbleRenderer extends DataRenderer {
 
-    BarLineScatterCandleBubbleRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
-        super(animator, viewPortHandler);
+    BarLineScatterCandleBubbleRenderer( ViewPortHandler viewPortHandler) {
+        super(viewPortHandler);
     }
 
     /**

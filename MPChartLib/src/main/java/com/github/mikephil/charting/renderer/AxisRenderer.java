@@ -32,7 +32,7 @@ public abstract class AxisRenderer extends Renderer {
     /**
      * paint used for the limit lines
      */
-    Paint mLimitLinePaint;
+    private Paint mLimitLinePaint;
 
     AxisRenderer(ViewPortHandler viewPortHandler, AxisBase axis) {
         super(viewPortHandler);

@@ -56,7 +56,7 @@ public class ViewPortHandler {
         return mContentRect.left;
     }
 
-    public float offsetRight() {
+    private float offsetRight() {
         return mChartWidth - mContentRect.right;
     }
 
@@ -64,7 +64,7 @@ public class ViewPortHandler {
         return mContentRect.top;
     }
 
-    public float offsetBottom() {
+    private float offsetBottom() {
         return mChartHeight - mContentRect.bottom;
     }
 

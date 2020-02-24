@@ -28,16 +28,6 @@ public abstract class ValueFormatter {
     }
 
     /**
-     * Used to draw pie value labels, calls {@link #getFormattedValue(float)} by default.
-     *
-     * @param value    float to be formatted, may have been converted to percentage
-     * @return formatted string label
-     */
-    public String getPieLabel(float value) {
-        return getFormattedValue(value);
-    }
-
-    /**
      * Used to draw radar value labels, calls {@link #getFormattedValue(float)} by default.
      *
      * @param radarEntry entry being labeled

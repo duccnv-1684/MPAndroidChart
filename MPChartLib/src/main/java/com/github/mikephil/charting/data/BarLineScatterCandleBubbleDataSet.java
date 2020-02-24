@@ -1,7 +1,6 @@
 
 package com.github.mikephil.charting.data;
 
-import com.github.mikephil.charting.interfaces.datasets.IBarLineScatterCandleBubbleDataSet;
 
 import java.util.List;
 
@@ -10,9 +9,7 @@ import java.util.List;
  *
  * @author Philipp Jahoda
  */
-abstract class BarLineScatterCandleBubbleDataSet<T extends Entry>
-        extends DataSet<T>
-        implements IBarLineScatterCandleBubbleDataSet<T> {
+abstract class BarLineScatterCandleBubbleDataSet<T extends Entry> extends DataSet<T>{
 
     /**
      * default highlight color

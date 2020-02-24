@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
 
-import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
@@ -21,7 +20,6 @@ public abstract class DataRenderer extends Renderer {
     /**
      * the animator object used to perform animations on the chart data
      */
-    final ChartAnimator mAnimator;
 
     /**
      * main paint object used for rendering
@@ -39,9 +37,8 @@ public abstract class DataRenderer extends Renderer {
      */
     final Paint mValuePaint;
 
-    DataRenderer(ChartAnimator animator, ViewPortHandler viewPortHandler) {
+    DataRenderer(ViewPortHandler viewPortHandler) {
         super(viewPortHandler);
-        this.mAnimator = animator;
 
         mRenderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRenderPaint.setStyle(Style.FILL);

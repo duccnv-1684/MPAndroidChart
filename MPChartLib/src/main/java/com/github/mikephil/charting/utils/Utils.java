@@ -23,8 +23,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter;
 public abstract class Utils {
 
     private static DisplayMetrics mMetrics;
-    public final static double DEG2RAD = (Math.PI / 180.0);
-    public final static float FDEG2RAD = ((float) Math.PI / 180.f);
+    private final static float FDEG2RAD = ((float) Math.PI / 180.f);
 
     @SuppressWarnings("unused")
     public final static double DOUBLE_EPSILON = Double.longBitsToDouble(1);

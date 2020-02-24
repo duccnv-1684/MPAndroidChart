@@ -35,17 +35,10 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
     }
 
 
-    void calcMinMax() {
-        //mXAxis.mAxisRange = mData.getXVals().size() - 1;
-    }
-
-
     @Override
     public void notifyDataSetChanged() {
         if (mData == null)
             return;
-
-        calcMinMax();
 
         if (mLegend != null)
             mLegendRenderer.computeLegend(mData);
@@ -296,20 +289,6 @@ public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<?
      */
     public float getRotationAngle() {
         return 270f;
-    }
-
-    /**
-     * returns the diameter of the pie- or radar-chart
-     *
-     * @return
-     */
-    float getDiameter() {
-        RectF content = mViewPortHandler.getContentRect();
-        content.left += getExtraLeftOffset();
-        content.top += getExtraTopOffset();
-        content.right -= getExtraRightOffset();
-        content.bottom -= getExtraBottomOffset();
-        return Math.min(content.width(), content.height());
     }
 
     /**

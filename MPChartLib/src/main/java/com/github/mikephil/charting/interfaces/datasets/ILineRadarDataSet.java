@@ -7,7 +7,7 @@ import com.github.mikephil.charting.data.Entry;
 /**
  * Created by Philipp Jahoda on 21/10/15.
  */
-public interface ILineRadarDataSet<T extends Entry> extends ILineScatterCandleRadarDataSet<T> {
+public interface ILineRadarDataSet<T extends Entry> extends IDataSet<T> {
 
     /**
      * Returns the color that is used for filling the line surface area.
