@@ -181,7 +181,7 @@ public class YAxisRendererRadarChart extends AxisRenderer {
 
             String label = mYAxis.getFormattedLabel(j);
 
-            c.drawText(label, pOut.x + xOffset, pOut.y, mAxisLabelPaint);
+            c.drawText(label, pOut.x + xOffset, pOut.y-8, mAxisLabelPaint);
         }
         MPPointF.recycleInstance(center);
         MPPointF.recycleInstance(pOut);

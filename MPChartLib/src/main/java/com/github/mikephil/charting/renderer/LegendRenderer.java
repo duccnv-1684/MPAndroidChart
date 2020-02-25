@@ -102,7 +102,9 @@ public class LegendRenderer extends Renderer {
                                 dataSet.getFormSize(),
                                 dataSet.getFormLineWidth(),
                                 dataSet.getFormLineDashEffect(),
-                                clrs.get(j)
+                                clrs.get(j),
+                                dataSet.getFillColor(),
+                                dataSet.getFillAlpha()
                         ));
                     }
 
@@ -396,7 +398,9 @@ public class LegendRenderer extends Renderer {
         if (form == Legend.LegendForm.DEFAULT)
             form = legend.getForm();
 
-        mLegendFormPaint.setColor(entry.formColor);
+        int legendFillColor = (entry.fillAlpha << 24) | (entry.fillColor & 0xffffff);
+
+        mLegendFormPaint.setColor(legendFillColor);
 
         final float formSize = Utils.convertDpToPixel(
                 Float.isNaN(entry.formSize)
@@ -421,7 +425,7 @@ public class LegendRenderer extends Renderer {
 
             case SQUARE:
                 mLegendFormPaint.setStyle(Paint.Style.FILL);
-                c.drawRect(x-formSize*4 , y - half*2, x, y + half*2, mLegendFormPaint);
+                c.drawRect(x-formSize*3.5f , y - half*2, x, y + half*2, mLegendFormPaint);
                 break;
 
             case LINE:

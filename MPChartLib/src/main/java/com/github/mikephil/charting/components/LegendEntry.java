@@ -19,7 +19,9 @@ public class LegendEntry {
                        float formSize,
                        float formLineWidth,
                        DashPathEffect formLineDashEffect,
-                       int formColor)
+                       int formColor,
+                       int fillColor,
+                       int fillAlpha)
     {
         this.label = label;
         this.form = form;
@@ -27,6 +29,8 @@ public class LegendEntry {
         this.formLineWidth = formLineWidth;
         this.formLineDashEffect = formLineDashEffect;
         this.formColor = formColor;
+        this.fillColor = fillColor;
+        this.fillAlpha = fillAlpha;
     }
 
     /**
@@ -69,5 +73,9 @@ public class LegendEntry {
      * The color for drawing the form
      */
     public final int formColor;
+
+    public final int fillColor;
+
+    public final int fillAlpha;
 
 }

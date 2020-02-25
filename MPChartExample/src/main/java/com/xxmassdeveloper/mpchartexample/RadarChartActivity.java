@@ -53,8 +53,8 @@ public class RadarChartActivity extends AppCompatActivity {
 
 
         XAxis xAxis = chart.getXAxis();
-        xAxis.setTypeface(tfLight);
-        xAxis.setTextSize(15f);
+        xAxis.setTypeface(tfRegular);
+        xAxis.setTextSize(16f);
         xAxis.setYOffset(0f);
         xAxis.setTextColor(0x80000000);
         xAxis.setXOffset(0f);
@@ -73,8 +73,8 @@ public class RadarChartActivity extends AppCompatActivity {
         yAxis.setTypeface(tfLight);
         yAxis.setLabelCount(6, true);
         yAxis.setTextSize(9f);
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(100f);
+        yAxis.setAxisMinimum(30f);
+        yAxis.setAxisMaximum(80f);
         yAxis.setDrawLabels(true);
 
         Legend l = chart.getLegend();
@@ -84,15 +84,15 @@ public class RadarChartActivity extends AppCompatActivity {
         l.setDrawInside(false);
         l.setTypeface(tfRegular);
         l.setXEntrySpace(7f);
-        l.setTextSize(15f);
+        l.setTextSize(18f);
         l.setYEntrySpace(5f);
-        l.setTextColor(Color.RED);
+        l.setTextColor(Color.BLACK);
     }
 
     private void setData() {
 
-        float mul = 80;
-        float min = 20;
+        float mul = 40;
+        float min = 30;
         int cnt = 8;
 
         ArrayList<RadarEntry> entries1 = new ArrayList<>();
@@ -101,24 +101,24 @@ public class RadarChartActivity extends AppCompatActivity {
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < cnt; i++) {
-            float val1 = (float) (Math.random() * mul) + min;
+            float val1 = 50+i*2;
             entries1.add(new RadarEntry(val1));
 
-            float val2 = (float) (Math.random() * mul) + min;
+            float val2 = 70-i*2;
             entries2.add(new RadarEntry(val2));
         }
 
-        RadarDataSet set1 = new RadarDataSet(entries1, "This is chart's first label");
+        RadarDataSet set1 = new RadarDataSet(entries1, "This is first label");
         set1.setColor(Color.RED);
         set1.setFillColor(Color.RED);
         set1.setDrawFilled(true);
-        set1.setFillAlpha(80);
+        set1.setFillAlpha(120);
 
-        RadarDataSet set2 = new RadarDataSet(entries2, "This is chart's second label (an alternative)");
+        RadarDataSet set2 = new RadarDataSet(entries2, "This is second label (an alternative)");
         set2.setColor(Color.BLUE);
         set2.setFillColor(Color.BLUE);
         set2.setDrawFilled(true);
-        set2.setFillAlpha(80);
+        set2.setFillAlpha(120);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<>();
         sets.add(set1);
