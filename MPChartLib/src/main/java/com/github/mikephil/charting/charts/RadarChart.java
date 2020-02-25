@@ -17,8 +17,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.components.YAxis.AxisDependency;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.formatter.DefaultValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.renderer.DataRenderer;
+import com.github.mikephil.charting.data.IRadarDataSet;
 import com.github.mikephil.charting.renderer.LegendRenderer;
 import com.github.mikephil.charting.renderer.RadarChartRenderer;
 import com.github.mikephil.charting.renderer.XAxisRendererRadarChart;
@@ -36,18 +35,18 @@ import java.util.ArrayList;
  * @author Philipp Jahoda
  */
 public class RadarChart extends ViewGroup {
-    static final String LOG_TAG = "MPAndroidChart";
+    private static final String LOG_TAG = "MPAndroidChart";
 
     /**
      * flag that indicates if logging is enabled or not
      */
-    final boolean mLogEnabled = false;
+    private final boolean mLogEnabled = false;
 
     /**
      * object that holds all data that was originally set for the chart, before
      * it was modified or any filtering algorithms had been applied
      */
-    RadarData mData = null;
+    private RadarData mData = null;
 
     /**
      * default value-formatter, number of digits depends on provided chart-data
@@ -63,24 +62,24 @@ public class RadarChart extends ViewGroup {
     /**
      * the object representing the labels on the x-axis
      */
-    XAxis mXAxis;
+    private XAxis mXAxis;
     /**
      * the legend object containing all data associated with the legend
      */
-    Legend mLegend;
+    private Legend mLegend;
 
 
-    LegendRenderer mLegendRenderer;
+    private LegendRenderer mLegendRenderer;
 
     /**
      * object responsible for rendering the data
      */
-    DataRenderer mRenderer;
+    private RadarChartRenderer mRenderer;
 
     /**
      * object that manages the bounds and drawing constraints of the chart
      */
-    final ViewPortHandler mViewPortHandler = new ViewPortHandler();
+    private final ViewPortHandler mViewPortHandler = new ViewPortHandler();
     /**
      * width of the main web lines
      */
@@ -131,10 +130,6 @@ public class RadarChart extends ViewGroup {
 
 
     /**
-     * object responsible for animations
-     */
-
-    /**
      * default constructor for initialization in code
      */
 
@@ -150,7 +145,7 @@ public class RadarChart extends ViewGroup {
         // calculate how many digits are needed
         setupDefaultFormatter(data.getYMin(), data.getYMax());
 
-        for (IDataSet set : mData.getDataSets()) {
+        for (IRadarDataSet set : mData.getDataSets()) {
             if (set.needsFormatter() || set.getValueFormatter() == mDefaultValueFormatter)
                 set.setValueFormatter(mDefaultValueFormatter);
         }
@@ -162,7 +157,7 @@ public class RadarChart extends ViewGroup {
             Log.i(LOG_TAG, "Data is set.");
     }
 
-    protected void calculateOffsets() {
+    private void calculateOffsets() {
 
         float legendLeft = 0f, legendRight = 0f, legendBottom = 0f, legendTop = 0f;
 
@@ -427,7 +422,7 @@ public class RadarChart extends ViewGroup {
      *
      * @return
      */
-    MPPointF getCenter() {
+    private MPPointF getCenter() {
         return MPPointF.getInstance(getWidth() / 2f, getHeight() / 2f);
     }
 
@@ -445,28 +440,28 @@ public class RadarChart extends ViewGroup {
     /**
      * @return the extra offset to be appended to the viewport's top
      */
-    float getExtraTopOffset() {
+    private float getExtraTopOffset() {
         return 0.f;
     }
 
     /**
      * @return the extra offset to be appended to the viewport's right
      */
-    float getExtraRightOffset() {
+    private float getExtraRightOffset() {
         return 0.f;
     }
 
     /**
      * @return the extra offset to be appended to the viewport's bottom
      */
-    float getExtraBottomOffset() {
+    private float getExtraBottomOffset() {
         return 0.f;
     }
 
     /**
      * @return the extra offset to be appended to the viewport's left
      */
-    float getExtraLeftOffset() {
+    private float getExtraLeftOffset() {
         return 0.f;
     }
 
@@ -507,7 +502,7 @@ public class RadarChart extends ViewGroup {
         return 270f;
     }
 
-    protected void init() {
+    private void init() {
 
         setWillNotDraw(false);
         // setLayerType(View.LAYER_TYPE_HARDWARE, null);
@@ -542,12 +537,12 @@ public class RadarChart extends ViewGroup {
 
     }
 
-    void calcMinMax() {
+    private void calcMinMax() {
         mYAxis.calculate(mData.getYMin(AxisDependency.LEFT), mData.getYMax(AxisDependency.LEFT));
         mXAxis.calculate(0, mData.getMaxEntryCountSet().getEntryCount());
     }
 
-    public void notifyDataSetChanged() {
+    private void notifyDataSetChanged() {
         if (mData == null)
             return;
 
@@ -738,17 +733,17 @@ public class RadarChart extends ViewGroup {
         return 0;
     }
 
-    protected float getRequiredLegendOffset() {
+    private float getRequiredLegendOffset() {
         return mLegendRenderer.getLabelPaint().getTextSize() * 4.f;
     }
 
-    protected float getRequiredBaseOffset() {
+    private float getRequiredBaseOffset() {
         return mXAxis.isEnabled() && mXAxis.isDrawLabelsEnabled() ?
                 mXAxis.mLabelRotatedWidth :
                 Utils.convertDpToPixel(10f);
     }
 
-    public float getRadius() {
+    private float getRadius() {
         RectF content = mViewPortHandler.getContentRect();
         return Math.min(content.width() / 2f, content.height() / 2f);
     }

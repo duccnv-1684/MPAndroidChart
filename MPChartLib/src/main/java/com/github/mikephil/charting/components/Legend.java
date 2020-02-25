@@ -364,9 +364,6 @@ public class Legend extends ComponentBase {
      * @return
      */
     public float getMaxSizePercent() {
-        /**
-         * the maximum relative size out of the whole chart view in percent
-         */
         return 0.95f;
     }
 

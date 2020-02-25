@@ -7,15 +7,15 @@ import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.data.IRadarDataSet;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-public class RadarChartRenderer extends LineRadarRenderer {
+public class RadarChartRenderer extends Renderer {
 
     private final RadarChart mChart;
 
@@ -24,9 +24,39 @@ public class RadarChartRenderer extends LineRadarRenderer {
      */
     private final Paint mWebPaint;
 
+    /**
+     * main paint object used for rendering
+     */
+    private final Paint mRenderPaint;
+
+    /**
+     * paint used for highlighting values
+     */
+    private Paint mHighlightPaint;
+
+    /**
+     * paint object for drawing values (text representing values of chart
+     * entries)
+     */
+    private final Paint mValuePaint;
+
     public RadarChartRenderer(RadarChart chart,
                               ViewPortHandler viewPortHandler) {
         super(viewPortHandler);
+
+        mRenderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mRenderPaint.setStyle(Paint.Style.FILL);
+
+
+        mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mValuePaint.setColor(Color.rgb(63, 63, 63));
+        mValuePaint.setTextAlign(Paint.Align.CENTER);
+        mValuePaint.setTextSize(Utils.convertDpToPixel(9f));
+
+        mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mHighlightPaint.setStyle(Paint.Style.STROKE);
+        mHighlightPaint.setStrokeWidth(2f);
+        mHighlightPaint.setColor(Color.rgb(255, 187, 115));
         mChart = chart;
 
         mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -39,7 +69,96 @@ public class RadarChartRenderer extends LineRadarRenderer {
 
     }
 
-    @Override
+    private void applyValueTextStyle(IRadarDataSet set) {
+
+        mValuePaint.setTypeface(set.getValueTypeface());
+        mValuePaint.setTextSize(set.getValueTextSize());
+    }
+
+
+    /**
+     * Draws any kind of additional information (e.g. line-circles).
+     */
+
+    private boolean shouldDrawValues(IRadarDataSet set) {
+        return set.isVisible() && (set.isDrawValuesEnabled() || set.isDrawIconsEnabled());
+    }
+
+    /**
+     * Draws the provided path in filled mode with the provided drawable.
+     *
+     * @param c
+     * @param filledPath
+     * @param drawable
+     */
+    private void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
+
+        if (clipPathSupported()) {
+
+            int save = c.save();
+            c.clipPath(filledPath);
+
+            drawable.setBounds((int) mViewPortHandler.contentLeft(),
+                    (int) mViewPortHandler.contentTop(),
+                    (int) mViewPortHandler.contentRight(),
+                    (int) mViewPortHandler.contentBottom());
+            drawable.draw(c);
+
+            c.restoreToCount(save);
+        } else {
+            throw new RuntimeException("Fill-drawables not (yet) supported below API level 18, " +
+                    "this code was run on API level " + Utils.getSDKInt() + ".");
+        }
+    }
+
+    /**
+     * Draws the provided path in filled mode with the provided color and alpha.
+     * Special thanks to Angelo Suzuki (https://github.com/tinsukE) for this.
+     *
+     * @param c
+     * @param filledPath
+     * @param fillColor
+     * @param fillAlpha
+     */
+    private void drawFilledPath(Canvas c, Path filledPath, int fillColor, int fillAlpha) {
+
+        int color = (fillAlpha << 24) | (fillColor & 0xffffff);
+
+        if (clipPathSupported()) {
+
+            int save = c.save();
+
+            c.clipPath(filledPath);
+
+            c.drawColor(color);
+            c.restoreToCount(save);
+        } else {
+
+            // save
+            Paint.Style previous = mRenderPaint.getStyle();
+            int previousColor = mRenderPaint.getColor();
+
+            // set
+            mRenderPaint.setStyle(Paint.Style.FILL);
+            mRenderPaint.setColor(color);
+
+            c.drawPath(filledPath, mRenderPaint);
+
+            // restore
+            mRenderPaint.setColor(previousColor);
+            mRenderPaint.setStyle(previous);
+        }
+    }
+
+    /**
+     * Clip path with hardware acceleration only working properly on API level 18 and above.
+     *
+     * @return
+     */
+    private boolean clipPathSupported() {
+        return Utils.getSDKInt() >= 18;
+    }
+
     public void drawData(Canvas c) {
 
         RadarData radarData = mChart.getData();
@@ -129,7 +248,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
         MPPointF.recycleInstance(pOut);
     }
 
-    @Override
     public void drawValues(Canvas c) {
 
 
@@ -211,7 +329,6 @@ public class RadarChartRenderer extends LineRadarRenderer {
         c.drawText(valueText, x, y, mValuePaint);
     }
 
-    @Override
     public void drawExtras(Canvas c) {
         drawWeb(c);
     }

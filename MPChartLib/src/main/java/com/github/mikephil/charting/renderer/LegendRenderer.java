@@ -7,12 +7,11 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Typeface;
-import android.util.Log;
 
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.LegendEntry;
-import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.data.IRadarDataSet;
+import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.github.mikephil.charting.utils.FSize;
 import com.github.mikephil.charting.utils.Utils;
@@ -68,7 +67,7 @@ public class LegendRenderer extends Renderer {
      *
      * @param data
      */
-    public void computeLegend(ChartData<?> data) {
+    public void computeLegend(RadarData data) {
 
         if (mLegend.isLegendCustom()) {
 
@@ -77,7 +76,7 @@ public class LegendRenderer extends Renderer {
             // loop for building up the colors and labels used in the legend
             for (int i = 0; i < data.getDataSetCount(); i++) {
 
-                IDataSet dataSet = data.getDataSetByIndex(i);
+                IRadarDataSet dataSet = data.getDataSetByIndex(i);
                 if (dataSet == null) continue;
 
                 List<Integer> clrs = dataSet.getColors();
@@ -422,7 +421,7 @@ public class LegendRenderer extends Renderer {
 
             case SQUARE:
                 mLegendFormPaint.setStyle(Paint.Style.FILL);
-                c.drawRect(x, y - half, x + formSize, y + half, mLegendFormPaint);
+                c.drawRect(x-formSize*4 , y - half*2, x, y + half*2, mLegendFormPaint);
                 break;
 
             case LINE:

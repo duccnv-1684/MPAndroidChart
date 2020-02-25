@@ -1,11 +1,12 @@
-package com.github.mikephil.charting.interfaces.datasets;
+package com.github.mikephil.charting.data;
 
 import android.graphics.DashPathEffect;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.utils.MPPointF;
 
@@ -14,7 +15,7 @@ import java.util.List;
 /**
  * Created by Philipp Jahoda on 21/10/15.
  */
-public interface IDataSet<T extends Entry> {
+public interface IRadarDataSet {
 
     /**
      * returns the minimum y-value this DataSet holds
@@ -64,7 +65,7 @@ public interface IDataSet<T extends Entry> {
      * @param index
      * @return
      */
-    T getEntryForIndex(int index);
+    RadarEntry getEntryForIndex(int index);
 
     /**
      * Returns the label string that describes the DataSet.
@@ -228,4 +229,41 @@ public interface IDataSet<T extends Entry> {
      * @return
      */
     boolean isVisible();
+
+    /**
+     * Returns the color that is used for filling the line surface area.
+     *
+     * @return
+     */
+    int getFillColor();
+
+    /**
+     * Returns the drawable used for filling the area below the line.
+     *
+     * @return
+     */
+    Drawable getFillDrawable();
+
+    /**
+     * Returns the alpha value that is used for filling the line surface,
+     * default: 85
+     *
+     * @return
+     */
+    int getFillAlpha();
+
+    /**
+     * Returns the stroke-width of the drawn line
+     *
+     * @return
+     */
+    float getLineWidth();
+
+    /**
+     * Returns true if filled drawing is enabled, false if not
+     *
+     * @return
+     */
+    boolean isDrawFilledEnabled();
+
 }

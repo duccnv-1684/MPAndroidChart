@@ -15,7 +15,7 @@ import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.ValueFormatter;
-import com.github.mikephil.charting.interfaces.datasets.IRadarDataSet;
+import com.github.mikephil.charting.data.IRadarDataSet;
 
 import java.util.ArrayList;
 
@@ -24,6 +24,7 @@ public class RadarChartActivity extends AppCompatActivity {
     private RadarChart chart;
 
     private Typeface tfLight;
+    private Typeface tfRegular;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,16 +34,17 @@ public class RadarChartActivity extends AppCompatActivity {
 
         setTitle("RadarChartActivity");
         tfLight = Typeface.createFromAsset(getAssets(), "OpenSans-Light.ttf");
+        tfRegular = Typeface.createFromAsset(getAssets(), "OpenSans-Regular.ttf");
 
         chart = findViewById(R.id.chart1);
         chart.setBackgroundColor(Color.rgb(255, 255, 255));
 
         chart.setWebLineWidth(1f);
         chart.setWebColor(0x80000000);
-        chart.setWebLineWidthInner(0.5f);
-        chart.setWebLineWidth(0.5f);
+        chart.setWebLineWidthInner(0.75f);
+        chart.setWebLineWidth(0.75f);
         chart.setWebColorInner(0x80000000);
-        chart.setWebAlpha(75);
+        chart.setWebAlpha(100);
 
         setData();
 
@@ -80,7 +82,7 @@ public class RadarChartActivity extends AppCompatActivity {
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.CENTER);
         l.setOrientation(Legend.LegendOrientation.VERTICAL);
         l.setDrawInside(false);
-        l.setTypeface(tfLight);
+        l.setTypeface(tfRegular);
         l.setXEntrySpace(7f);
         l.setTextSize(15f);
         l.setYEntrySpace(5f);
@@ -99,24 +101,24 @@ public class RadarChartActivity extends AppCompatActivity {
         // NOTE: The order of the entries when being added to the entries array determines their position around the center of
         // the chart.
         for (int i = 0; i < cnt; i++) {
-            float val1 = 70;
+            float val1 = (float) (Math.random() * mul) + min;
             entries1.add(new RadarEntry(val1));
 
-            float val2 = 50;
+            float val2 = (float) (Math.random() * mul) + min;
             entries2.add(new RadarEntry(val2));
         }
 
-        RadarDataSet set1 = new RadarDataSet(entries1, "Last Week");
-        set1.setColor(0xC1C2BE);
-        set1.setFillColor(0xC1C2BE);
+        RadarDataSet set1 = new RadarDataSet(entries1, "This is chart's first label");
+        set1.setColor(Color.RED);
+        set1.setFillColor(Color.RED);
         set1.setDrawFilled(true);
-        set1.setFillAlpha(180);
+        set1.setFillAlpha(80);
 
-        RadarDataSet set2 = new RadarDataSet(entries2, "This Week");
-        set2.setColor(0xD38C8A);
-        set2.setFillColor(0xD38C8A);
+        RadarDataSet set2 = new RadarDataSet(entries2, "This is chart's second label (an alternative)");
+        set2.setColor(Color.BLUE);
+        set2.setFillColor(Color.BLUE);
         set2.setDrawFilled(true);
-        set2.setFillAlpha(180);
+        set2.setFillAlpha(80);
 
         ArrayList<IRadarDataSet> sets = new ArrayList<>();
         sets.add(set1);
